@@ -1,1 +1,1 @@
-console.log("Reverse: 1999 Notes started.");
+console.log("Reverse: 1999 Notes application loaded.");
