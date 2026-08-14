@@ -33,19 +33,6 @@ const pages = {
         `
     },
 
-    enemies: {
-        title: "Enemies",
-        content: `
-            <div class="welcome-card">
-                <h3>Enemies</h3>
-
-                <p>
-                    Information about enemies will appear here.
-                </p>
-            </div>
-        `
-    },
-
     mechanics: {
         title: "Mechanics",
         content: `
@@ -54,20 +41,6 @@ const pages = {
 
                 <p>
                     Game mechanics and rules will appear here.
-                </p>
-            </div>
-        `
-    },
-
-    levels: {
-        title: "Levels",
-        content: `
-            <div class="welcome-card">
-                <h3>Levels</h3>
-
-                <p>
-                    Level, Insight, and progression information
-                    will appear here.
                 </p>
             </div>
         `
