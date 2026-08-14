@@ -1,3 +1,7 @@
+import { arcanists } from "./data/arcanists.js";
+import { mechanics } from "./data/mechanics.js";
+import { statusEffects } from "./data/statusEffects.js";
+
 const pageContent = document.getElementById("page-content");
 const navItems = document.querySelectorAll(".nav-item");
 
@@ -162,3 +166,7 @@ window.addEventListener("hashchange", () => {
 navigateTo(getCurrentPage());
 
 console.log("Reverse: 1999 Notes application loaded.");
+
+console.log("Arcanists:", arcanists);
+console.log("Mechanics:", mechanics);
+console.log("Status Effects:", statusEffects);
