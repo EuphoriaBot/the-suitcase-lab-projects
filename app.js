@@ -2,6 +2,15 @@ import { arcanists } from "./data/arcanists.js";
 import { mechanics } from "./data/mechanics.js";
 import { statusEffects } from "./data/statusEffects.js";
 
+import {
+    saveArcanists,
+    getArcanists,
+    saveMechanics,
+    getMechanics,
+    saveStatusEffects,
+    getStatusEffects
+} from "./js/storage.js";
+
 const pageContent = document.getElementById("page-content");
 const navItems = document.querySelectorAll(".nav-item");
 
@@ -170,3 +179,7 @@ console.log("Reverse: 1999 Notes application loaded.");
 console.log("Arcanists:", arcanists);
 console.log("Mechanics:", mechanics);
 console.log("Status Effects:", statusEffects);
+
+console.log("Total Arcanists:", arcanists.length);
+console.log("Total Mechanics:", mechanics.length);
+console.log("Total Status Effects:", statusEffects.length);
