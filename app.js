@@ -11,6 +11,13 @@ import {
     getStatusEffects
 } from "./js/storage.js";
 
+import {
+    getAllArcanists,
+    createArcanist,
+    updateArcanist,
+    deleteArcanist
+} from "./js/arcanistService.js";
+
 const pageContent = document.getElementById("page-content");
 const navItems = document.querySelectorAll(".nav-item");
 
@@ -183,3 +190,8 @@ console.log("Status Effects:", statusEffects);
 console.log("Total Arcanists:", arcanists.length);
 console.log("Total Mechanics:", mechanics.length);
 console.log("Total Status Effects:", statusEffects.length);
+
+console.log(
+    "Arcanists from storage:",
+    getAllArcanists()
+);
