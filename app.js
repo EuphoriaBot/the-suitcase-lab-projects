@@ -1,15 +1,7 @@
 import { arcanists } from "./data/arcanists.js";
 import { mechanics } from "./data/mechanics.js";
 import { statusEffects } from "./data/statusEffects.js";
-
-import {
-    saveArcanists,
-    getArcanists,
-    saveMechanics,
-    getMechanics,
-    saveStatusEffects,
-    getStatusEffects
-} from "./js/storage.js";
+import { renderArcanistsPage } from "./js/arcanistPage.js";
 
 import {
     getAllArcanists,
@@ -41,16 +33,7 @@ const pages = {
 
     arcanists: {
         title: "Arcanists",
-        content: `
-            <div class="welcome-card">
-                <h3>Arcanists</h3>
-
-                <p>
-                    Information about Reverse: 1999 Arcanists
-                    will appear here.
-                </p>
-            </div>
-        `
+        content: ""
     },
 
     mechanics: {
@@ -110,19 +93,18 @@ const pages = {
 
 
 function navigateTo(pageName) {
-
     const page = pages[pageName];
-
     if (!page) {
         navigateTo("dashboard");
         return;
     }
-
-    pageContent.innerHTML = page.content;
-
     updatePageTitle(page.title);
-
     updateActiveNavigation(pageName);
+    if (pageName === "arcanists") {
+        renderArcanistsPage(pageContent);
+        return;
+    }
+    pageContent.innerHTML = page.content;
 }
 
 
