@@ -1,5 +1,5 @@
+import { renderArcanistForm } from "./arcanistForm.js";
 import { getAllArcanists } from "./arcanistService.js";
-
 
 export function renderArcanistsPage(container) {
     const arcanists = getAllArcanists();
@@ -34,6 +34,24 @@ export function renderArcanistsPage(container) {
     renderArcanistList(arcanists);
 
     const searchInput = document.getElementById("arcanist-search");
+
+    const addButton = document.getElementById("add-arcanist-button");
+
+    addButton.addEventListener("click", () => {
+
+        renderArcanistForm(
+            container,
+
+            () => {
+                renderArcanistsPage(container);
+            },
+
+            () => {
+                renderArcanistsPage(container);
+            }
+        );
+
+    });
 
     searchInput.addEventListener("input", () => {
         const keyword = searchInput.value.toLowerCase().trim();
