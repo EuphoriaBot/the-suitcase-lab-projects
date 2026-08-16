@@ -1,3 +1,19 @@
+:root {
+    --color-bg: #171C20;
+    --color-sidebar: #1E252B;
+    --color-card: #242C32;
+    --color-card-hover: #2D363D;
+    --color-border: #3B454B;
+    --color-text: #F1ECE1;
+    --color-text-secondary: #C9C0B2;
+    --color-text-muted: #92918B;
+    --color-gold: #B69A63;
+    --color-gold-hover: #C5AA70;
+    --color-teal: #718A87;
+    --color-copper: #A96B50;
+    --color-danger: #9A4F52;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -5,8 +21,8 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f5f7;
-    color: #1f2937;
+    background: var(--color-bg);
+    color: var(--color-text);
 }
 
 .app {
@@ -17,8 +33,8 @@ body {
 .sidebar {
     width: 240px;
     min-height: 100vh;
-    background: #1f2937;
-    color: white;
+    background: var(--color-sidebar);
+    color: var(--color-text);
     padding: 24px 16px;
     flex-shrink: 0;
 }
@@ -36,7 +52,7 @@ body {
 .sidebar-header p {
     margin: 6px 0 0;
     font-size: 13px;
-    color: #9ca3af;
+    color: var(--color-text-muted);
 }
 
 .sidebar-nav {
@@ -45,11 +61,9 @@ body {
 
 .nav-section-title {
     margin: 24px 12px 8px;
-
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 1px;
-
     color: #6b7280;
 }
 
@@ -60,7 +74,7 @@ body {
     padding: 10px 12px;
     margin-bottom: 4px;
     border-radius: 8px;
-    color: #d1d5db;
+    color: var(--color-text-secondary);
     text-decoration: none;
     font-size: 14px;
     transition: background 0.2s, color 0.2s;
@@ -72,13 +86,14 @@ body {
 }
 
 .nav-item:hover {
-    background: #374151;
-    color: white;
+    background: var(--color-card-hover);
+    color: var(--color-text);
 }
 
 .nav-item.active {
-    background: #4b5563;
-    color: white;
+    background: rgba(182, 154, 99, 0.16);
+    color: var(--color-gold);
+    box-shadow: inset 3px 0 0 var(--color-gold);
 }
 
 .main-content {
@@ -92,8 +107,8 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 32px;
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
+    background: var(--color-sidebar);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .topbar h2 {
@@ -106,8 +121,9 @@ body {
     align-items: center;
     gap: 8px;
     width: 260px;
-    padding: 8px 12px;
-    background: #f3f4f6;
+    padding: 9px 13px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
 }
 
@@ -116,17 +132,23 @@ body {
     border: none;
     outline: none;
     background: transparent;
+    color: var(--color-text);
     font-size: 14px;
+}
+
+.search-box input::placeholder {
+    color: var(--color-text-muted);
 }
 
 .page-content {
     padding: 32px;
+    background: var(--color-bg);
 }
 
 .welcome-card {
     padding: 28px;
-    background: white;
-    border: 1px solid #e5e7eb;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: 12px;
 }
 
@@ -134,11 +156,12 @@ body {
     margin-top: 0;
     margin-bottom: 8px;
     font-size: 22px;
+    color: var(--color-text);
 }
 
 .welcome-card p {
     margin: 0;
-    color: #6b7280;
+    color: var(--color-text-secondary);
     line-height: 1.6;
 }
 
@@ -192,32 +215,34 @@ body {
 }
 
 .primary-button {
-    background: #6c63ff;
-    color: white;
+    background: var(--color-gold);
+    color: #171C20;
+    font-weight: 700;
 }
 
 .primary-button:hover {
-    opacity: 0.9;
+    background: var(--color-gold-hover);
 }
 
 .secondary-button {
-    background: #2a3040;
-    color: white;
+    background: var(--color-card-hover);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
 }
 
 .secondary-button:hover {
-    background: #343b4a;
+    background: #354048;
 }
 
 .danger-button {
-    background: #3a2026;
-    color: #ff7d8a;
+    background: rgba(154, 79, 82, 0.15);
+    color: #C98688;
+    border: 1px solid rgba(154, 79, 82, 0.35);
 }
 
 .danger-button:hover {
-    background: #4a252d;
+    background: rgba(154, 79, 82, 0.25);
 }
-
 
 .arcanist-list {
     display: flex;
@@ -225,16 +250,22 @@ body {
     gap: 14px;
 }
 
-
 .arcanist-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
     padding: 20px;
-    background: #1c2230;
-    border: 1px solid #2d3442;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: 14px;
+    transition:transform 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.arcanist-card:hover {
+    background: var(--color-card-hover);
+    border-color: rgba(182, 154, 99, 0.35);
+    transform: translateY(-1px);
 }
 
 .arcanist-card-content {
@@ -252,7 +283,6 @@ body {
     font-size: 13px;
 }
 
-
 .arcanist-tags {
     display: flex;
     flex-wrap: wrap;
@@ -264,8 +294,9 @@ body {
     display: inline-block;
     padding: 5px 9px;
     border-radius: 6px;
-    background: #282e3c;
-    color: #b9c0ce;
+    background: rgba(113, 138, 135, 0.14);
+    border: 1px solid rgba(113, 138, 135, 0.25);
+    color: #A6B8B5;
     font-size: 12px;
 }
 
@@ -288,15 +319,10 @@ body {
     color: #ffffff;
 }
 
-/* =========================
-   Arcanist Form
-   ========================= */
-
 .form-page {
     max-width: 900px;
     margin: 0 auto;
 }
-
 
 .arcanist-form {
     display: flex;
@@ -304,27 +330,24 @@ body {
     gap: 20px;
 }
 
-
 .form-section {
     padding: 22px;
-
-    background: #1c2230;
-    border: 1px solid #2d3442;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
-
 
 .form-section h2 {
     margin: 0 0 20px;
     font-size: 17px;
+    color: var(--color-text);
 }
-
 
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
     margin-bottom: 18px;
 }
 
@@ -333,46 +356,43 @@ body {
     margin-bottom: 0;
 }
 
-
 .form-group label {
     font-size: 13px;
     font-weight: 600;
+    color: var(--color-text-secondary);
 }
-
 
 .form-group input,
 .form-group textarea {
     box-sizing: border-box;
     width: 100%;
-
     padding: 12px 14px;
-
-    border: 1px solid #343b4a;
+    border: 1px solid var(--color-border);
     border-radius: 9px;
-
-    background: #151a24;
-    color: #ffffff;
-
+    background: #1B2227;
+    color: var(--color-text);
     font-family: inherit;
     font-size: 14px;
-
     outline: none;
-
     resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
-
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #6c63ff;
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 3px rgba(182, 154, 99, 0.12);
 }
 
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #777970;
+}
 
 .form-group small {
     color: #7f8796;
     font-size: 12px;
 }
-
 
 .form-row {
     display: grid;
@@ -380,18 +400,15 @@ body {
     gap: 16px;
 }
 
-
 .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-
     padding-bottom: 20px;
 }
 
 
 @media (max-width: 700px) {
-
     .form-row {
         grid-template-columns: 1fr;
     }
