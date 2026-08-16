@@ -10,6 +10,10 @@ import {
     deleteArcanist
 } from "./js/arcanistService.js";
 
+import {
+    renderMechanicsPage
+} from "./js/mechanicsPage.js";
+
 const pageContent = document.getElementById("page-content");
 const navItems = document.querySelectorAll(".nav-item");
 
@@ -38,15 +42,7 @@ const pages = {
 
     mechanics: {
         title: "Mechanics",
-        content: `
-            <div class="welcome-card">
-                <h3>Mechanics</h3>
-
-                <p>
-                    Game mechanics and rules will appear here.
-                </p>
-            </div>
-        `
+        content: ""
     },
 
     "status-effects": {
@@ -98,10 +94,17 @@ function navigateTo(pageName) {
         navigateTo("dashboard");
         return;
     }
+
     updatePageTitle(page.title);
     updateActiveNavigation(pageName);
+
     if (pageName === "arcanists") {
         renderArcanistsPage(pageContent);
+        return;
+    }
+
+    if (pageName === "mechanics") {
+        renderMechanicsPage(pageContent);
         return;
     }
     pageContent.innerHTML = page.content;
