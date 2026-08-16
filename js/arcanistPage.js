@@ -1,4 +1,5 @@
 import { renderArcanistForm } from "./arcanistForm.js";
+import { renderArcanistDetail } from "./arcanistDetail.js";
 
 import {
     getAllArcanists,
@@ -155,7 +156,12 @@ function renderArcanistList(
                         <div>
 
                             <h2>
-                                ${escapeHtml(arcanist.name)}
+                                <button
+                                    class="arcanist-name-button"
+                                    data-id="${arcanist.id}"
+                                >
+                                    ${escapeHtml(arcanist.name)}
+                                </button>
                             </h2>
 
                             <p class="arcanist-meta">
@@ -213,11 +219,46 @@ function renderArcanistList(
             ".edit-arcanist-button"
         );
 
+    const nameButtons =
+        listContainer.querySelectorAll(
+            ".arcanist-name-button"
+        );
 
     const deleteButtons =
         listContainer.querySelectorAll(
             ".delete-arcanist-button"
         );
+
+    nameButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const id =
+                button.dataset.id;
+
+
+            const arcanist =
+                getAllArcanists().find(
+                    item => item.id === id
+                );
+
+
+            if (!arcanist) {
+                return;
+            }
+
+
+            renderArcanistDetail(
+                container,
+                arcanist,
+                () => {
+                    renderArcanistsPage(container);
+                }
+            );
+
+        });
+
+    });
 
     editButtons.forEach(button => {
 
