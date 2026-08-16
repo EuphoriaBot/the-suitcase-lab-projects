@@ -1,17 +1,26 @@
-import { createArcanist } from "./arcanistService.js";
+import {
+    createArcanist,
+    updateArcanist
+} from "./arcanistService.js";
 
 
-export function renderArcanistForm(container, onSaved, onCancel) {
-
+export function renderArcanistForm(
+    container,
+    onSaved,
+    onCancel,
+    existingArcanist = null
+) {
     container.innerHTML = `
         <div class="form-page">
 
             <div class="page-header">
                 <div>
-                    <h1>Add Arcanist</h1>
+                    <h1>
+                        ${existingArcanist ? "Edit Arcanist" : "Add Arcanist"}
+                    </h1>
 
                     <p class="page-description">
-                        Add a new Reverse: 1999 Arcanist to your notes.
+                        ${existingArcanist ? "Update this Arcanist's information" : "Add a new Reverse: 1999 Arcanist to your notes"}
                     </p>
                 </div>
             </div>
@@ -23,7 +32,6 @@ export function renderArcanistForm(container, onSaved, onCancel) {
 
                     <h2>Basic Information</h2>
 
-
                     <div class="form-group">
                         <label for="arcanist-name">
                             Name
@@ -34,6 +42,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                             id="arcanist-name"
                             name="name"
                             placeholder="e.g. Lucy"
+                            value="${escapeHtml(existingArcanist?.name ?? "")}"
                             required
                         >
                     </div>
@@ -51,6 +60,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                                 id="arcanist-afflatus"
                                 name="afflatus"
                                 placeholder="e.g. Star"
+                                value="${escapeHtml(existingArcanist?.afflatus ?? "")}"
                             >
                         </div>
 
@@ -65,6 +75,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                                 id="arcanist-damage-type"
                                 name="damageType"
                                 placeholder="e.g. Reality"
+                                value="${escapeHtml(existingArcanist?.damageType ?? "")}"
                             >
                         </div>
 
@@ -81,6 +92,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                             id="arcanist-roles"
                             name="roles"
                             placeholder="e.g. DPS, Support"
+                            value="${escapeHtml((existingArcanist?.roles ?? []).join(", "))}"
                         >
 
                         <small>
@@ -105,7 +117,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                             name="skills"
                             rows="5"
                             placeholder="Record the Arcanist's skills..."
-                        ></textarea>
+                        >${escapeHtml(existingArcanist?.skills ?? "")}</textarea>
                     </div>
 
                 </div>
@@ -125,7 +137,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                             name="portray"
                             rows="5"
                             placeholder="Record Portray effects..."
-                        ></textarea>
+                        >${escapeHtml(existingArcanist?.portray ?? "")}</textarea>
                     </div>
 
                 </div>
@@ -145,7 +157,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                             name="mechanics"
                             rows="5"
                             placeholder="Record important mechanics..."
-                        ></textarea>
+                        >${escapeHtml(existingArcanist?.mechanics ?? "")}</textarea>
                     </div>
 
                 </div>
@@ -165,6 +177,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                             id="arcanist-tags"
                             name="tags"
                             placeholder="e.g. Follow-up, Burn, Control"
+                            value="${escapeHtml((existingArcanist?.tags ?? []).join(", "))}"
                         >
 
                         <small>
@@ -183,7 +196,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                             name="notes"
                             rows="6"
                             placeholder="Additional notes..."
-                        ></textarea>
+                        >${escapeHtml(existingArcanist?.notes ?? "")}</textarea>
                     </div>
 
                 </div>
@@ -204,7 +217,7 @@ export function renderArcanistForm(container, onSaved, onCancel) {
                         type="submit"
                         class="primary-button"
                     >
-                        Save Arcanist
+                        ${existingArcanist ? "Save Changes" : "Save Arcanist"}
                     </button>
 
                 </div>
@@ -215,7 +228,8 @@ export function renderArcanistForm(container, onSaved, onCancel) {
     `;
 
 
-    const form = document.getElementById("arcanist-form");
+    const form =
+        document.getElementById("arcanist-form");
 
     const cancelButton =
         document.getElementById("cancel-arcanist-button");
@@ -224,7 +238,6 @@ export function renderArcanistForm(container, onSaved, onCancel) {
     form.addEventListener("submit", (event) => {
 
         event.preventDefault();
-
 
         const formData = new FormData(form);
 
@@ -252,11 +265,21 @@ export function renderArcanistForm(container, onSaved, onCancel) {
         };
 
 
-        createArcanist(arcanistData);
+        if (existingArcanist) {
+
+            updateArcanist(
+                existingArcanist.id,
+                arcanistData
+            );
+
+        } else {
+
+            createArcanist(arcanistData);
+
+        }
 
 
         onSaved();
-
     });
 
 
@@ -279,5 +302,19 @@ function parseList(value) {
         .split(",")
         .map(item => item.trim())
         .filter(item => item.length > 0);
+}
 
+
+function escapeHtml(value) {
+
+    if (value === undefined || value === null) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
