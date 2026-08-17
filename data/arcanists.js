@@ -4,10 +4,7 @@ export const arcanists = [
         name: "Example Arcanist",
         afflatus: "Star",
         damageType: "Reality",
-
-        roles: [
-            "DPS"
-        ],
+        roles: ["DPS"],
 
         skills: [
             {

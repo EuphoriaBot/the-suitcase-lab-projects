@@ -2,6 +2,9 @@ import {
     getAllStatusEffects
 } from "./statusEffectService.js";
 
+import {
+    renderStatusEffectForm
+} from "./statusEffectForm.js";
 
 export function renderStatusEffectsPage(
     container
@@ -75,8 +78,22 @@ export function renderStatusEffectsPage(
         "click",
         () => {
 
-            console.log(
-                "Add Status Effect clicked."
+            renderStatusEffectForm(
+
+                container,
+
+                () => {
+                    renderStatusEffectsPage(
+                        container
+                    );
+                },
+
+                () => {
+                    renderStatusEffectsPage(
+                        container
+                    );
+                }
+
             );
 
         }
