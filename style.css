@@ -476,6 +476,21 @@ body {
     font-style: italic;
 }
 
+.detail-list-items {
+    margin: 0;
+    padding-left: 22px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.detail-list-items li {
+    margin-bottom: 8px;
+}
+
+.detail-list-items li:last-child {
+    margin-bottom: 0;
+}
+
 .back-arcanist-button {
     font-size: 13px;
 }

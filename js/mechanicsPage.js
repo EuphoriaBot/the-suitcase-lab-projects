@@ -1,8 +1,7 @@
-import {
-    getAllMechanics
-} from "./mechanicService.js";
-
+import { getAllMechanics } from "./mechanicService.js";
 import { renderMechanicForm } from "./mechanicForm.js";
+import { renderMechanicDetail } from "./mechanicDetail.js";
+
 
 export function renderMechanicsPage(container) {
 
@@ -147,7 +146,6 @@ function renderMechanicList(
         return;
     }
 
-
     listContainer.innerHTML =
         mechanics.map(mechanic => `
 
@@ -203,13 +201,54 @@ function renderMechanicList(
             </article>
 
         `).join("");
+    const nameButtons =
+        listContainer.querySelectorAll(
+            ".mechanic-name-button"
+        );
+
+    nameButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const id =
+                    button.dataset.id;
+
+
+                const mechanic =
+                    getAllMechanics().find(
+                        item => item.id === id
+                    );
+
+
+                if (!mechanic) {
+                    return;
+                }
+
+
+                renderMechanicDetail(
+                    container,
+                    mechanic,
+                    () => {
+                        renderMechanicsPage(container);
+                    }
+                );
+
+            }
+        );
+
+    });
 
 }
 
 
 function escapeHtml(value) {
 
-    if (value === undefined || value === null) {
+    if (
+        value === undefined ||
+        value === null
+    ) {
         return "";
     }
 
@@ -220,4 +259,5 @@ function escapeHtml(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
