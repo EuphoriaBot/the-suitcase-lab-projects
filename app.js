@@ -11,8 +11,19 @@ import {
 } from "./js/arcanistService.js";
 
 import {
+    getAllStatusEffects,
+    createStatusEffect,
+    updateStatusEffect,
+    deleteStatusEffect
+} from "./js/statusEffectService.js";
+
+import {
     renderMechanicsPage
 } from "./js/mechanicsPage.js";
+
+import {
+    renderStatusEffectsPage
+} from "./js/statusEffectsPage.js";
 
 const pageContent = document.getElementById("page-content");
 const navItems = document.querySelectorAll(".nav-item");
@@ -107,6 +118,16 @@ function navigateTo(pageName) {
         renderMechanicsPage(pageContent);
         return;
     }
+
+    if (pageName === "status-effects") {
+
+        renderStatusEffectsPage(
+            pageContent
+        );
+
+        return;
+    }
+
     pageContent.innerHTML = page.content;
 }
 
