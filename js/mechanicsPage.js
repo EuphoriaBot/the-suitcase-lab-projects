@@ -1,4 +1,4 @@
-import { getAllMechanics } from "./mechanicService.js";
+import { getAllMechanics, deleteMechanic } from "./mechanicService.js";
 import { renderMechanicForm } from "./mechanicForm.js";
 import { renderMechanicDetail } from "./mechanicDetail.js";
 
@@ -149,61 +149,78 @@ function renderMechanicList(
     listContainer.innerHTML =
         mechanics.map(mechanic => `
 
-            <article class="mechanic-card">
+        <article class="mechanic-card">
 
-                <div class="mechanic-card-content">
+            <div class="mechanic-card-content">
 
-                    <div class="mechanic-card-header">
+                <div class="mechanic-card-header">
 
-                        <div>
+                    <div>
 
-                            <h2>
-                                <button
-                                    class="mechanic-name-button"
-                                    data-id="${mechanic.id}"
-                                >
-                                    ${escapeHtml(mechanic.name)}
-                                </button>
-                            </h2>
+                        <h2>
+                            <button
+                                class="mechanic-name-button"
+                                data-id="${mechanic.id}"
+                            >
+                                ${escapeHtml(mechanic.name)}
+                            </button>
+                        </h2>
 
-
-                            <p class="mechanic-meta">
-                                ${escapeHtml(mechanic.category)}
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <p class="mechanic-summary">
-                        ${escapeHtml(
-            mechanic.shortDescription
-        )}
-                    </p>
-
-
-                    <div class="mechanic-tags">
-
-                        ${(mechanic.tags || [])
-                .map(tag => `
-                                <span class="tag">
-                                    ${escapeHtml(tag)}
-                                </span>
-                            `)
-                .join("")
-            }
+                        <p class="mechanic-meta">
+                            ${escapeHtml(mechanic.category)}
+                        </p>
 
                     </div>
 
                 </div>
 
-            </article>
+                <p class="mechanic-summary">
+                    ${escapeHtml(mechanic.shortDescription)}
+                </p>
 
-        `).join("");
+                <div class="mechanic-tags">
+                    ${(mechanic.tags || []).map(tag => `<span class="tag"> ${escapeHtml(tag)} </span>`).join("")}
+                </div>
+            </div>
+
+
+            <div class="mechanic-card-actions">
+
+                <button
+                    class="secondary-button edit-mechanic-button"
+                    data-id="${mechanic.id}"
+                >
+                    Edit
+                </button>
+
+
+                <button
+                    class="danger-button delete-mechanic-button"
+                    data-id="${mechanic.id}"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        </article>
+
+    `).join("");
+
     const nameButtons =
         listContainer.querySelectorAll(
             ".mechanic-name-button"
+        );
+
+    const editButtons =
+        listContainer.querySelectorAll(
+            ".edit-mechanic-button"
+        );
+
+
+    const deleteButtons =
+        listContainer.querySelectorAll(
+            ".delete-mechanic-button"
         );
 
     nameButtons.forEach(button => {
@@ -233,6 +250,92 @@ function renderMechanicList(
                     () => {
                         renderMechanicsPage(container);
                     }
+                );
+
+            }
+        );
+
+    });
+
+    editButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const id =
+                    button.dataset.id;
+
+
+                const mechanic =
+                    getAllMechanics().find(
+                        item => item.id === id
+                    );
+
+
+                if (!mechanic) {
+                    return;
+                }
+
+
+                renderMechanicForm(
+
+                    container,
+
+                    () => {
+                        renderMechanicsPage(container);
+                    },
+
+                    () => {
+                        renderMechanicsPage(container);
+                    },
+
+                    mechanic
+
+                );
+
+            }
+        );
+
+    });
+
+    deleteButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const id =
+                    button.dataset.id;
+
+
+                const mechanic =
+                    getAllMechanics().find(
+                        item => item.id === id
+                    );
+
+
+                if (!mechanic) {
+                    return;
+                }
+
+
+                const confirmed =
+                    window.confirm(
+                        `Delete mechanic "${mechanic.name}"?`
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                deleteMechanic(id);
+
+
+                renderMechanicsPage(
+                    container
                 );
 
             }
