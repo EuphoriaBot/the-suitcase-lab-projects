@@ -556,3 +556,15 @@ body {
     flex-wrap: wrap;
     gap: 7px;
 }
+
+#mechanic-form textarea {
+    min-height: 100px;
+}
+
+#mechanic-form textarea[name="detailedDescription"] {
+    min-height: 180px;
+}
+
+#mechanic-form textarea[name="examples"] {
+    min-height: 150px;
+}

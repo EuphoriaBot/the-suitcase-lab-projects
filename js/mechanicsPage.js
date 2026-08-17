@@ -2,6 +2,7 @@ import {
     getAllMechanics
 } from "./mechanicService.js";
 
+import { renderMechanicForm } from "./mechanicForm.js";
 
 export function renderMechanicsPage(container) {
 
@@ -67,8 +68,19 @@ export function renderMechanicsPage(container) {
     addButton.addEventListener(
         "click",
         () => {
-            console.log(
-                "Add Mechanic clicked."
+
+            renderMechanicForm(
+
+                container,
+
+                () => {
+                    renderMechanicsPage(container);
+                },
+
+                () => {
+                    renderMechanicsPage(container);
+                }
+
             );
 
         }
