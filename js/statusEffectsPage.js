@@ -6,6 +6,10 @@ import {
     renderStatusEffectForm
 } from "./statusEffectForm.js";
 
+import {
+    renderStatusEffectDetail
+} from "./statusEffectDetail.js";
+
 export function renderStatusEffectsPage(
     container
 ) {
@@ -225,6 +229,47 @@ function renderStatusEffectList(
             </article>
 
         `).join("");
+
+    const nameButtons =
+        listContainer.querySelectorAll(
+            ".status-effect-name-button"
+        );
+
+    nameButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const id =
+                    button.dataset.id;
+
+
+                const statusEffect =
+                    getAllStatusEffects().find(
+                        item => item.id === id
+                    );
+
+
+                if (!statusEffect) {
+                    return;
+                }
+
+
+                renderStatusEffectDetail(
+                    container,
+                    statusEffect,
+                    () => {
+                        renderStatusEffectsPage(
+                            container
+                        );
+                    }
+                );
+
+            }
+        );
+
+    });
 
 }
 

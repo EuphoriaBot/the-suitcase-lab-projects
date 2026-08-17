@@ -1,0 +1,360 @@
+import { renderStatusEffectForm } from "./statusEffectForm.js";
+
+import {
+    getAllArcanists
+} from "./arcanistService.js";
+
+import {
+    getAllMechanics
+} from "./mechanicService.js";
+
+
+export function renderStatusEffectDetail(
+    container,
+    statusEffect,
+    onBack
+) {
+
+    const arcanists =
+        getAllArcanists();
+
+    const mechanics =
+        getAllMechanics();
+
+
+    const relatedArcanists =
+        arcanists.filter(
+            arcanist =>
+                (
+                    statusEffect.relatedArcanists || []
+                ).includes(arcanist.id)
+        );
+
+
+    const relatedMechanics =
+        mechanics.filter(
+            mechanic =>
+                (
+                    statusEffect.relatedMechanics || []
+                ).includes(mechanic.id)
+        );
+
+
+    container.innerHTML = `
+        <div class="detail-page">
+
+            <div class="detail-topbar">
+
+                <button
+                    class="secondary-button"
+                    id="back-status-effect-button"
+                >
+                    ← Back to Status Effects
+                </button>
+
+            </div>
+
+
+            <div class="detail-header">
+
+                <div>
+
+                    <h1>
+                        ${escapeHtml(
+        statusEffect.name
+    )}
+                    </h1>
+
+                    <p class="detail-meta">
+                        ${escapeHtml(
+        statusEffect.category
+    )}
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    id="edit-detail-status-effect-button"
+                >
+                    Edit Status Effect
+                </button>
+
+            </div>
+
+
+            <section class="detail-section">
+
+                <h2>Description</h2>
+
+                <div class="detail-text">
+                    ${formatText(
+        statusEffect.description
+    )}
+                </div>
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <h2>Effect</h2>
+
+                <div class="detail-text">
+                    ${formatText(
+        statusEffect.effect
+    )}
+                </div>
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <h2>Duration</h2>
+
+                <div class="detail-text">
+                    ${formatText(
+        statusEffect.duration
+    )}
+                </div>
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <h2>Stackable</h2>
+
+                <div class="detail-text">
+
+                    ${statusEffect.stackable
+            ? "Yes"
+            : "No"
+        }
+
+                </div>
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <h2>Related Arcanists</h2>
+
+                <div class="detail-list">
+
+                    ${renderRelatedNames(
+            relatedArcanists,
+            "No related Arcanists."
+        )
+        }
+
+                </div>
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <h2>Related Mechanics</h2>
+
+                <div class="detail-list">
+
+                    ${renderRelatedNames(
+            relatedMechanics,
+            "No related Mechanics."
+        )
+        }
+
+                </div>
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <h2>Tags</h2>
+
+                <div class="detail-tags">
+
+                    ${renderTags(
+            statusEffect.tags,
+            "No tags."
+        )
+        }
+
+                </div>
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <h2>Notes</h2>
+
+                <div class="detail-text">
+                    ${formatText(
+            statusEffect.notes
+        )}
+                </div>
+
+            </section>
+
+        </div>
+    `;
+
+
+    const backButton =
+        document.getElementById(
+            "back-status-effect-button"
+        );
+
+
+    backButton.addEventListener(
+        "click",
+        () => onBack()
+    );
+
+
+    const editButton =
+        document.getElementById(
+            "edit-detail-status-effect-button"
+        );
+
+
+    editButton.addEventListener(
+        "click",
+        () => {
+
+            renderStatusEffectForm(
+
+                container,
+
+                () => {
+                    onBack();
+                },
+
+                () => {
+                    renderStatusEffectDetail(
+                        container,
+                        statusEffect,
+                        onBack
+                    );
+                },
+
+                statusEffect
+
+            );
+
+        }
+    );
+
+}
+
+
+function renderRelatedNames(
+    items,
+    emptyMessage
+) {
+
+    if (
+        !items ||
+        items.length === 0
+    ) {
+
+        return `
+            <p class="detail-empty">
+                ${escapeHtml(emptyMessage)}
+            </p>
+        `;
+
+    }
+
+
+    return `
+        <ul class="detail-list-items">
+
+            ${items
+            .map(item => `
+                    <li>
+                        ${escapeHtml(item.name)}
+                    </li>
+                `)
+            .join("")
+        }
+
+        </ul>
+    `;
+
+}
+
+
+function renderTags(
+    tags,
+    emptyMessage
+) {
+
+    if (
+        !Array.isArray(tags) ||
+        tags.length === 0
+    ) {
+
+        return `
+            <p class="detail-empty">
+                ${escapeHtml(emptyMessage)}
+            </p>
+        `;
+
+    }
+
+
+    return tags
+        .map(tag => `
+            <span class="tag">
+                ${escapeHtml(tag)}
+            </span>
+        `)
+        .join("");
+
+}
+
+
+function formatText(value) {
+
+    if (!value) {
+
+        return `
+            <p class="detail-empty">
+                No information available.
+            </p>
+        `;
+
+    }
+
+
+    return escapeHtml(value)
+        .replace(/\n/g, "<br>");
+
+}
+
+
+function escapeHtml(value) {
+
+    if (
+        value === undefined ||
+        value === null
+    ) {
+        return "";
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
