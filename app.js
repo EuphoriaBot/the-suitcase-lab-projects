@@ -1,5 +1,4 @@
 import { arcanists } from "./data/arcanists.js";
-import { mechanics } from "./data/mechanics.js";
 import { statusEffects } from "./data/statusEffects.js";
 import { renderArcanistsPage } from "./js/arcanistPage.js";
 
@@ -16,10 +15,6 @@ import {
     updateStatusEffect,
     deleteStatusEffect
 } from "./js/statusEffectService.js";
-
-import {
-    renderMechanicsPage
-} from "./js/mechanicsPage.js";
 
 import {
     renderStatusEffectsPage
@@ -48,11 +43,6 @@ const pages = {
 
     arcanists: {
         title: "Arcanists",
-        content: ""
-    },
-
-    mechanics: {
-        title: "Mechanics",
         content: ""
     },
 
