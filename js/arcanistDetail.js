@@ -1,5 +1,6 @@
 import { renderArcanistForm } from "./arcanistForm.js";
 import { getAllStatusEffects } from "./statusEffectService.js";
+import { getAllArcanists } from "./arcanistService.js";
 
 export function renderArcanistDetail(
     container,
@@ -97,23 +98,81 @@ export function renderArcanistDetail(
 
     const editButton = document.getElementById("edit-detail-arcanist-button");
 
+    const relatedStatusEffectButtons =
+        document.querySelectorAll(
+            ".related-item-button"
+        );
+
+
+    relatedStatusEffectButtons.forEach(
+        button => {
+            button.addEventListener(
+                "click",
+                () => {
+                    const id = button.dataset.id;
+                    const statusEffects = getAllStatusEffects();
+                    const statusEffect =
+                        statusEffects.find(
+                            item => item.id === id
+                        );
+
+                    if (!statusEffect) {
+                        return;
+                    }
+
+                    renderStatusEffectDetail(
+                        container,
+                        statusEffect,
+                        onBack
+                    );
+                }
+            );
+        }
+    );
+
     editButton.addEventListener(
         "click",
         () => {
+
             renderArcanistForm(
+
                 container,
+
                 () => {
-                    onBack();
+
+                    const updatedArcanist =
+                        getAllArcanists().find(
+                            item =>
+                                item.id === arcanist.id
+                        );
+
+                    if (!updatedArcanist) {
+                        onBack();
+                        return;
+                    }
+
+                    renderArcanistDetail(
+                        container,
+                        updatedArcanist,
+                        onBack
+                    );
+
                 },
+
                 () => {
+
                     renderArcanistDetail(
                         container,
                         arcanist,
                         onBack
                     );
+
                 },
+
                 arcanist
+
             );
+
         }
     );
 }
@@ -192,27 +251,37 @@ function renderRelatedStatusEffects(
         !statusEffects ||
         statusEffects.length === 0
     ) {
+
         return `
             <p class="detail-empty">
                 No related Status Effects.
             </p>
         `;
+
     }
 
 
     return `
-        <ul class="detail-list-items">
+        <div class="related-item-list">
+
             ${statusEffects
             .map(statusEffect => `
-                    <li>
+                    <button
+                        type="button"
+                        class="related-item-button"
+                        data-id="${escapeHtml(
+                statusEffect.id
+            )}"
+                    >
                         ${escapeHtml(
                 statusEffect.name
             )}
-                    </li>
+                    </button>
                 `)
             .join("")
         }
-        </ul>
+
+        </div>
     `;
 }
 

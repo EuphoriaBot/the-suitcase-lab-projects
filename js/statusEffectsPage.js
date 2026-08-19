@@ -157,10 +157,7 @@ function renderStatusEffectList(
             </article>
         `).join("");
 
-    const nameButtons =
-        listContainer.querySelectorAll(
-            ".status-effect-name-button"
-        );
+    const nameButtons = listContainer.querySelectorAll(".status-effect-name-button");
 
     nameButtons.forEach(button => {
         button.addEventListener(
@@ -192,14 +189,11 @@ function renderStatusEffectList(
 
 
 function escapeHtml(value) {
-
     if (
-        value === undefined ||
-        value === null
+        value === undefined || value === null
     ) {
         return "";
     }
-
 
     return String(value)
         .replace(/&/g, "&amp;")

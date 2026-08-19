@@ -130,19 +130,51 @@ function renderRelatedNames(
     }
 
     return `
-        <ul class="detail-list-items">
-            ${items
-            .map(item => `
-                    <li>
+        <div class="related-item-list">
+            ${items.map(item => `
+                <button
+                    type="button"
+                    class="related-item-button"
+                    data-id="${escapeHtml(item.id)}"
+                    >
                         ${escapeHtml(item.name)}
-                    </li>
+                    </button>
                 `)
             .join("")
         }
-        </ul>
+        </div>
     `;
-
 }
+
+const relatedArcanistButtons =
+    document.querySelectorAll(
+        ".related-item-button"
+    );
+
+
+relatedArcanistButtons.forEach(
+    button => {
+        button.addEventListener(
+            "click",
+            () => {
+                const id = button.dataset.id;
+                const arcanists = getAllArcanists();
+                const arcanist =
+                    arcanists.find(
+                        item => item.id === id
+                    );
+                if (!arcanist) {
+                    return;
+                }
+                renderArcanistDetail(
+                    container,
+                    arcanist,
+                    onBack
+                );
+            }
+        );
+    }
+);
 
 function renderTags(
     tags,

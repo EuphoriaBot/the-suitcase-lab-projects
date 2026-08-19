@@ -232,10 +232,15 @@ export function renderArcanistForm(container, onSaved, onCancel, existingArcanis
             };
 
             if (existingArcanist) {
-                updateArcanist(
-                    existingArcanist.id,
-                    arcanistData
-                );
+                const updatedArcanist =
+                    updateArcanist(
+                        existingArcanist.id,
+                        arcanistData
+                    );
+                if (!updatedArcanist) {
+                    return;
+                }
+
             } else {
                 createArcanist(
                     arcanistData
