@@ -636,3 +636,61 @@ body {
     accent-color: var(--color-gold);
     cursor: pointer;
 }
+
+.repeatable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.repeatable-item {
+    padding: 18px;
+    background: #1B2227;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+}
+
+.repeatable-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.repeatable-item-header strong {
+    color: var(--color-text);
+    font-size: 14px;
+}
+
+.add-item-button {
+    width: fit-content;
+}
+
+.detail-repeatable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.detail-repeatable-item {
+    padding: 16px;
+    background: #1B2227;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+}
+
+.detail-repeatable-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.detail-repeatable-header h3 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--color-text);
+}

@@ -26,12 +26,14 @@ export const arcanists = [
             }
         ],
 
-        mechanics: [],
+        mechanics: "",
 
         tags: [
             "DPS",
             "Reality"
         ],
+
+        relatedStatusEffects: [],
 
         notes: ""
     }
