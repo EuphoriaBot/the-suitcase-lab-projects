@@ -7,34 +7,70 @@ export function renderArcanistDetail(
     arcanist,
     onBack
 ) {
-    const statusEffects = getAllStatusEffects();
+
+    const statusEffects =
+        getAllStatusEffects();
+
     const relatedStatusEffects =
         statusEffects.filter(
             statusEffect =>
-                (arcanist.relatedStatusEffects || []).includes(statusEffect.id));
+                (
+                    arcanist.relatedStatusEffects || []
+                ).includes(statusEffect.id)
+        );
+
 
     container.innerHTML = `
         <div class="detail-page">
+
             <div class="detail-topbar">
+
                 <button
                     class="secondary-button back-arcanist-button"
                     id="back-arcanist-button"
                 >
                     ← Back to Arcanists
                 </button>
+
             </div>
 
-            <div class="detail-header">
-                <div>
+
+            <div class="detail-hero">
+
+                <div class="detail-hero-content">
+
+                    <div class="detail-eyebrow">
+                        ARCANIST
+                    </div>
+
                     <h1>
                         ${escapeHtml(arcanist.name)}
                     </h1>
-                    <p class="detail-meta">
-                        ${escapeHtml(arcanist.afflatus)}
-                        •
-                        ${escapeHtml(arcanist.damageType)}
-                    </p>
+
+                    <div class="detail-meta-row">
+
+                        <span class="detail-meta-badge">
+                            ${escapeHtml(arcanist.afflatus)}
+                        </span>
+
+                        <span class="detail-meta-badge">
+                            ${escapeHtml(arcanist.damageType)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-tags detail-hero-tags">
+
+                        ${renderTags(
+        arcanist.roles,
+        "No roles."
+    )}
+
+                    </div>
+
                 </div>
+
 
                 <button
                     class="primary-button"
@@ -42,88 +78,190 @@ export function renderArcanistDetail(
                 >
                     Edit Arcanist
                 </button>
+
             </div>
 
-            <section class="detail-section">
-                <h2>Roles</h2>
-                <div class="detail-tags">
-                    ${renderTags(arcanist.roles, "No roles.")}
-                </div>
-            </section>
 
             <section class="detail-section">
-                <h2>Skills</h2>
+
+                <div class="detail-section-heading">
+
+                    <div>
+                        <h2>Skills</h2>
+
+                        <p>
+                            Skills and abilities of this Arcanist.
+                        </p>
+                    </div>
+
+                </div>
+
                 ${renderSkills(arcanist.skills)}
+
             </section>
 
+
             <section class="detail-section">
-                <h2>Portray</h2>
+
+                <div class="detail-section-heading">
+
+                    <div>
+                        <h2>Portray</h2>
+
+                        <p>
+                            Portray effects and upgrades.
+                        </p>
+                    </div>
+
+                </div>
+
                 ${renderPortray(arcanist.portray)}
+
             </section>
 
+
             <section class="detail-section">
-                <h2>Mechanics</h2>
-                <div class="detail-text">
+
+                <div class="detail-section-heading">
+
+                    <div>
+                        <h2>Mechanics</h2>
+
+                        <p>
+                            Important mechanics and behavior.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="detail-note">
+
                     ${formatText(arcanist.mechanics)}
+
                 </div>
+
             </section>
 
-            <section class="detail-section">
-                <h2>Related Status Effects</h2>
-                ${renderRelatedStatusEffects(relatedStatusEffects)}
-            </section>
 
             <section class="detail-section">
-                <h2>Tags</h2>
+
+                <div class="detail-section-heading">
+
+                    <div>
+                        <h2>Related Status Effects</h2>
+
+                        <p>
+                            Status effects associated with this Arcanist.
+                        </p>
+                    </div>
+
+                </div>
+
+                ${renderRelatedStatusEffects(
+        relatedStatusEffects
+    )}
+
+            </section>
+
+
+            <section class="detail-section">
+
+                <div class="detail-section-heading">
+
+                    <div>
+                        <h2>Tags</h2>
+
+                        <p>
+                            Useful keywords for this Arcanist.
+                        </p>
+                    </div>
+
+                </div>
+
                 <div class="detail-tags">
-                    ${renderTags(arcanist.tags, "No tags.")}
+
+                    ${renderTags(
+        arcanist.tags,
+        "No tags."
+    )}
+
                 </div>
+
             </section>
 
+
             <section class="detail-section">
-                <h2>Notes</h2>
-                <div class="detail-text">
-                    ${formatText(arcanist.notes)}
+
+                <div class="detail-section-heading">
+
+                    <div>
+                        <h2>Notes</h2>
+
+                        <p>
+                            Personal notes and additional information.
+                        </p>
+                    </div>
+
                 </div>
+
+                <div class="detail-note">
+
+                    ${formatText(arcanist.notes)}
+
+                </div>
+
             </section>
+
         </div>
     `;
 
-    const backButton = document.getElementById("back-arcanist-button");
+
+    const backButton =
+        document.getElementById(
+            "back-arcanist-button"
+        );
+
 
     backButton.addEventListener(
         "click",
         () => onBack()
     );
 
-    const editButton = document.getElementById("edit-detail-arcanist-button");
+
+    const editButton =
+        document.getElementById(
+            "edit-detail-arcanist-button"
+        );
+
 
     const relatedStatusEffectButtons =
         document.querySelectorAll(
-            ".related-item-button"
+            ".related-status-effect-button"
         );
 
 
     relatedStatusEffectButtons.forEach(
         button => {
+
             button.addEventListener(
                 "click",
                 async () => {
+
                     const id =
                         button.dataset.id;
 
-                    const statusEffects =
-                        getAllStatusEffects();
 
                     const statusEffect =
-                        statusEffects.find(
+                        getAllStatusEffects().find(
                             item =>
                                 item.id === id
                         );
 
+
                     if (!statusEffect) {
                         return;
                     }
+
 
                     const {
                         renderStatusEffectDetail
@@ -131,21 +269,28 @@ export function renderArcanistDetail(
                         "./statusEffectDetail.js"
                     );
 
+
                     renderStatusEffectDetail(
                         container,
                         statusEffect,
                         onBack
                     );
+
                 }
             );
+
         }
     );
+
 
     editButton.addEventListener(
         "click",
         () => {
+
             renderArcanistForm(
+
                 container,
+
                 () => {
 
                     const updatedArcanist =
@@ -154,10 +299,12 @@ export function renderArcanistDetail(
                                 item.id === arcanist.id
                         );
 
+
                     if (!updatedArcanist) {
                         onBack();
                         return;
                     }
+
 
                     renderArcanistDetail(
                         container,
@@ -166,7 +313,9 @@ export function renderArcanistDetail(
                     );
 
                 },
+
                 () => {
+
                     renderArcanistDetail(
                         container,
                         arcanist,
@@ -174,82 +323,165 @@ export function renderArcanistDetail(
                     );
 
                 },
+
                 arcanist
+
             );
+
         }
     );
+
 }
 
 
 function renderSkills(skills) {
-    if (!Array.isArray(skills) || skills.length === 0) {
+
+    if (
+        !Array.isArray(skills) ||
+        skills.length === 0
+    ) {
+
         return `
             <p class="detail-empty">
                 No skills available.
             </p>
         `;
+
     }
+
 
     return `
         <div class="detail-repeatable-list">
-            ${skills.map(skill => `
-                <div class="detail-repeatable-item">
-                    <div class="detail-repeatable-header">
-                        <h3>
-                            ${escapeHtml(skill.name)}
-                        </h3>
 
-                        ${skill.type ? `
-                                    <span class="tag">
-                                        ${escapeHtml(skill.type)}
-                                    </span>
-                                `: ""}
-                    </div>
+            ${skills
+            .map((skill, index) => `
 
-                    <div class="detail-text">
-                        ${formatText(skill.description)}
-                    </div>
-                </div>
-            `).join("")}
+                    <article
+                        class="detail-repeatable-item skill-detail-card"
+                    >
+
+                        <div class="detail-repeatable-header">
+
+                            <div class="detail-item-title">
+
+                                <span class="detail-item-number">
+                                    ${index + 1}
+                                </span>
+
+                                <h3>
+                                    ${escapeHtml(
+                skill.name
+            )}
+                                </h3>
+
+                            </div>
+
+
+                            ${skill.type
+                    ? `
+                                        <span class="tag">
+                                            ${escapeHtml(
+                        skill.type
+                    )}
+                                        </span>
+                                    `
+                    : ""
+                }
+
+                        </div>
+
+
+                        <div class="detail-text">
+
+                            ${formatText(
+                    skill.description
+                )}
+
+                        </div>
+
+                    </article>
+
+                `)
+            .join("")
+        }
+
         </div>
     `;
+
 }
 
+
 function renderPortray(portray) {
-    if (!Array.isArray(portray) || portray.length === 0) {
+
+    if (
+        !Array.isArray(portray) ||
+        portray.length === 0
+    ) {
+
         return `
             <p class="detail-empty">
                 No Portray information available.
             </p>
         `;
+
     }
 
 
     return `
         <div class="detail-repeatable-list">
-            ${portray.map(item => `
-                <div class="detail-repeatable-item">
-                    <div class="detail-repeatable-header">
-                        <h3>
-                            P${escapeHtml(item.level)}
-                        </h3>
-                    </div>
 
-                    <div class="detail-text">
-                        ${formatText(
-        item.description
-    )}
-                    </div>
-                </div>
-            `).join("")}
+            ${portray
+            .map(item => `
+
+                    <article
+                        class="detail-repeatable-item portray-detail-card"
+                    >
+
+                        <div class="detail-repeatable-header">
+
+                            <div class="detail-item-title">
+
+                                <span class="portray-level">
+                                    P${escapeHtml(
+                item.level
+            )}
+                                </span>
+
+                                <h3>
+                                    Portray ${escapeHtml(
+                item.level
+            )}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail-text">
+
+                            ${formatText(
+                item.description
+            )}
+
+                        </div>
+
+                    </article>
+
+                `)
+            .join("")
+        }
+
         </div>
     `;
+
 }
 
 
 function renderRelatedStatusEffects(
     statusEffects
 ) {
+
     if (
         !statusEffects ||
         statusEffects.length === 0
@@ -269,37 +501,55 @@ function renderRelatedStatusEffects(
 
             ${statusEffects
             .map(statusEffect => `
+
                     <button
                         type="button"
-                        class="related-item-button"
+                        class="related-item-button related-status-effect-button"
                         data-id="${escapeHtml(
                 statusEffect.id
             )}"
                     >
-                        ${escapeHtml(
+
+                        <span>
+                            ${escapeHtml(
                 statusEffect.name
             )}
+                        </span>
+
+                        <span class="related-item-arrow">
+                            →
+                        </span>
+
                     </button>
+
                 `)
             .join("")
         }
 
         </div>
     `;
+
 }
+
 
 function renderTags(
     tags,
     emptyMessage
 ) {
+
     if (
-        !Array.isArray(tags) || tags.length === 0
+        !Array.isArray(tags) ||
+        tags.length === 0
     ) {
+
         return `
             <p class="detail-empty">
-                ${escapeHtml(emptyMessage)}
+                ${escapeHtml(
+            emptyMessage
+        )}
             </p>
         `;
+
     }
 
 
@@ -310,31 +560,44 @@ function renderTags(
             </span>
         `)
         .join("");
+
 }
 
 
 function formatText(value) {
+
     if (!value) {
+
         return `
             <p class="detail-empty">
                 No information available.
             </p>
         `;
+
     }
-    return escapeHtml(value).replace(/\n/g, "<br>");
+
+
+    return escapeHtml(value)
+        .replace(/\n/g, "<br>");
+
 }
 
 
 function escapeHtml(value) {
+
     if (
-        value === undefined || value === null
+        value === undefined ||
+        value === null
     ) {
         return "";
     }
+
+
     return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
