@@ -108,17 +108,28 @@ export function renderArcanistDetail(
         button => {
             button.addEventListener(
                 "click",
-                () => {
-                    const id = button.dataset.id;
-                    const statusEffects = getAllStatusEffects();
+                async () => {
+                    const id =
+                        button.dataset.id;
+
+                    const statusEffects =
+                        getAllStatusEffects();
+
                     const statusEffect =
                         statusEffects.find(
-                            item => item.id === id
+                            item =>
+                                item.id === id
                         );
 
                     if (!statusEffect) {
                         return;
                     }
+
+                    const {
+                        renderStatusEffectDetail
+                    } = await import(
+                        "./statusEffectDetail.js"
+                    );
 
                     renderStatusEffectDetail(
                         container,

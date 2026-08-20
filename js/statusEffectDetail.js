@@ -113,6 +113,57 @@ export function renderStatusEffectDetail(
             );
         }
     );
+
+    const relatedArcanistButtons =
+        document.querySelectorAll(
+            ".related-item-button"
+        );
+
+
+    relatedArcanistButtons.forEach(
+        button => {
+            button.addEventListener(
+                "click",
+                async () => {
+
+                    const id =
+                        button.dataset.id;
+
+
+                    const arcanists =
+                        getAllArcanists();
+
+
+                    const arcanist =
+                        arcanists.find(
+                            item =>
+                                item.id === id
+                        );
+
+
+                    if (!arcanist) {
+                        return;
+                    }
+
+
+                    const {
+                        renderArcanistDetail
+                    } = await import(
+                        "./arcanistDetail.js"
+                    );
+
+
+                    renderArcanistDetail(
+                        container,
+                        arcanist,
+                        onBack
+                    );
+
+                }
+            );
+
+        }
+    );
 }
 
 function renderRelatedNames(
@@ -145,36 +196,6 @@ function renderRelatedNames(
         </div>
     `;
 }
-
-const relatedArcanistButtons =
-    document.querySelectorAll(
-        ".related-item-button"
-    );
-
-
-relatedArcanistButtons.forEach(
-    button => {
-        button.addEventListener(
-            "click",
-            () => {
-                const id = button.dataset.id;
-                const arcanists = getAllArcanists();
-                const arcanist =
-                    arcanists.find(
-                        item => item.id === id
-                    );
-                if (!arcanist) {
-                    return;
-                }
-                renderArcanistDetail(
-                    container,
-                    arcanist,
-                    onBack
-                );
-            }
-        );
-    }
-);
 
 function renderTags(
     tags,
