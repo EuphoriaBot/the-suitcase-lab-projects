@@ -164,9 +164,7 @@ export function renderArcanistForm(container, onSaved, onCancel, existingArcanis
                             name="notes"
                             rows="6"
                             placeholder="Additional notes..."
-                        >
-                            ${escapeHtml(existingArcanist?.notes ?? "")}
-                        </textarea>
+                        >${escapeHtml(existingArcanist?.notes ?? "")}</textarea>
                     </div>
                 </div>
 
@@ -317,8 +315,7 @@ function addSkill(
                 class="skill-description"
                 rows="4"
                 placeholder="Describe what the skill does..."
-            >${escapeHtml(skill.description ?? "")}
-            </textarea>
+            >${escapeHtml(skill.description ?? "")}</textarea>
         </div>
     `;
 

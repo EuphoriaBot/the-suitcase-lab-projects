@@ -133,11 +133,8 @@ export function renderArcanistDetail(
     editButton.addEventListener(
         "click",
         () => {
-
             renderArcanistForm(
-
                 container,
-
                 () => {
 
                     const updatedArcanist =
@@ -158,9 +155,7 @@ export function renderArcanistDetail(
                     );
 
                 },
-
                 () => {
-
                     renderArcanistDetail(
                         container,
                         arcanist,
@@ -168,11 +163,8 @@ export function renderArcanistDetail(
                     );
 
                 },
-
                 arcanist
-
             );
-
         }
     );
 }
