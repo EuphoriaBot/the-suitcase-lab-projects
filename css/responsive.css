@@ -1,0 +1,43 @@
+@media (max-width: 700px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-hero {
+        flex-direction: column;
+    }
+
+    .detail-hero .primary-button {
+        width: 100%;
+    }
+
+    .detail-hero h1 {
+        font-size: 28px;
+    }
+
+    .page-content {
+        padding: 20px;
+    }
+
+    .topbar {
+        padding: 0 20px;
+    }
+
+    .search-box {
+        width: 200px;
+    }
+
+    .arcanist-card,
+    .status-effect-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .arcanist-card-actions {
+        width: 100%;
+    }
+
+    .arcanist-card-actions button {
+        flex: 1;
+    }
+}

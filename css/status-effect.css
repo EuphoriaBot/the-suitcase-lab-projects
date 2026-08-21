@@ -1,0 +1,89 @@
+.status-effect-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.status-effect-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.status-effect-card:hover {
+    background: var(--color-card-hover);
+    border-color: rgba(182, 154, 99, 0.35);
+    transform: translateY(-1px);
+}
+
+.status-effect-card-content {
+    min-width: 0;
+}
+
+.status-effect-name-button {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.2s ease;
+}
+
+.status-effect-name-button:hover {
+    color: var(--color-gold);
+}
+
+.status-effect-meta {
+    margin: 6px 0 0;
+    color: var(--color-text-muted);
+    font-size: 12px;
+}
+
+.status-effect-summary {
+    margin: 10px 0 14px;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.status-effect-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.status-effect-summary-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.detail-info-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 10px;
+    background: rgba(113, 138, 135, 0.10);
+    border: 1px solid rgba(113, 138, 135, 0.22);
+    border-radius: 7px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+}
+
+.detail-info-badge-active {
+    color: var(--color-gold);
+    border-color: rgba(182, 154, 99, 0.35);
+    background: rgba(182, 154, 99, 0.10);
+}
