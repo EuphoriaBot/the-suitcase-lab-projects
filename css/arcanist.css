@@ -169,3 +169,21 @@
     font-size: 12px;
     font-weight: 700;
 }
+
+.skill-form-item {
+    border-color: rgba(182, 154, 99, 0.18);
+}
+
+.skill-form-item:focus-within {
+    border-color: rgba(182, 154, 99, 0.45);
+    box-shadow: 0 0 0 3px rgba(182, 154, 99, 0.06);
+}
+
+.portray-form-item {
+    border-color: rgba(169, 107, 80, 0.18);
+}
+
+.portray-form-item:focus-within {
+    border-color: rgba(169, 107, 80, 0.45);
+    box-shadow: 0 0 0 3px rgba(169, 107, 80, 0.06);
+}
