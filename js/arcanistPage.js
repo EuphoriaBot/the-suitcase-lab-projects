@@ -40,7 +40,7 @@ export function renderArcanistsPage(container) {
                 type="text"
                 id="arcanist-search"
                 class="search-input"
-                placeholder="Search Arcanists..."
+                placeholder="Search by name, role, tag, mechanic..."
             >
 
         </div>
@@ -87,28 +87,44 @@ export function renderArcanistsPage(container) {
     });
 
 
-    searchInput.addEventListener("input", () => {
+    searchInput.addEventListener(
+        "input",
+        () => {
 
-        const keyword =
-            searchInput.value
-                .toLowerCase()
-                .trim();
-
-
-        const filteredArcanists =
-            arcanists.filter(arcanist =>
-                arcanist.name
+            const keyword =
+                searchInput.value
                     .toLowerCase()
-                    .includes(keyword)
+                    .trim();
+
+
+            if (!keyword) {
+
+                renderArcanistList(
+                    arcanists,
+                    container
+                );
+
+                return;
+            }
+
+
+            const filteredArcanists =
+                arcanists.filter(
+                    arcanist =>
+                        matchesArcanistSearch(
+                            arcanist,
+                            keyword
+                        )
+                );
+
+
+            renderArcanistList(
+                filteredArcanists,
+                container
             );
 
-
-        renderArcanistList(
-            filteredArcanists,
-            container
-        );
-
-    });
+        }
+    );
 
 }
 
@@ -338,6 +354,59 @@ function renderArcanistList(
         });
 
     });
+
+}
+
+function matchesArcanistSearch(
+    arcanist,
+    keyword
+) {
+
+    const searchableText = [
+
+        arcanist.name,
+
+        arcanist.afflatus,
+
+        arcanist.damageType,
+
+        ...(arcanist.roles || []),
+
+        arcanist.mechanics,
+
+        arcanist.notes,
+
+        ...(arcanist.tags || []),
+
+        ...(Array.isArray(arcanist.skills)
+            ? arcanist.skills.flatMap(skill => [
+                skill.name,
+                skill.type,
+                skill.description
+            ])
+            : []
+        ),
+
+        ...(Array.isArray(arcanist.portray)
+            ? arcanist.portray.flatMap(item => [
+                item.description
+            ])
+            : []
+        )
+
+    ]
+        .filter(
+            value =>
+                value !== undefined &&
+                value !== null
+        )
+        .join(" ")
+        .toLowerCase();
+
+
+    return searchableText.includes(
+        keyword
+    );
 
 }
 

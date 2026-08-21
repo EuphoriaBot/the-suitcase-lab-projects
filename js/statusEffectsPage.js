@@ -29,7 +29,7 @@ export function renderStatusEffectsPage(
                 type="text"
                 id="status-effect-search"
                 class="search-input"
-                placeholder="Search Status Effects..."
+                placeholder="Search by name, effect, tag..."
             >
         </div>
 
@@ -78,25 +78,77 @@ export function renderStatusEffectsPage(
     searchInput.addEventListener(
         "input",
         () => {
+
             const keyword =
                 searchInput.value
                     .toLowerCase()
                     .trim();
 
+
+            if (!keyword) {
+
+                renderStatusEffectList(
+                    statusEffects,
+                    container
+                );
+
+                return;
+            }
+
+
             const filteredStatusEffects =
                 statusEffects.filter(
                     statusEffect =>
-                        statusEffect.name
-                            .toLowerCase()
-                            .includes(keyword)
+                        matchesStatusEffectSearch(
+                            statusEffect,
+                            keyword
+                        )
                 );
+
 
             renderStatusEffectList(
                 filteredStatusEffects,
                 container
             );
+
         }
     );
+
+}
+
+function matchesStatusEffectSearch(
+    statusEffect,
+    keyword
+) {
+
+    const searchableText = [
+
+        statusEffect.name,
+
+        statusEffect.description,
+
+        statusEffect.effect,
+
+        statusEffect.duration,
+
+        statusEffect.notes,
+
+        ...(statusEffect.tags || [])
+
+    ]
+        .filter(
+            value =>
+                value !== undefined &&
+                value !== null
+        )
+        .join(" ")
+        .toLowerCase();
+
+
+    return searchableText.includes(
+        keyword
+    );
+
 }
 
 function renderStatusEffectList(
