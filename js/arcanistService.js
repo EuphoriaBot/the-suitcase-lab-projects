@@ -59,25 +59,3 @@ export function deleteArcanist(id) {
 
     return filteredArcanists;
 }
-
-export function toggleArcanistFavorite(id) {
-
-    const arcanists = getArcanists();
-
-    const arcanist =
-        arcanists.find(
-            item => item.id === id
-        );
-
-    if (!arcanist) {
-        return null;
-    }
-
-    arcanist.favorite =
-        !Boolean(arcanist.favorite);
-
-    saveArcanists(arcanists);
-
-    return arcanist;
-}
-

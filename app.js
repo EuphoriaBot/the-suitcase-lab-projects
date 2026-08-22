@@ -33,20 +33,6 @@ const pages = {
         content: ""
     },
 
-    favorites: {
-        title: "Favorites",
-        content: `
-            <div class="welcome-card">
-                <h3>
-                    Favorites
-                </h3>
-                <p>
-                    Your favorite notes will appear here.
-                </p>
-            </div>
-        `
-    },
-
     settings: {
         title: "Settings",
         content: `
