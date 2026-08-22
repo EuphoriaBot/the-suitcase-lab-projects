@@ -5,6 +5,7 @@ export const arcanists = [
         afflatus: "Star",
         damageType: "Reality",
         roles: ["DPS"],
+        favorite: false,
 
         skills: [
             {

@@ -73,3 +73,25 @@ export function deleteStatusEffect(id) {
 
     return filteredStatusEffects;
 }
+
+export function toggleStatusEffectFavorite(id) {
+
+    const statusEffects =
+        getStatusEffects();
+
+    const statusEffect =
+        statusEffects.find(
+            item => item.id === id
+        );
+
+    if (!statusEffect) {
+        return null;
+    }
+
+    statusEffect.favorite =
+        !Boolean(statusEffect.favorite);
+
+    saveStatusEffects(statusEffects);
+
+    return statusEffect;
+}

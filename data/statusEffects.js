@@ -8,6 +8,7 @@ export const statusEffects = [
         stackable: false,
         relatedArcanists: [],
         tags: ["Debuff"],
+        favorite: false,
         notes: ""
     }
 ];
