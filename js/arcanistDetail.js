@@ -73,25 +73,6 @@ export function renderArcanistDetail(
 
                 <button
                     type="button"
-                    class="favorite-button ${arcanist.favorite ? "active" : ""
-        }"
-                    id="toggle-arcanist-favorite-button"
-                >
-                    <span class="favorite-icon">
-                        ${arcanist.favorite ? "★" : "☆"}
-                    </span>
-
-                    <span>
-                        ${arcanist.favorite
-            ? "Favorited"
-            : "Favorite"
-        }
-                    </span>
-                </button>
-
-
-                <button
-                    type="button"
                     class="primary-button"
                     id="edit-detail-arcanist-button"
                 >
@@ -179,8 +160,8 @@ export function renderArcanistDetail(
                 </div>
 
                 ${renderRelatedStatusEffects(
-            relatedStatusEffects
-        )}
+        relatedStatusEffects
+    )}
 
             </section>
 
@@ -202,9 +183,9 @@ export function renderArcanistDetail(
                 <div class="detail-tags">
 
                     ${renderTags(
-            arcanist.tags,
-            "No tags."
-        )}
+        arcanist.tags,
+        "No tags."
+    )}
 
                 </div>
 
