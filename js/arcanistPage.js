@@ -7,20 +7,31 @@ import {
 } from "./arcanistService.js";
 
 
-export function renderArcanistsPage(container) {
+export function renderArcanistsPage(
+    container
+) {
 
-    const arcanists = getAllArcanists();
+    const arcanists =
+        getAllArcanists();
 
 
     container.innerHTML = `
         <div class="page-header">
 
             <div>
-                <h1>Arcanists</h1>
+
+                <div class="page-eyebrow">
+                    DATABASE
+                </div>
+
+                <h1>
+                    Arcanists
+                </h1>
 
                 <p class="page-description">
-                    Manage and record Reverse: 1999 Arcanists.
+                    Manage and record your Reverse: 1999 Arcanist notes.
                 </p>
+
             </div>
 
 
@@ -61,30 +72,41 @@ export function renderArcanistsPage(container) {
 
 
     const searchInput =
-        document.getElementById("arcanist-search");
+        document.getElementById(
+            "arcanist-search"
+        );
 
 
     const addButton =
-        document.getElementById("add-arcanist-button");
-
-
-    addButton.addEventListener("click", () => {
-
-        renderArcanistForm(
-
-            container,
-
-            () => {
-                renderArcanistsPage(container);
-            },
-
-            () => {
-                renderArcanistsPage(container);
-            }
-
+        document.getElementById(
+            "add-arcanist-button"
         );
 
-    });
+
+    addButton.addEventListener(
+        "click",
+        () => {
+
+            renderArcanistForm(
+
+                container,
+
+                () => {
+                    renderArcanistsPage(
+                        container
+                    );
+                },
+
+                () => {
+                    renderArcanistsPage(
+                        container
+                    );
+                }
+
+            );
+
+        }
+    );
 
 
     searchInput.addEventListener(
@@ -135,7 +157,9 @@ function renderArcanistList(
 ) {
 
     const listContainer =
-        document.getElementById("arcanist-list");
+        document.getElementById(
+            "arcanist-list"
+        );
 
 
     if (!listContainer) {
@@ -148,10 +172,12 @@ function renderArcanistList(
         listContainer.innerHTML = `
             <div class="empty-state">
 
-                <h2>No Arcanists Found</h2>
+                <h2>
+                    No Arcanists Found
+                </h2>
 
                 <p>
-                    There are no Arcanists to display.
+                    There are no Arcanists matching your search.
                 </p>
 
             </div>
@@ -160,202 +186,319 @@ function renderArcanistList(
         return;
     }
 
+
     listContainer.innerHTML =
-        arcanists.map(arcanist => `
+        arcanists
+            .map(arcanist => {
 
-            <article class="arcanist-card">
+                const skillCount =
+                    Array.isArray(
+                        arcanist.skills
+                    )
+                        ? arcanist.skills.length
+                        : 0;
 
-                <div class="arcanist-card-content">
 
-                    <div class="arcanist-card-header">
+                const portrayCount =
+                    Array.isArray(
+                        arcanist.portray
+                    )
+                        ? arcanist.portray.length
+                        : 0;
 
-                        <div>
 
-                            <h2>
-                                <button
-                                    class="arcanist-name-button"
-                                    data-id="${arcanist.id}"
-                                >
-                                    ${escapeHtml(arcanist.name)}
-                                </button>
-                            </h2>
+                const statusEffectCount =
+                    Array.isArray(
+                        arcanist.relatedStatusEffects
+                    )
+                        ? arcanist.relatedStatusEffects.length
+                        : 0;
 
-                            <p class="arcanist-meta">
-                                ${escapeHtml(arcanist.afflatus)}
-                                •
-                                ${escapeHtml(arcanist.damageType)}
-                            </p>
+
+                return `
+
+                    <article
+                        class="arcanist-card"
+                    >
+
+                        <div class="arcanist-card-content">
+
+                            <div class="arcanist-card-header">
+
+                                <div>
+
+                                    <h2>
+
+                                        <button
+                                            class="arcanist-name-button"
+                                            data-id="${escapeHtml(
+                    arcanist.id
+                )}"
+                                        >
+                                            ${escapeHtml(
+                    arcanist.name
+                )}
+                                        </button>
+
+                                    </h2>
+
+
+                                    <p class="arcanist-meta">
+
+                                        ${escapeHtml(
+                    arcanist.afflatus ||
+                    "Unknown Afflatus"
+                )}
+
+                                        <span>
+                                            •
+                                        </span>
+
+                                        ${escapeHtml(
+                    arcanist.damageType ||
+                    "Unknown Damage Type"
+                )}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="arcanist-tags">
+
+                                ${(arcanist.roles || [])
+                        .map(role => `
+                                        <span class="tag">
+                                            ${escapeHtml(role)}
+                                        </span>
+                                    `)
+                        .join("")
+                    }
+
+                            </div>
+
+
+                            <div class="arcanist-card-stats">
+
+                                <span>
+                                    ${skillCount}
+                                    ${skillCount === 1
+                        ? "Skill"
+                        : "Skills"
+                    }
+                                </span>
+
+                                <span>
+                                    ${portrayCount}
+                                    ${portrayCount === 1
+                        ? "Portray"
+                        : "Portray"
+                    }
+                                </span>
+
+                                <span>
+                                    ${statusEffectCount}
+                                    ${statusEffectCount === 1
+                        ? "Status Effect"
+                        : "Status Effects"
+                    }
+                                </span>
+
+                            </div>
 
                         </div>
 
-                    </div>
+
+                        <div class="arcanist-card-actions">
+
+                            <button
+                                class="secondary-button edit-arcanist-button"
+                                data-id="${escapeHtml(
+                        arcanist.id
+                    )}"
+                            >
+                                Edit
+                            </button>
 
 
-                    <div class="arcanist-tags">
+                            <button
+                                class="danger-button delete-arcanist-button"
+                                data-id="${escapeHtml(
+                        arcanist.id
+                    )}"
+                            >
+                                Delete
+                            </button>
 
-                        ${(arcanist.roles || [])
-                .map(role => `
-                                <span class="tag">
-                                    ${escapeHtml(role)}
-                                </span>
-                            `)
-                .join("")
-            }
+                        </div>
 
-                    </div>
+                    </article>
 
-                </div>
+                `;
 
+            })
+            .join("");
 
-                <div class="arcanist-card-actions">
-
-                    <button
-                        class="secondary-button edit-arcanist-button"
-                        data-id="${arcanist.id}"
-                    >
-                        Edit
-                    </button>
-
-
-                    <button
-                        class="danger-button delete-arcanist-button"
-                        data-id="${arcanist.id}"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-            </article>
-
-        `).join("");
 
     const editButtons =
         listContainer.querySelectorAll(
             ".edit-arcanist-button"
         );
 
+
     const nameButtons =
         listContainer.querySelectorAll(
             ".arcanist-name-button"
         );
+
 
     const deleteButtons =
         listContainer.querySelectorAll(
             ".delete-arcanist-button"
         );
 
-    nameButtons.forEach(button => {
 
-        button.addEventListener("click", () => {
+    nameButtons.forEach(
+        button => {
 
-            const id =
-                button.dataset.id;
-
-
-            const arcanist =
-                getAllArcanists().find(
-                    item => item.id === id
-                );
-
-
-            if (!arcanist) {
-                return;
-            }
-
-
-            renderArcanistDetail(
-                container,
-                arcanist,
+            button.addEventListener(
+                "click",
                 () => {
-                    renderArcanistsPage(container);
+
+                    const id =
+                        button.dataset.id;
+
+
+                    const arcanist =
+                        getAllArcanists().find(
+                            item =>
+                                item.id === id
+                        );
+
+
+                    if (!arcanist) {
+                        return;
+                    }
+
+
+                    renderArcanistDetail(
+                        container,
+                        arcanist,
+                        () => {
+                            renderArcanistsPage(
+                                container
+                            );
+                        }
+                    );
+
                 }
             );
 
-        });
-
-    });
-
-    editButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const id =
-                button.dataset.id;
+        }
+    );
 
 
-            const arcanist =
-                getAllArcanists().find(
-                    item => item.id === id
-                );
+    editButtons.forEach(
+        button => {
 
-
-            if (!arcanist) {
-                return;
-            }
-
-
-            renderArcanistForm(
-
-                container,
-
+            button.addEventListener(
+                "click",
                 () => {
-                    renderArcanistsPage(container);
-                },
 
-                () => {
-                    renderArcanistsPage(container);
-                },
+                    const id =
+                        button.dataset.id;
 
-                arcanist
 
+                    const arcanist =
+                        getAllArcanists().find(
+                            item =>
+                                item.id === id
+                        );
+
+
+                    if (!arcanist) {
+                        return;
+                    }
+
+
+                    renderArcanistForm(
+
+                        container,
+
+                        () => {
+                            renderArcanistsPage(
+                                container
+                            );
+                        },
+
+                        () => {
+                            renderArcanistsPage(
+                                container
+                            );
+                        },
+
+                        arcanist
+
+                    );
+
+                }
             );
 
-        });
-
-    });
-
-
-    deleteButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const id =
-                button.dataset.id;
+        }
+    );
 
 
-            const arcanist =
-                getAllArcanists().find(
-                    item => item.id === id
-                );
+    deleteButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        button.dataset.id;
 
 
-            if (!arcanist) {
-                return;
-            }
+                    const arcanist =
+                        getAllArcanists().find(
+                            item =>
+                                item.id === id
+                        );
 
 
-            const confirmed =
-                window.confirm(
-                    `Delete "${arcanist.name}"?`
-                );
+                    if (!arcanist) {
+                        return;
+                    }
 
 
-            if (!confirmed) {
-                return;
-            }
+                    const confirmed =
+                        window.confirm(
+                            `Delete "${arcanist.name}"?`
+                        );
 
 
-            deleteArcanist(id);
+                    if (!confirmed) {
+                        return;
+                    }
 
 
-            renderArcanistsPage(container);
+                    deleteArcanist(id);
 
-        });
 
-    });
+                    renderArcanistsPage(
+                        container
+                    );
+
+                }
+            );
+
+        }
+    );
 
 }
+
 
 function matchesArcanistSearch(
     arcanist,
@@ -379,18 +522,22 @@ function matchesArcanistSearch(
         ...(arcanist.tags || []),
 
         ...(Array.isArray(arcanist.skills)
-            ? arcanist.skills.flatMap(skill => [
-                skill.name,
-                skill.type,
-                skill.description
-            ])
+            ? arcanist.skills.flatMap(
+                skill => [
+                    skill.name,
+                    skill.type,
+                    skill.description
+                ]
+            )
             : []
         ),
 
         ...(Array.isArray(arcanist.portray)
-            ? arcanist.portray.flatMap(item => [
-                item.description
-            ])
+            ? arcanist.portray.flatMap(
+                item => [
+                    item.description
+                ]
+            )
             : []
         )
 
@@ -411,11 +558,17 @@ function matchesArcanistSearch(
 }
 
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
-    if (value === undefined || value === null) {
+    if (
+        value === undefined ||
+        value === null
+    ) {
         return "";
     }
+
 
     return String(value)
         .replace(/&/g, "&amp;")
@@ -423,4 +576,5 @@ function escapeHtml(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }

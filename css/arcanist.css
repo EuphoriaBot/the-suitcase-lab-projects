@@ -187,3 +187,51 @@
     border-color: rgba(169, 107, 80, 0.45);
     box-shadow: 0 0 0 3px rgba(169, 107, 80, 0.06);
 }
+
+.page-eyebrow {
+    margin-bottom: 7px;
+    color: var(--color-gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.arcanist-card {
+    align-items: stretch;
+}
+
+.arcanist-card-content {
+    flex: 1;
+}
+
+.arcanist-card-header h2 {
+    margin: 0 0 5px;
+}
+
+.arcanist-tags {
+    margin-top: 12px;
+}
+
+.arcanist-card-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.arcanist-card-stats span {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--color-text-muted);
+    font-size: 11px;
+}
+
+.arcanist-card-actions {
+    align-items: center;
+    justify-content: center;
+}
