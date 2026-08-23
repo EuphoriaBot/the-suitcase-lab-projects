@@ -7,50 +7,56 @@
 .arcanist-card {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
+    align-items: stretch;
+    gap: 24px;
+    padding: 22px 24px;
     background: var(--color-card);
     border: 1px solid var(--color-border);
     border-radius: 14px;
     transition:
-        transform 0.2s,
-        background 0.2s,
-        border-color 0.2s;
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .arcanist-card:hover {
     background: var(--color-card-hover);
     border-color: rgba(182, 154, 99, 0.35);
     transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
 .arcanist-card-content {
+    flex: 1;
     min-width: 0;
+}
+
+.arcanist-card-header {
+    margin-bottom: 10px;
 }
 
 .arcanist-card-header h2 {
     margin: 0 0 6px;
-    font-size: 18px;
+    line-height: 1.25;
 }
 
 .arcanist-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
     margin: 0;
-    color: #8992a3;
+    color: var(--color-text-muted);
     font-size: 13px;
+    line-height: 1.5;
 }
 
 .arcanist-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 12px;
-}
-
-.arcanist-card-actions {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
+    gap: 7px;
+    margin-top: 14px;
 }
 
 .arcanist-name-button {
@@ -197,41 +203,29 @@
     text-transform: uppercase;
 }
 
-.arcanist-card {
-    align-items: stretch;
-}
-
-.arcanist-card-content {
-    flex: 1;
-}
-
-.arcanist-card-header h2 {
-    margin: 0 0 5px;
-}
-
-.arcanist-tags {
-    margin-top: 12px;
-}
-
 .arcanist-card-stats {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 14px;
+    gap: 7px;
+    margin-top: 16px;
 }
 
 .arcanist-card-stats span {
     display: inline-flex;
     align-items: center;
-    padding: 5px 8px;
+    min-height: 28px;
+    padding: 5px 9px;
     border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.02);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.025);
     color: var(--color-text-muted);
     font-size: 11px;
+    line-height: 1;
 }
 
 .arcanist-card-actions {
+    display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
 }
