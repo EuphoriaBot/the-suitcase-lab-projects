@@ -29,7 +29,7 @@ export function renderArcanistsPage(
                 </h1>
 
                 <p class="page-description">
-                    Manage and record your Reverse: 1999 Arcanist notes.
+                    Browse and manage your Reverse: 1999 Arcanist notes.
                 </p>
 
             </div>
@@ -51,7 +51,7 @@ export function renderArcanistsPage(
                 type="text"
                 id="arcanist-search"
                 class="search-input"
-                placeholder="Search by name, role, tag, mechanic..."
+                placeholder="Search Arcanists..."
             >
 
         </div>
@@ -59,7 +59,7 @@ export function renderArcanistsPage(
 
         <div
             id="arcanist-list"
-            class="arcanist-list"
+            class="arcanist-grid"
         >
         </div>
     `;
@@ -119,25 +119,16 @@ export function renderArcanistsPage(
                     .trim();
 
 
-            if (!keyword) {
-
-                renderArcanistList(
-                    arcanists,
-                    container
-                );
-
-                return;
-            }
-
-
             const filteredArcanists =
-                arcanists.filter(
-                    arcanist =>
-                        matchesArcanistSearch(
-                            arcanist,
-                            keyword
-                        )
-                );
+                keyword
+                    ? arcanists.filter(
+                        arcanist =>
+                            matchesArcanistSearch(
+                                arcanist,
+                                keyword
+                            )
+                    )
+                    : arcanists;
 
 
             renderArcanistList(
@@ -218,102 +209,107 @@ function renderArcanistList(
                 return `
 
                     <article
-                        class="arcanist-card"
-                    >
-
-                        <div class="arcanist-card-content">
-
-                            <div class="arcanist-card-header">
-
-                                <div>
-
-                                    <h2>
-
-                                        <button
-                                            class="arcanist-name-button"
-                                            data-id="${escapeHtml(
+                        class="arcanist-gallery-card"
+                        data-id="${escapeHtml(
                     arcanist.id
                 )}"
-                                        >
-                                            ${escapeHtml(
+                    >
+
+                        <button
+                            type="button"
+                            class="arcanist-card-main"
+                            data-id="${escapeHtml(
+                    arcanist.id
+                )}"
+                        >
+
+                            <div class="arcanist-image-placeholder">
+
+                                <span>
+                                    ${escapeHtml(
+                    getInitials(
+                        arcanist.name
+                    )
+                )}
+                                </span>
+
+                            </div>
+
+
+                            <div class="arcanist-gallery-info">
+
+                                <h2>
+                                    ${escapeHtml(
                     arcanist.name
                 )}
-                                        </button>
-
-                                    </h2>
+                                </h2>
 
 
-                                    <p class="arcanist-meta">
+                                <p class="arcanist-gallery-meta">
 
-                                        ${escapeHtml(
+                                    ${escapeHtml(
                     arcanist.afflatus ||
-                    "Unknown Afflatus"
+                    "Unknown"
                 )}
 
-                                        <span>
-                                            •
-                                        </span>
+                                    <span>
+                                        •
+                                    </span>
 
-                                        ${escapeHtml(
+                                    ${escapeHtml(
                     arcanist.damageType ||
-                    "Unknown Damage Type"
+                    "Unknown"
                 )}
 
-                                    </p>
+                                </p>
+
+
+                                <div class="arcanist-gallery-tags">
+
+                                    ${(arcanist.roles || [])
+                        .map(role => `
+                                            <span class="tag">
+                                                ${escapeHtml(
+                            role
+                        )}
+                                            </span>
+                                        `)
+                        .join("")
+                    }
+
+                                </div>
+
+
+                                <div class="arcanist-gallery-stats">
+
+                                    <span>
+                                        ${skillCount}
+                                        Skills
+                                    </span>
+
+                                    <span>
+                                        ${portrayCount}
+                                        Portray
+                                    </span>
+
+                                    <span>
+                                        ${statusEffectCount}
+                                        Effects
+                                    </span>
 
                                 </div>
 
                             </div>
 
-
-                            <div class="arcanist-tags">
-
-                                ${(arcanist.roles || [])
-                        .map(role => `
-                                        <span class="tag">
-                                            ${escapeHtml(role)}
-                                        </span>
-                                    `)
-                        .join("")
-                    }
-
-                            </div>
+                        </button>
 
 
-                            <div class="arcanist-card-stats">
-
-                                <span>
-                                    ${skillCount}
-                                    ${skillCount === 1
-                        ? "Skill"
-                        : "Skills"
-                    }
-                                </span>
-
-                                <span>
-                                    ${portrayCount}
-                                    ${portrayCount === 1
-                        ? "Portray"
-                        : "Portray"
-                    }
-                                </span>
-
-                                <span>
-                                    ${statusEffectCount}
-                                    ${statusEffectCount === 1
-                        ? "Status Effect"
-                        : "Status Effects"
-                    }
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="arcanist-card-actions">
+                        <div
+                            class="arcanist-gallery-actions"
+                        >
 
                             <button
+                                type="button"
                                 class="secondary-button edit-arcanist-button"
                                 data-id="${escapeHtml(
                         arcanist.id
@@ -324,6 +320,7 @@ function renderArcanistList(
 
 
                             <button
+                                type="button"
                                 class="danger-button delete-arcanist-button"
                                 data-id="${escapeHtml(
                         arcanist.id
@@ -342,15 +339,15 @@ function renderArcanistList(
             .join("");
 
 
-    const editButtons =
+    const cardButtons =
         listContainer.querySelectorAll(
-            ".edit-arcanist-button"
+            ".arcanist-card-main"
         );
 
 
-    const nameButtons =
+    const editButtons =
         listContainer.querySelectorAll(
-            ".arcanist-name-button"
+            ".edit-arcanist-button"
         );
 
 
@@ -360,7 +357,7 @@ function renderArcanistList(
         );
 
 
-    nameButtons.forEach(
+    cardButtons.forEach(
         button => {
 
             button.addEventListener(
@@ -554,6 +551,34 @@ function matchesArcanistSearch(
     return searchableText.includes(
         keyword
     );
+
+}
+
+
+function getInitials(name) {
+
+    if (!name) {
+        return "?";
+    }
+
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/);
+
+
+    if (parts.length === 1) {
+        return parts[0]
+            .substring(0, 2)
+            .toUpperCase();
+    }
+
+
+    return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+    ).toUpperCase();
 
 }
 

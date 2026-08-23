@@ -229,3 +229,124 @@
     gap: 8px;
     flex-shrink: 0;
 }
+
+.arcanist-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(280px, 1fr)
+        );
+    gap: 18px;
+}
+
+.arcanist-gallery-card {
+    overflow: hidden;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.arcanist-gallery-card:hover {
+    border-color: rgba(182, 154, 99, 0.35);
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+.arcanist-card-main {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.arcanist-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 3;
+    background:
+        linear-gradient(
+            145deg,
+            #303940,
+            #1B2227
+        );
+    border-bottom: 1px solid var(--color-border);
+}
+
+.arcanist-image-placeholder span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 1px solid rgba(182, 154, 99, 0.35);
+    background: rgba(182, 154, 99, 0.10);
+    color: var(--color-gold);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.arcanist-gallery-info {
+    padding: 18px;
+}
+
+.arcanist-gallery-info h2 {
+    margin: 0 0 6px;
+    color: var(--color-text);
+    font-size: 19px;
+    line-height: 1.25;
+}
+
+.arcanist-gallery-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 12px;
+}
+
+.arcanist-gallery-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.arcanist-gallery-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.arcanist-gallery-stats span {
+    padding: 5px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--color-text-muted);
+    font-size: 10px;
+}
+
+.arcanist-gallery-actions {
+    display: flex;
+    gap: 8px;
+    padding: 0 18px 18px;
+}
+
+.arcanist-gallery-actions button {
+    flex: 1;
+}
