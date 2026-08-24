@@ -2,6 +2,7 @@ export const arcanists = [
     {
         id: "arcanist_001",
         name: "Example Arcanist",
+        image: "../assets/arcanist/lucy_card.webp",
         afflatus: "Star",
         damageType: "Reality",
         roles: ["DPS"],

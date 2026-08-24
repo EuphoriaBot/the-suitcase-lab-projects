@@ -223,16 +223,25 @@ function renderArcanistList(
                 )}"
                         >
 
-                            <div class="arcanist-image-placeholder">
-
-                                <span>
-                                    ${escapeHtml(
-                    getInitials(
-                        arcanist.name
-                    )
-                )}
-                                </span>
-
+                            <div class="arcanist-image-container">
+                                ${arcanist.image
+                        ? `
+                                            <img
+                                                src="${escapeHtml(arcanist.image)}"
+                                                alt="${escapeHtml(arcanist.name)}"
+                                                class="arcanist-card-image"
+                                            >
+                                        `
+                        : `
+                                            <div class="arcanist-image-placeholder">
+                                                <span>
+                                                    ${escapeHtml(
+                            getInitials(arcanist.name)
+                        )}
+                                                </span>
+                                            </div>
+                                        `
+                    }
                             </div>
 
 
@@ -240,26 +249,26 @@ function renderArcanistList(
 
                                 <h2>
                                     ${escapeHtml(
-                    arcanist.name
-                )}
+                        arcanist.name
+                    )}
                                 </h2>
 
 
                                 <p class="arcanist-gallery-meta">
 
                                     ${escapeHtml(
-                    arcanist.afflatus ||
-                    "Unknown"
-                )}
+                        arcanist.afflatus ||
+                        "Unknown"
+                    )}
 
                                     <span>
                                         •
                                     </span>
 
                                     ${escapeHtml(
-                    arcanist.damageType ||
-                    "Unknown"
-                )}
+                        arcanist.damageType ||
+                        "Unknown"
+                    )}
 
                                 </p>
 
