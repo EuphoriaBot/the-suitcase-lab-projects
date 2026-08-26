@@ -37,24 +37,66 @@ export function renderArcanistDetail(
 
             <div class="detail-hero">
 
+                <div class="detail-hero-image">
+
+                    ${arcanist.image
+            ? `
+                                <img
+                                    src="${escapeHtml(
+                arcanist.image
+            )}"
+                                    alt="${escapeHtml(
+                arcanist.name
+            )}"
+                                    class="detail-character-image"
+                                >
+                            `
+            : `
+                                <div class="detail-character-placeholder">
+
+                                    <span>
+                                        ${escapeHtml(
+                getInitials(
+                    arcanist.name
+                )
+            )}
+                                    </span>
+
+                                </div>
+                            `
+        }
+
+                </div>
+
+
                 <div class="detail-hero-content">
 
                     <div class="detail-eyebrow">
                         ARCANIST
                     </div>
 
+
                     <h1>
-                        ${escapeHtml(arcanist.name)}
+                        ${escapeHtml(
+            arcanist.name
+        )}
                     </h1>
+
 
                     <div class="detail-meta-row">
 
                         <span class="detail-meta-badge">
-                            ${escapeHtml(arcanist.afflatus)}
+                            ${escapeHtml(
+            arcanist.afflatus ||
+            "Unknown Afflatus"
+        )}
                         </span>
 
                         <span class="detail-meta-badge">
-                            ${escapeHtml(arcanist.damageType)}
+                            ${escapeHtml(
+            arcanist.damageType ||
+            "Unknown Damage"
+        )}
                         </span>
 
                     </div>
@@ -63,24 +105,26 @@ export function renderArcanistDetail(
                     <div class="detail-tags detail-hero-tags">
 
                         ${renderTags(
-        arcanist.roles,
-        "No roles."
-    )}
+            arcanist.roles,
+            "No roles."
+        )}
 
                     </div>
 
                 </div>
 
-                <button
-                    type="button"
-                    class="primary-button"
-                    id="edit-detail-arcanist-button"
-                >
-                    Edit Arcanist
-                </button>
 
-            </div>
+                <div class="detail-hero-actions">
 
+                    <button
+                        type="button"
+                        class="primary-button"
+                        id="edit-detail-arcanist-button"
+                    >
+                        Edit Arcanist
+                    </button>
+
+                </div>
             </div>
 
 
@@ -160,8 +204,8 @@ export function renderArcanistDetail(
                 </div>
 
                 ${renderRelatedStatusEffects(
-        relatedStatusEffects
-    )}
+            relatedStatusEffects
+        )}
 
             </section>
 
@@ -183,9 +227,9 @@ export function renderArcanistDetail(
                 <div class="detail-tags">
 
                     ${renderTags(
-        arcanist.tags,
-        "No tags."
-    )}
+            arcanist.tags,
+            "No tags."
+        )}
 
                 </div>
 
@@ -584,6 +628,32 @@ function formatText(value) {
 
 }
 
+function getInitials(name) {
+
+    if (!name) {
+        return "?";
+    }
+
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/);
+
+
+    if (parts.length === 1) {
+        return parts[0]
+            .substring(0, 2)
+            .toUpperCase();
+    }
+
+
+    return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+    ).toUpperCase();
+
+}
 
 function escapeHtml(value) {
 

@@ -1,145 +1,186 @@
-@media (max-width: 520px) {
-    .arcanist-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 700px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .detail-hero {
-        flex-direction: column;
-    }
-
-    .detail-hero .primary-button {
-        width: 100%;
-    }
-
-    .detail-hero h1 {
-        font-size: 28px;
-    }
-
-    .page-content {
-        padding: 20px;
-    }
-
-    .topbar {
-        padding: 0 20px;
-    }
-
-    .search-box {
-        width: 200px;
-    }
-
-    .arcanist-card,
-    .status-effect-card {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 18px;
-    }
-
-    .arcanist-card-actions {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .arcanist-card-actions button {
-        flex: 1;
-    }
-
-    .arcanist-card-stats,
-    .status-effect-card-stats {
-        gap: 6px;
-    }
-
-    .dashboard-stats,
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-hero {
-        padding: 24px;
-    }
-
-    .dashboard-hero h1 {
-        font-size: 26px;
-    }
-
-    .dashboard-panel-header {
-        flex-direction: column;
-    }
-
-    .dashboard-view-button {
-        width: 100%;
-    }
-
-    .status-effect-card {
-    align-items: stretch;
-    }
-
-    .status-effect-card-content {
-        flex: 1;
-    }
-
-    .status-effect-summary {
-        max-width: 850px;
-    }
-
-    .status-effect-card-stats {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 14px;
-    }
-
-    .status-effect-card-stats span {
-        display: inline-flex;
-        align-items: center;
-        padding: 5px 8px;
-        border: 1px solid var(--color-border);
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.02);
-        color: var(--color-text-muted);
-        font-size: 11px;
-    }
-
-    .arcanist-grid {
-        grid-template-columns: repeat(
-            2,
-            minmax(0, 1fr)
-        );
-        gap: 12px;
-    }
-
-    .arcanist-image-container {
-        height: 210px;
-    }
-
-    .arcanist-gallery-info {
-        padding: 14px;
-    }
-
-    .arcanist-gallery-actions {
-        padding: 0 14px 14px;
-    }
-}
-
-@media (max-width: 800px) {
-    .arcanist-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
 @media (max-width: 1100px) {
 
     .detail-page {
         max-width: 100%;
     }
 
-    .arcanist-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    .detail-hero {
+        grid-template-columns:
+            150px
+            minmax(0, 1fr)
+            auto;
+
+        gap: 20px;
     }
+
+
+    .detail-hero-image {
+        width: 150px;
+        height: 220px;
+    }
+
+
+    .arcanist-grid {
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0, 1fr)
+            );
+    }
+
 }
 
+
+@media (max-width: 800px) {
+
+    .arcanist-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+
+    .detail-hero {
+        grid-template-columns:
+            150px
+            minmax(0, 1fr);
+    }
+
+
+    .detail-hero-actions {
+        grid-column: 2;
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .page-content {
+        padding: 20px;
+    }
+
+
+    .topbar {
+        padding: 0 20px;
+    }
+
+
+    .search-box {
+        width: 200px;
+    }
+
+
+    .dashboard-stats,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .dashboard-hero {
+        padding: 24px;
+    }
+
+
+    .dashboard-hero h1 {
+        font-size: 26px;
+    }
+
+
+    .dashboard-panel-header {
+        flex-direction: column;
+    }
+
+
+    .dashboard-view-button {
+        width: 100%;
+    }
+
+
+    .status-effect-card {
+        align-items: stretch;
+    }
+
+
+    .status-effect-card-content {
+        flex: 1;
+    }
+
+
+    .status-effect-summary {
+        max-width: 850px;
+    }
+
+
+    .status-effect-card-stats {
+        gap: 6px;
+    }
+
+
+    .arcanist-gallery-actions {
+        padding:
+            0 14px 14px;
+    }
+
+
+    .arcanist-gallery-info {
+        padding: 14px;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .arcanist-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .detail-hero {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+
+    .detail-hero-image {
+        width: 100%;
+        height: 280px;
+    }
+
+
+    .detail-hero-content {
+        width: 100%;
+    }
+
+
+    .detail-hero-actions {
+        grid-column: auto;
+        width: 100%;
+    }
+
+
+    .detail-hero-actions .primary-button {
+        width: 100%;
+    }
+
+
+    .detail-hero h1 {
+        font-size: 30px;
+    }
+
+
+    .arcanist-image-container {
+        height: 210px;
+    }
+
+}
