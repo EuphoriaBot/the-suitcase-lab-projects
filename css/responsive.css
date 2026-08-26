@@ -1,3 +1,9 @@
+@media (max-width: 520px) {
+    .arcanist-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 700px) {
     .form-row {
         grid-template-columns: 1fr;
@@ -100,7 +106,29 @@
     }
 
     .arcanist-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(
+            2,
+            minmax(0, 1fr)
+        );
+        gap: 12px;
+    }
+
+    .arcanist-image-container {
+        height: 210px;
+    }
+
+    .arcanist-gallery-info {
+        padding: 14px;
+    }
+
+    .arcanist-gallery-actions {
+        padding: 0 14px 14px;
+    }
+}
+
+@media (max-width: 800px) {
+    .arcanist-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -110,5 +138,8 @@
         max-width: 100%;
     }
 
+    .arcanist-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 

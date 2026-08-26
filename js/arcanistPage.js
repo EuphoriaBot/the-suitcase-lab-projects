@@ -298,13 +298,6 @@ function renderArcanistList(
         `)
             .join("");
 
-
-    const cardButtons =
-        listContainer.querySelectorAll(
-            ".arcanist-card-main"
-        );
-
-
     const editButtons =
         listContainer.querySelectorAll(
             ".edit-arcanist-button"
@@ -316,16 +309,20 @@ function renderArcanistList(
             ".delete-arcanist-button"
         );
 
+    const cardElements =
+        listContainer.querySelectorAll(
+            ".arcanist-gallery-card"
+        );
 
-    cardButtons.forEach(
-        button => {
 
-            button.addEventListener(
-                "click",
+    cardElements.forEach(
+        card => {
+
+            const openArcanist =
                 () => {
 
                     const id =
-                        button.dataset.id;
+                        card.dataset.id;
 
 
                     const arcanist =
@@ -349,6 +346,43 @@ function renderArcanistList(
                             );
                         }
                     );
+
+                };
+
+
+            card.addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target.closest(
+                            ".arcanist-gallery-actions"
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    openArcanist();
+
+                }
+            );
+
+
+            card.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter" ||
+                        event.key === " "
+                    ) {
+
+                        event.preventDefault();
+
+                        openArcanist();
+
+                    }
 
                 }
             );
