@@ -327,6 +327,16 @@
     font-style: italic;
 }
 
+.detail-empty-block {
+    padding: 16px;
+    border:
+        1px dashed
+        var(--color-border);
+    border-radius: 10px;
+    background:
+        rgba(255, 255, 255, 0.01);
+}
+
 .related-item-list {
     display: flex;
     flex-wrap: wrap;

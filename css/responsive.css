@@ -198,6 +198,18 @@
         font-size: 11px;
     }
 
+    .skill-detail-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .skill-type-badge {
+        align-self: flex-start;
+    }
+
+    .skill-detail-description {
+        padding-left: 0;
+    }
 }
 
 

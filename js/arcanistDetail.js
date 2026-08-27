@@ -545,66 +545,82 @@ function renderSkills(skills) {
     ) {
 
         return `
-            <p class="detail-empty">
-                No skills available.
-            </p>
+            <div class="detail-empty-block">
+
+                <p class="detail-empty">
+                    No skills available.
+                </p>
+
+            </div>
         `;
 
     }
 
 
     return `
-        <div class="detail-repeatable-list">
+        <div class="detail-repeatable-list skill-list">
 
             ${skills
-            .map((skill, index) => `
+            .map(
+                (skill, index) => `
 
-                    <article
-                        class="detail-repeatable-item skill-detail-card"
-                    >
+                        <article
+                            class="detail-repeatable-item skill-detail-card"
+                        >
 
-                        <div class="detail-repeatable-header">
+                            <div class="skill-detail-header">
 
-                            <div class="detail-item-title">
+                                <div class="detail-item-title">
 
-                                <span class="detail-item-number">
-                                    ${index + 1}
-                                </span>
+                                    <span
+                                        class="detail-item-number"
+                                    >
+                                        ${index + 1}
+                                    </span>
 
-                                <h3>
-                                    ${escapeHtml(
-                skill.name
-            )}
-                                </h3>
+
+                                    <div class="skill-detail-heading">
+
+                                        <h3>
+                                            ${escapeHtml(
+                    skill.name ||
+                    "Unnamed Skill"
+                )}
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+
+                                ${skill.type
+                        ? `
+                                            <span
+                                                class="skill-type-badge"
+                                            >
+                                                ${escapeHtml(
+                            skill.type
+                        )}
+                                            </span>
+                                        `
+                        : ""
+                    }
 
                             </div>
 
 
-                            ${skill.type
-                    ? `
-                                        <span class="tag">
-                                            ${escapeHtml(
-                        skill.type
+                            <div class="skill-detail-description">
+
+                                ${formatText(
+                        skill.description
                     )}
-                                        </span>
-                                    `
-                    : ""
-                }
 
-                        </div>
+                            </div>
 
+                        </article>
 
-                        <div class="detail-text">
-
-                            ${formatText(
-                    skill.description
-                )}
-
-                        </div>
-
-                    </article>
-
-                `)
+                    `
+            )
             .join("")
         }
 
