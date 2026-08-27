@@ -595,3 +595,117 @@
     font-size: 13px;
     line-height: 1.7;
 }
+
+.related-status-effect-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(240px, 1fr)
+        );
+    gap: 12px;
+}
+
+.related-status-effect-card {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border:
+        1px solid
+        var(--color-border);
+    border-radius: 10px;
+    background:
+        rgba(27, 34, 39, 0.9);
+    color: inherit;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.related-status-effect-card:hover {
+    background:
+        var(--color-card-hover);
+    border-color:
+        rgba(182, 154, 99, 0.35);
+    transform:
+        translateY(-1px);
+    box-shadow:
+        0 8px 18px
+        rgba(0, 0, 0, 0.10);
+}
+
+.related-status-effect-card:focus-visible {
+    outline:
+        2px solid
+        var(--color-gold);
+    outline-offset: 2px;
+}
+
+.related-status-effect-content {
+    min-width: 0;
+}
+
+.related-status-effect-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.related-status-effect-header h3 {
+    margin: 0;
+    color:
+        var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.related-status-effect-description {
+    display: -webkit-box;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.related-status-effect-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 11px;
+}
+
+.related-status-effect-tags .tag {
+    font-size: 10px;
+}
+
+
+.related-status-effect-card .related-item-arrow {
+    flex-shrink: 0;
+    color:
+        var(--color-text-muted);
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.related-status-effect-card:hover
+.related-item-arrow {
+    transform:
+        translateX(3px);
+
+    color:
+        var(--color-gold);
+}

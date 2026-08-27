@@ -148,9 +148,6 @@
             0 14px 14px;
     }
 
-
-    /* Detail hero */
-
     .detail-hero {
         grid-template-columns: 1fr;
 
@@ -209,6 +206,10 @@
 
     .skill-detail-description {
         padding-left: 0;
+    }
+
+    .related-status-effect-grid {
+        grid-template-columns: 1fr;
     }
 }
 

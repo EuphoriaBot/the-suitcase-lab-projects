@@ -342,7 +342,7 @@ export function renderArcanistDetail(
 
     const relatedStatusEffectButtons =
         document.querySelectorAll(
-            ".related-status-effect-button"
+            ".related-status-effect-card"
         );
 
 
@@ -700,44 +700,94 @@ function renderPortray(portray) {
 function renderRelatedStatusEffects(
     statusEffects
 ) {
-
     if (
         !statusEffects ||
         statusEffects.length === 0
     ) {
 
         return `
-            <p class="detail-empty">
-                No related Status Effects.
-            </p>
+            <div class="detail-empty-block">
+
+                <p class="detail-empty">
+                    No related Status Effects.
+                </p>
+
+            </div>
         `;
 
     }
 
-
     return `
-        <div class="related-item-list">
+        <div class="related-status-effect-grid">
 
             ${statusEffects
             .map(statusEffect => `
 
                     <button
                         type="button"
-                        class="related-item-button related-status-effect-button"
+                        class="related-status-effect-card"
                         data-id="${escapeHtml(
                 statusEffect.id
             )}"
                     >
 
-                        <span>
-                            ${escapeHtml(
+                        <div class="related-status-effect-content">
+
+                            <div class="related-status-effect-header">
+
+                                <h3>
+                                    ${escapeHtml(
                 statusEffect.name
             )}
-                        </span>
+                                </h3>
 
-                        <span class="related-item-arrow">
-                            →
-                        </span>
+                                <span
+                                    class="related-item-arrow"
+                                    aria-hidden="true"
+                                >
+                                    →
+                                </span>
+
+                            </div>
+
+
+                            ${statusEffect.description
+                    ? `
+                                        <p class="related-status-effect-description">
+                                            ${escapeHtml(
+                        statusEffect.description
+                    )}
+                                        </p>
+                                    `
+                    : ""
+                }
+
+
+                            ${Array.isArray(
+                    statusEffect.tags
+                ) &&
+                    statusEffect.tags.length > 0
+                    ? `
+                                        <div class="related-status-effect-tags">
+
+                                            ${statusEffect.tags
+                        .slice(0, 3)
+                        .map(tag => `
+                                                    <span class="tag">
+                                                        ${escapeHtml(
+                            tag
+                        )}
+                                                    </span>
+                                                `)
+                        .join("")
+                    }
+
+                                        </div>
+                                    `
+                    : ""
+                }
+
+                        </div>
 
                     </button>
 
