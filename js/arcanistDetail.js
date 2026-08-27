@@ -123,9 +123,70 @@ export function renderArcanistDetail(
                 </div>
             </div>
 
+            <nav
+                class="detail-section-nav"
+                aria-label="Arcanist sections"
+                >
 
-            <section class="detail-section">
+                <button
+                    type="button"
+                    class="detail-section-nav-item active"
+                    data-target="skills-section"
+                >
+                    Skills
+                </button>
 
+
+                <button
+                    type="button"
+                    class="detail-section-nav-item"
+                    data-target="mechanics-section"
+                >
+                    Mechanics
+                </button>
+
+
+                <button
+                    type="button"
+                    class="detail-section-nav-item"
+                    data-target="status-effects-section"
+                >
+                    Status Effects
+                </button>
+
+
+                <button
+                    type="button"
+                    class="detail-section-nav-item"
+                    data-target="portray-section"
+                >
+                    Portray
+                </button>
+
+
+                <button
+                    type="button"
+                    class="detail-section-nav-item"
+                    data-target="tags-section"
+                >
+                    Tags
+                </button>
+
+
+                <button
+                    type="button"
+                    class="detail-section-nav-item"
+                    data-target="notes-section"
+                >
+                    Notes
+                </button>
+
+            </nav>
+
+            <section
+                class="detail-section"
+                id="skills-section"
+            >
                 <div class="detail-section-heading">
 
                     <div>
@@ -142,8 +203,10 @@ export function renderArcanistDetail(
 
             </section>
 
-
-            <section class="detail-section">
+            <section
+                class="detail-section"
+                id="portray-section"
+            >
 
                 <div class="detail-section-heading">
 
@@ -161,8 +224,10 @@ export function renderArcanistDetail(
 
             </section>
 
-
-            <section class="detail-section">
+            <section
+                class="detail-section"
+                id="mechanics-section"
+            >
 
                 <div class="detail-section-heading">
 
@@ -185,7 +250,10 @@ export function renderArcanistDetail(
             </section>
 
 
-            <section class="detail-section">
+            <section
+                class="detail-section"
+                id="status-effects-section"
+            >
 
                 <div class="detail-section-heading">
 
@@ -205,9 +273,10 @@ export function renderArcanistDetail(
 
             </section>
 
-
-            <section class="detail-section">
-
+            <section
+                class="detail-section"
+                id="tags-section"
+            >
                 <div class="detail-section-heading">
 
                     <div>
@@ -232,8 +301,10 @@ export function renderArcanistDetail(
             </section>
 
 
-            <section class="detail-section">
-
+            <section
+                class="detail-section"
+                id="notes-section"
+            >
                 <div class="detail-section-heading">
 
                     <div>
@@ -262,13 +333,6 @@ export function renderArcanistDetail(
         document.getElementById(
             "back-arcanist-button"
         );
-
-
-    backButton.addEventListener(
-        "click",
-        () => onBack()
-    );
-
 
     const editButton =
         document.getElementById(
@@ -324,6 +388,11 @@ export function renderArcanistDetail(
         }
     );
 
+    backButton.addEventListener(
+        "click",
+        () => onBack()
+    );
+
 
     editButton.addEventListener(
         "click",
@@ -368,6 +437,98 @@ export function renderArcanistDetail(
 
                 arcanist
 
+            );
+
+        }
+    );
+
+    const sectionNavItems =
+        document.querySelectorAll(
+            ".detail-section-nav-item"
+        );
+
+
+    const detailSections =
+        document.querySelectorAll(
+            ".detail-section"
+        );
+
+    sectionNavItems.forEach(
+        navItem => {
+
+            navItem.addEventListener(
+                "click",
+                () => {
+
+                    const targetId =
+                        navItem.dataset.target;
+
+
+                    const targetSection =
+                        document.getElementById(
+                            targetId
+                        );
+
+
+                    if (!targetSection) {
+                        return;
+                    }
+
+
+                    targetSection.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                }
+            );
+
+        }
+    );
+
+    const sectionObserver =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        if (
+                            !entry.isIntersecting
+                        ) {
+                            return;
+                        }
+
+
+                        sectionNavItems.forEach(
+                            item => {
+
+                                item.classList.toggle(
+                                    "active",
+                                    item.dataset.target ===
+                                    entry.target.id
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+            },
+            {
+                threshold: 0.25,
+                rootMargin:
+                    "-120px 0px -55% 0px"
+            }
+        );
+
+
+    detailSections.forEach(
+        section => {
+
+            sectionObserver.observe(
+                section
             );
 
         }

@@ -9,6 +9,7 @@
         grid-template-columns:
             150px
             minmax(0, 1fr);
+
         gap: 20px;
     }
 
@@ -43,11 +44,18 @@
 
     .detail-hero {
         grid-template-columns:
-            150px
+            130px
             minmax(0, 1fr);
 
-        gap: 20px;
+        gap: 18px;
     }
+
+
+    .detail-hero-image {
+        width: 130px;
+        height: 210px;
+    }
+
 }
 
 
@@ -119,9 +127,14 @@
     }
 
 
-    .arcanist-gallery-actions {
-        padding:
-            0 14px 14px;
+    .arcanist-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 12px;
     }
 
 
@@ -129,19 +142,21 @@
         padding: 14px;
     }
 
-}
 
-
-@media (max-width: 520px) {
-
-    .arcanist-grid {
-        grid-template-columns: 1fr;
+    .arcanist-gallery-actions {
+        padding:
+            0 14px 14px;
     }
 
 
+    /* Detail hero */
+
     .detail-hero {
         grid-template-columns: 1fr;
+
         gap: 18px;
+
+        padding: 20px;
     }
 
 
@@ -160,12 +175,36 @@
         width: 100%;
     }
 
-    .detail-hero-actions .secondary-button {
+
+    .detail-hero-actions
+    .secondary-button {
         width: 100%;
     }
 
+
     .detail-hero h1 {
         font-size: 30px;
+    }
+
+    .detail-section-nav {
+        position: sticky;
+        top: 12px;
+        margin-bottom: 18px;
+    }
+
+
+    .detail-section-nav-item {
+        padding: 8px 11px;
+        font-size: 11px;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .arcanist-grid {
+        grid-template-columns: 1fr;
     }
 
 
