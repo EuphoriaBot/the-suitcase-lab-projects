@@ -8,9 +8,7 @@
     .detail-hero {
         grid-template-columns:
             150px
-            minmax(0, 1fr)
-            auto;
-
+            minmax(0, 1fr);
         gap: 20px;
     }
 
@@ -47,14 +45,9 @@
         grid-template-columns:
             150px
             minmax(0, 1fr);
+
+        gap: 20px;
     }
-
-
-    .detail-hero-actions {
-        grid-column: 2;
-        justify-content: flex-start;
-    }
-
 }
 
 
@@ -164,15 +157,12 @@
 
 
     .detail-hero-actions {
-        grid-column: auto;
         width: 100%;
     }
 
-
-    .detail-hero-actions .primary-button {
+    .detail-hero-actions .secondary-button {
         width: 100%;
     }
-
 
     .detail-hero h1 {
         font-size: 30px;

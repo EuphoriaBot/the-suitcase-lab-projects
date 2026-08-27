@@ -34,27 +34,7 @@ const pages = {
     "status-effects": {
         title: "Status Effects",
         content: ""
-    },
-
-
-    settings: {
-        title: "Settings",
-
-        content: `
-            <div class="welcome-card">
-
-                <h3>
-                    Settings
-                </h3>
-
-                <p>
-                    Application settings will appear here.
-                </p>
-
-            </div>
-        `
     }
-
 };
 
 

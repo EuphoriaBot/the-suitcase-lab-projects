@@ -36,9 +36,7 @@ export function renderArcanistDetail(
 
 
             <div class="detail-hero">
-
                 <div class="detail-hero-image">
-
                     ${arcanist.image
             ? `
                                 <img
@@ -68,7 +66,6 @@ export function renderArcanistDetail(
 
                 </div>
 
-
                 <div class="detail-hero-content">
 
                     <div class="detail-eyebrow">
@@ -92,6 +89,7 @@ export function renderArcanistDetail(
         )}
                         </span>
 
+
                         <span class="detail-meta-badge">
                             ${escapeHtml(
             arcanist.damageType ||
@@ -111,19 +109,17 @@ export function renderArcanistDetail(
 
                     </div>
 
-                </div>
 
+                    <div class="detail-hero-actions">
 
-                <div class="detail-hero-actions">
-
-                    <button
-                        type="button"
-                        class="primary-button"
-                        id="edit-detail-arcanist-button"
-                    >
-                        Edit Arcanist
-                    </button>
-
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            id="edit-detail-arcanist-button"
+                        >
+                            Edit Arcanist
+                        </button>
+                    </div>
                 </div>
             </div>
 
