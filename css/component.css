@@ -588,7 +588,6 @@
     cursor: default;
 }
 
-
 .dashboard-stat-card-static:hover {
     background: var(--color-card);
     border-color: var(--color-border);
@@ -738,6 +737,45 @@
 .dashboard-recent-main span {
     color: var(--color-text-muted);
     font-size: 11px;
+}
+
+.dashboard-recent-button {
+    width: 100%;
+    border:
+        1px solid
+        var(--color-border);
+    border-radius: 9px;
+    background:
+        #1B2227;
+    color:
+        var(--color-text);
+    font-family:
+        inherit;
+    text-align:
+        left;
+    cursor:
+        pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dashboard-recent-button:hover {
+    background:
+        var(--color-card-hover);
+    border-color:
+        rgba(182, 154, 99, 0.30);
+    transform:
+        translateY(-1px);
+}
+
+.dashboard-recent-button:focus-visible {
+    outline:
+        2px solid
+        var(--color-gold);
+    outline-offset:
+        2px;
 }
 
 .dashboard-recent-arrow {

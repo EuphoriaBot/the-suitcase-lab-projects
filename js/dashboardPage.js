@@ -266,6 +266,18 @@ export function renderDashboard(
         );
 
 
+    const recentArcanistButtons =
+        container.querySelectorAll(
+            ".dashboard-recent-arcanist"
+        );
+
+
+    const recentStatusEffectButtons =
+        container.querySelectorAll(
+            ".dashboard-recent-status-effect"
+        );
+
+
     arcanistsCard.addEventListener(
         "click",
         () => {
@@ -309,6 +321,98 @@ export function renderDashboard(
         }
     );
 
+    recentArcanistButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                async () => {
+
+                    const id =
+                        button.dataset.id;
+
+
+                    const arcanist =
+                        getAllArcanists().find(
+                            item =>
+                                item.id === id
+                        );
+
+
+                    if (!arcanist) {
+                        return;
+                    }
+
+
+                    const {
+                        renderArcanistDetail
+                    } = await import(
+                        "./arcanistDetail.js"
+                    );
+
+
+                    renderArcanistDetail(
+                        container,
+                        arcanist,
+                        () => {
+                            renderDashboard(
+                                container
+                            );
+                        }
+                    );
+
+                }
+            );
+
+        }
+    );
+
+    recentStatusEffectButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                async () => {
+
+                    const id =
+                        button.dataset.id;
+
+
+                    const statusEffect =
+                        getAllStatusEffects().find(
+                            item =>
+                                item.id === id
+                        );
+
+
+                    if (!statusEffect) {
+                        return;
+                    }
+
+
+                    const {
+                        renderStatusEffectDetail
+                    } = await import(
+                        "./statusEffectDetail.js"
+                    );
+
+
+                    renderStatusEffectDetail(
+                        container,
+                        statusEffect,
+                        () => {
+                            renderDashboard(
+                                container
+                            );
+                        }
+                    );
+
+                }
+            );
+
+        }
+    );
+
 }
 
 
@@ -340,7 +444,13 @@ function renderRecentArcanists(
     return arcanists
         .map(arcanist => `
 
-            <div class="dashboard-recent-item">
+            <button
+                type="button"
+                class="dashboard-recent-item dashboard-recent-button dashboard-recent-arcanist"
+                data-id="${escapeHtml(
+            arcanist.id
+        )}"
+            >
 
                 <div class="dashboard-recent-main">
 
@@ -374,11 +484,10 @@ function renderRecentArcanists(
                     →
                 </span>
 
-            </div>
+            </button>
 
         `)
         .join("");
-
 }
 
 
@@ -410,7 +519,13 @@ function renderRecentStatusEffects(
     return statusEffects
         .map(statusEffect => `
 
-            <div class="dashboard-recent-item">
+            <button
+                type="button"
+                class="dashboard-recent-item dashboard-recent-button dashboard-recent-status-effect"
+                data-id="${escapeHtml(
+            statusEffect.id
+        )}"
+            >
 
                 <div class="dashboard-recent-main">
 
@@ -439,11 +554,10 @@ function renderRecentStatusEffects(
                     →
                 </span>
 
-            </div>
+            </button>
 
         `)
         .join("");
-
 }
 
 function countSkills(
