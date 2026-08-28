@@ -50,9 +50,9 @@ export function renderArcanistForm(
 
 
             <form
-    id="arcanist-form"
-    class="app-form"
->
+                id="arcanist-form"
+                class="app-form"
+            >
 
                 <!-- Basic Information -->
 
