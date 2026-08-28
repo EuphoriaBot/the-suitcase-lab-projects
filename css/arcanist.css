@@ -1,81 +1,3 @@
-.arcanist-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.arcanist-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 24px;
-    padding: 22px 24px;
-    background: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: 14px;
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.arcanist-card:hover {
-    background: var(--color-card-hover);
-    border-color: rgba(182, 154, 99, 0.35);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
-}
-
-.arcanist-card-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.arcanist-card-header {
-    margin-bottom: 10px;
-}
-
-.arcanist-card-header h2 {
-    margin: 0 0 6px;
-    line-height: 1.25;
-}
-
-.arcanist-meta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 0;
-    color: var(--color-text-muted);
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.arcanist-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin-top: 14px;
-}
-
-.arcanist-name-button {
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: var(--color-text);
-    font: inherit;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: left;
-    transition: color 0.2s ease;
-}
-
-.arcanist-name-button:hover {
-    color: var(--color-gold);
-}
-
 .detail-hero {
     display: grid;
     grid-template-columns:
@@ -359,33 +281,6 @@
     text-transform: uppercase;
 }
 
-.arcanist-card-stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin-top: 16px;
-}
-
-.arcanist-card-stats span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 28px;
-    padding: 5px 9px;
-    border: 1px solid var(--color-border);
-    border-radius: 7px;
-    background: rgba(255, 255, 255, 0.025);
-    color: var(--color-text-muted);
-    font-size: 11px;
-    line-height: 1;
-}
-
-.arcanist-card-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
 .arcanist-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -418,15 +313,7 @@
 }
 
 .arcanist-card-main {
-    display: block;
     width: 100%;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-family: inherit;
-    text-align: left;
-    cursor: pointer;
 }
 
 .arcanist-image-container {
@@ -503,22 +390,6 @@
     flex-wrap: wrap;
     gap: 6px;
     margin-top: 11px;
-}
-
-.arcanist-gallery-stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 14px;
-}
-
-.arcanist-gallery-stats span {
-    padding: 5px 8px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.02);
-    color: var(--color-text-muted);
-    font-size: 10px;
 }
 
 .arcanist-gallery-actions {
