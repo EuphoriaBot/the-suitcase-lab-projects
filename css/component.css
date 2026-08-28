@@ -134,7 +134,7 @@
     margin: 0 auto;
 }
 
-.arcanist-form {
+.app-form {
     display: flex;
     flex-direction: column;
     gap: 20px;

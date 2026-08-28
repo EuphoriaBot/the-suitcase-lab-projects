@@ -51,7 +51,7 @@ export function renderStatusEffectForm(
 
             <form
                 id="status-effect-form"
-                class="arcanist-form"
+                class="app-form"
             >
 
                 <!-- Basic Information -->
