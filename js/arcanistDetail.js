@@ -638,56 +638,81 @@ function renderPortray(portray) {
     ) {
 
         return `
-            <p class="detail-empty">
-                No Portray information available.
-            </p>
+            <div class="detail-empty-block">
+
+                <p class="detail-empty">
+                    No Portray information available.
+                </p>
+
+            </div>
         `;
 
     }
 
 
     return `
-        <div class="detail-repeatable-list">
+        <div class="detail-repeatable-list portray-list">
 
             ${portray
-            .map(item => `
+            .map(
+                item => {
 
-                    <article
-                        class="detail-repeatable-item portray-detail-card"
-                    >
-
-                        <div class="detail-repeatable-header">
-
-                            <div class="detail-item-title">
-
-                                <span class="portray-level">
-                                    P${escapeHtml(
-                item.level
-            )}
-                                </span>
-
-                                <h3>
-                                    Portray ${escapeHtml(
-                item.level
-            )}
-                                </h3>
-
-                            </div>
-
-                        </div>
+                    const level =
+                        item.level ?? "?";
 
 
-                        <div class="detail-text">
+                    return `
 
-                            ${formatText(
-                item.description
-            )}
+                            <article
+                                class="detail-repeatable-item portray-detail-card"
+                            >
 
-                        </div>
+                                <div class="portray-detail-header">
 
-                    </article>
+                                    <div class="portray-detail-title">
 
-                `)
+                                        <span
+                                            class="portray-level"
+                                        >
+                                            P${escapeHtml(
+                        level
+                    )}
+                                        </span>
+
+
+                                        <div>
+
+                                            <h3>
+                                                Portray ${escapeHtml(
+                        level
+                    )}
+                                            </h3>
+
+                                            <p>
+                                                Upgrade effect
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="portray-detail-description">
+
+                                    ${formatText(
+                        item.description
+                    )}
+
+                                </div>
+
+                            </article>
+
+                        `;
+
+                }
+            )
             .join("")
         }
 
@@ -695,7 +720,6 @@ function renderPortray(portray) {
     `;
 
 }
-
 
 function renderRelatedStatusEffects(
     statusEffects

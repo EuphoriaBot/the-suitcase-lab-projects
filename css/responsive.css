@@ -211,6 +211,10 @@
     .related-status-effect-grid {
         grid-template-columns: 1fr;
     }
+
+    .portray-detail-description {
+        padding-left: 0;
+    }
 }
 
 
