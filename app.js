@@ -1,12 +1,20 @@
 import { renderArcanistsPage } from "./js/arcanistPage.js";
 import { renderStatusEffectsPage } from "./js/statusEffectsPage.js";
 import { renderDashboard } from "./js/dashboardPage.js";
+import {
+    setupGlobalSearch
+} from "./js/search.js";
 
 const pageContent =
     document.getElementById("page-content");
 
 const navItems =
     document.querySelectorAll(".nav-item");
+
+const globalSearch =
+    document.getElementById(
+        "global-search"
+    );
 
 const pages = {
 
@@ -182,6 +190,10 @@ function escapeHtml(value) {
 
 }
 
+setupGlobalSearch(
+    globalSearch,
+    pageContent
+);
 
 navigateTo(
     getCurrentPage()

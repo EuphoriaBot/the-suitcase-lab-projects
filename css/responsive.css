@@ -4,7 +4,6 @@
         max-width: 100%;
     }
 
-
     .detail-hero {
         grid-template-columns:
             150px
@@ -13,12 +12,10 @@
         gap: 20px;
     }
 
-
     .detail-hero-image {
         width: 150px;
         height: 220px;
     }
-
 
     .arcanist-grid {
         grid-template-columns:
@@ -31,7 +28,6 @@
 }
 
 @media (max-width: 900px) {
-
     .dashboard-stats {
         grid-template-columns:
             repeat(
@@ -42,9 +38,7 @@
 
 }
 
-
 @media (max-width: 800px) {
-
     .arcanist-grid {
         grid-template-columns:
             repeat(
@@ -52,7 +46,6 @@
                 minmax(0, 1fr)
             );
     }
-
 
     .detail-hero {
         grid-template-columns:
@@ -62,82 +55,81 @@
         gap: 18px;
     }
 
-
     .detail-hero-image {
         width: 130px;
         height: 210px;
     }
-
 }
 
-
 @media (max-width: 700px) {
+    .page-content {
+        padding: 20px;
+    }
+
+    .topbar {
+        height: auto;
+
+        min-height: 72px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        justify-content: center;
+
+        gap: 12px;
+
+        padding: 14px 20px;
+    }
+
+    .topbar > div:first-child {
+        min-width: 0;
+    }
+
+    .topbar h2 {
+        font-size: 17px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-shortcut {
+        display: none;
+    }
 
     .form-row {
         grid-template-columns: 1fr;
     }
 
-
-    .page-content {
-        padding: 20px;
+    .search-results-page {
+        max-width: 100%;
     }
 
-
-    .topbar {
-        padding: 0 20px;
+    .search-results-section {
+        padding: 18px;
     }
-
-
-    .search-box {
-        width: 200px;
-    }
-
 
     .dashboard-stats,
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
 
-
     .dashboard-hero {
         padding: 24px;
     }
-
 
     .dashboard-hero h1 {
         font-size: 26px;
     }
 
-
     .dashboard-panel-header {
         flex-direction: column;
     }
 
-
     .dashboard-view-button {
         width: 100%;
     }
-
-
-    .status-effect-card {
-        align-items: stretch;
-    }
-
-
-    .status-effect-card-content {
-        flex: 1;
-    }
-
-
-    .status-effect-summary {
-        max-width: 850px;
-    }
-
-
-    .status-effect-card-stats {
-        gap: 6px;
-    }
-
 
     .arcanist-grid {
         grid-template-columns:
@@ -149,11 +141,9 @@
         gap: 12px;
     }
 
-
     .arcanist-gallery-info {
         padding: 14px;
     }
-
 
     .arcanist-gallery-actions {
         padding:
@@ -168,28 +158,23 @@
         padding: 20px;
     }
 
-
     .detail-hero-image {
         width: 100%;
         height: 280px;
     }
 
-
     .detail-hero-content {
         width: 100%;
     }
-
 
     .detail-hero-actions {
         width: 100%;
     }
 
-
     .detail-hero-actions
     .secondary-button {
         width: 100%;
     }
-
 
     .detail-hero h1 {
         font-size: 30px;
@@ -197,18 +182,21 @@
 
     .detail-section-nav {
         position: sticky;
+
         top: 12px;
+
         margin-bottom: 18px;
     }
 
-
     .detail-section-nav-item {
         padding: 8px 11px;
+
         font-size: 11px;
     }
 
     .skill-detail-header {
         flex-direction: column;
+
         gap: 10px;
     }
 
@@ -220,42 +208,22 @@
         padding-left: 0;
     }
 
-    .related-status-effect-grid {
-        grid-template-columns: 1fr;
-    }
-
     .portray-detail-description {
         padding-left: 0;
     }
 
-    #notes-section .detail-note {
-        padding:
-            16px;
-    }
-
-
-    #tags-section .detail-tags {
-        gap: 6px;
-    }
-
-
-    #tags-section .tag {
-        padding:
-            6px 9px;
-
-        font-size: 10px;
+    .related-status-effect-grid {
+        grid-template-columns: 1fr;
     }
 
     .status-effect-detail-hero {
         min-height: auto;
     }
 
-
     .status-effect-detail-hero
     .detail-hero-actions {
         width: 100%;
     }
-
 
     .status-effect-detail-hero
     .detail-hero-actions
@@ -263,11 +231,9 @@
         width: 100%;
     }
 
-
     .related-arcanist-button {
         width: 100%;
     }
-
 
     .status-effect-tags-section
     .detail-tags {
@@ -286,15 +252,13 @@
     .detail-note {
         padding: 16px;
     }
+
 }
 
-
 @media (max-width: 520px) {
-
     .arcanist-grid {
         grid-template-columns: 1fr;
     }
-
 
     .arcanist-image-container {
         height: 210px;
