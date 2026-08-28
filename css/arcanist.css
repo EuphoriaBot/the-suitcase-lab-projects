@@ -791,3 +791,45 @@
     color:
         var(--color-gold);
 }
+
+#tags-section .detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#tags-section .tag {
+    padding: 7px 11px;
+    border-radius: 7px;
+    background:
+        rgba(113, 138, 135, 0.10);
+    border:
+        1px solid
+        rgba(113, 138, 135, 0.24);
+    color:
+        #A6B8B5;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+#notes-section .detail-note {
+    padding: 18px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(182, 154, 99, 0.055),
+            rgba(27, 34, 39, 0.98)
+        );
+    border:
+        1px solid
+        rgba(182, 154, 99, 0.18);
+    border-radius: 10px;
+}
+
+#notes-section .detail-note .detail-text {
+    color:
+        var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 1.75;
+}

@@ -215,6 +215,24 @@
     .portray-detail-description {
         padding-left: 0;
     }
+
+    #notes-section .detail-note {
+        padding:
+            16px;
+    }
+
+
+    #tags-section .detail-tags {
+        gap: 6px;
+    }
+
+
+    #tags-section .tag {
+        padding:
+            6px 9px;
+
+        font-size: 10px;
+    }
 }
 
 
