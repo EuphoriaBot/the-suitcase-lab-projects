@@ -111,6 +111,48 @@ export function renderDashboard(
 
                 </button>
 
+
+                <div class="dashboard-stat-card dashboard-stat-card-static">
+
+                    <div class="dashboard-stat-icon">
+                        ✦
+                    </div>
+
+                    <div class="dashboard-stat-content">
+
+                        <span class="dashboard-stat-label">
+                            Skills Recorded
+                        </span>
+
+                        <strong>
+                            ${countSkills(arcanists)}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-stat-card dashboard-stat-card-static">
+
+                    <div class="dashboard-stat-icon">
+                        P
+                    </div>
+
+                    <div class="dashboard-stat-content">
+
+                        <span class="dashboard-stat-label">
+                            Portray Entries
+                        </span>
+
+                        <strong>
+                            ${countPortray(arcanists)}
+                        </strong>
+
+                    </div>
+
+                </div>
+
             </section>
 
 
@@ -404,6 +446,62 @@ function renderRecentStatusEffects(
 
 }
 
+function countSkills(
+    arcanists
+) {
+
+    return arcanists.reduce(
+        (
+            total,
+            arcanist
+        ) => {
+
+            if (
+                !Array.isArray(
+                    arcanist.skills
+                )
+            ) {
+                return total;
+            }
+
+            return (
+                total +
+                arcanist.skills.length
+            );
+
+        },
+        0
+    );
+}
+
+function countPortray(
+    arcanists
+) {
+
+    return arcanists.reduce(
+        (
+            total,
+            arcanist
+        ) => {
+
+            if (
+                !Array.isArray(
+                    arcanist.portray
+                )
+            ) {
+                return total;
+            }
+
+            return (
+                total +
+                arcanist.portray.length
+            );
+
+        },
+        0
+    );
+
+}
 
 function escapeHtml(
     value
