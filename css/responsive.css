@@ -233,6 +233,49 @@
 
         font-size: 10px;
     }
+
+    .status-effect-detail-hero {
+        min-height: auto;
+    }
+
+
+    .status-effect-detail-hero
+    .detail-hero-actions {
+        width: 100%;
+    }
+
+
+    .status-effect-detail-hero
+    .detail-hero-actions
+    .secondary-button {
+        width: 100%;
+    }
+
+
+    .related-arcanist-button {
+        width: 100%;
+    }
+
+
+    .status-effect-tags-section
+    .detail-tags {
+        gap: 6px;
+    }
+
+
+    .status-effect-tags-section
+    .tag {
+        padding:
+            6px 9px;
+
+        font-size: 10px;
+    }
+
+
+    .status-effect-notes-section
+    .detail-note {
+        padding: 16px;
+    }
 }
 
 

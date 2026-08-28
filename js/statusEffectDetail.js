@@ -35,7 +35,7 @@ export function renderStatusEffectDetail(
             </div>
 
 
-            <div class="detail-hero">
+            <div class="detail-hero status-effect-detail-hero">
 
                 <div class="detail-hero-content">
 
@@ -43,20 +43,21 @@ export function renderStatusEffectDetail(
                         STATUS EFFECT
                     </div>
 
+
                     <h1>
                         ${escapeHtml(
         statusEffect.name
     )}
                     </h1>
 
+
                     <div class="status-effect-summary-badges">
 
                         <span class="detail-info-badge">
 
-                            Duration:
                             ${escapeHtml(
         statusEffect.duration ||
-        "Not specified"
+        "Duration not specified"
     )}
 
                         </span>
@@ -81,17 +82,21 @@ export function renderStatusEffectDetail(
                 </div>
 
 
-                <button
-                    class="primary-button"
-                    id="edit-detail-status-effect-button"
-                >
-                    Edit Status Effect
-                </button>
+                <div class="detail-hero-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="edit-detail-status-effect-button"
+                    >
+                        Edit Status Effect
+                    </button>
+
+                </div>
 
             </div>
 
-
-            <section class="detail-section">
+            <section class="detail-section status-effect-primary-section">
 
                 <div class="detail-section-heading">
 
@@ -119,7 +124,7 @@ export function renderStatusEffectDetail(
             </section>
 
 
-            <section class="detail-section">
+            <section class="detail-section status-effect-primary-section">
 
                 <div class="detail-section-heading">
 
@@ -172,7 +177,7 @@ export function renderStatusEffectDetail(
             </section>
 
 
-            <section class="detail-section">
+            <section class="detail-section status-effect-tags-section">
 
                 <div class="detail-section-heading">
 
@@ -201,7 +206,7 @@ export function renderStatusEffectDetail(
             </section>
 
 
-            <section class="detail-section">
+            <section class="detail-section status-effect-notes-section">
 
                 <div class="detail-section-heading">
 

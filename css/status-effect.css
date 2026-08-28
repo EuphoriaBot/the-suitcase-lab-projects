@@ -119,3 +119,98 @@
     border-color: rgba(182, 154, 99, 0.35);
     background: rgba(182, 154, 99, 0.10);
 }
+
+.status-effect-detail-hero {
+    min-height: 190px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(169, 107, 80, 0.08),
+            rgba(36, 44, 50, 0.97) 58%
+        );
+}
+
+.status-effect-detail-hero
+.detail-hero-content {
+    min-width: 0;
+}
+
+.status-effect-detail-hero
+.detail-hero-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.status-effect-primary-section
+.detail-note {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(113, 138, 135, 0.045),
+            rgba(27, 34, 39, 0.98)
+        );
+    border-color:
+        rgba(113, 138, 135, 0.18);
+}
+
+.status-effect-primary-section
+.detail-text {
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+.status-effect-detail-hero
+.status-effect-summary-badges {
+    margin-top: 4px;
+}
+
+.status-effect-detail-hero
+.detail-info-badge {
+    min-height: 30px;
+}
+
+.related-arcanist-button {
+    min-width: 150px;
+}
+
+.status-effect-tags-section .detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.status-effect-tags-section .tag {
+    padding: 7px 11px;
+    border-radius: 7px;
+    background:
+        rgba(113, 138, 135, 0.10);
+    border:
+        1px solid
+        rgba(113, 138, 135, 0.24);
+    color:
+        #A6B8B5;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-effect-notes-section .detail-note {
+    padding: 18px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(182, 154, 99, 0.055),
+            rgba(27, 34, 39, 0.98)
+        );
+    border:
+        1px solid
+        rgba(182, 154, 99, 0.18);
+}
+
+.status-effect-notes-section
+.detail-note
+.detail-text {
+    font-size: 13px;
+    line-height: 1.75;
+}
