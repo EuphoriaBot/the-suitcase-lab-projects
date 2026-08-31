@@ -264,4 +264,42 @@
         height: 210px;
     }
 
+    .confirmation-overlay {
+        padding: 16px;
+    }
+
+
+    .confirmation-modal {
+        padding: 20px;
+    }
+
+
+    .confirmation-actions {
+        flex-direction: column-reverse;
+    }
+
+
+    .confirmation-actions button {
+        width: 100%;
+    }
+
+    .status-effect-card {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 14px;
+    }
+
+
+    .status-effect-card-actions {
+        width: 100%;
+    }
+
+
+    .status-effect-card-actions
+    .delete-status-effect-button {
+        width: 100%;
+    }
+
 }

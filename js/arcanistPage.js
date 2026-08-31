@@ -6,6 +6,10 @@ import {
     deleteArcanist
 } from "./arcanistService.js";
 
+import {
+    showDeleteConfirmation
+} from "./ui.js";
+
 
 export function renderArcanistsPage(
     container
@@ -463,25 +467,17 @@ function renderArcanistList(
                         return;
                     }
 
+                    showDeleteConfirmation(
+                        "Delete Arcanist?",
+                        arcanist.name,
+                        () => {
+                            deleteArcanist(id);
 
-                    const confirmed =
-                        window.confirm(
-                            `Delete "${arcanist.name}"?`
-                        );
-
-
-                    if (!confirmed) {
-                        return;
-                    }
-
-
-                    deleteArcanist(id);
-
-
-                    renderArcanistsPage(
-                        container
+                            renderArcanistsPage(
+                                container
+                            );
+                        }
                     );
-
                 }
             );
 

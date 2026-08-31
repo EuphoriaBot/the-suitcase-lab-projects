@@ -1,5 +1,5 @@
 import {
-    getAllStatusEffects
+    getAllStatusEffects, deleteStatusEffect
 } from "./statusEffectService.js";
 
 import {
@@ -9,6 +9,10 @@ import {
 import {
     renderStatusEffectDetail
 } from "./statusEffectDetail.js";
+
+import {
+    showDeleteConfirmation
+} from "./ui.js";
 
 
 export function renderStatusEffectsPage(
@@ -334,6 +338,20 @@ function renderStatusEffectList(
 
                         </div>
 
+                        <div class="status-effect-card-actions">
+
+                            <button
+                                type="button"
+                                class="danger-button delete-status-effect-button"
+                                data-id="${escapeHtml(
+                        statusEffect.id
+                    )}"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
                     </article>
 
                 `;
@@ -345,6 +363,11 @@ function renderStatusEffectList(
     const nameButtons =
         listContainer.querySelectorAll(
             ".status-effect-name-button"
+        );
+
+    const deleteButtons =
+        listContainer.querySelectorAll(
+            ".delete-status-effect-button"
         );
 
 
@@ -378,6 +401,51 @@ function renderStatusEffectList(
                             renderStatusEffectsPage(
                                 container
                             );
+                        }
+                    );
+                }
+            );
+
+        }
+    );
+
+    deleteButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        button.dataset.id;
+
+
+                    const statusEffect =
+                        getAllStatusEffects().find(
+                            item =>
+                                item.id === id
+                        );
+
+
+                    if (!statusEffect) {
+                        return;
+                    }
+
+
+                    showDeleteConfirmation(
+                        "Delete Status Effect?",
+                        statusEffect.name,
+                        () => {
+
+                            deleteStatusEffect(
+                                id
+                            );
+
+
+                            renderStatusEffectsPage(
+                                container
+                            );
+
                         }
                     );
 

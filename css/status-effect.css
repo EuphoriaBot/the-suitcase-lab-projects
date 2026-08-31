@@ -214,3 +214,14 @@
     font-size: 13px;
     line-height: 1.75;
 }
+
+.status-effect-card-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.status-effect-card-actions
+.delete-status-effect-button {
+    white-space: nowrap;
+}
