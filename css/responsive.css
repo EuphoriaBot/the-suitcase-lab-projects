@@ -302,4 +302,14 @@
         width: 100%;
     }
 
+    .toast {
+        right: 16px;
+        bottom: 16px;
+
+        left: 16px;
+
+        min-width: 0;
+        max-width: none;
+    }
+
 }

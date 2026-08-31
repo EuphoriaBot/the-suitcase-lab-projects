@@ -144,6 +144,94 @@ export function showDeleteConfirmation(
 
 }
 
+export function showToast(
+    message,
+    type = "success"
+) {
+
+    const toast =
+        document.createElement("div");
+
+    toast.className =
+        `toast toast-${type}`;
+
+    toast.setAttribute(
+        "role",
+        "status"
+    );
+
+    toast.innerHTML = `
+
+        <span class="toast-icon">
+            ${type === "success" ? "✓" : "!"}
+        </span>
+
+        <span class="toast-message">
+            ${escapeHtml(message)}
+        </span>
+
+    `;
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    requestAnimationFrame(
+        () => {
+            toast.classList.add(
+                "show"
+            );
+        }
+    );
+
+
+    const timeoutId =
+        window.setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+
+                window.setTimeout(
+                    () => {
+                        toast.remove();
+                    },
+                    200
+                );
+
+            },
+            3000
+        );
+
+
+    toast.addEventListener(
+        "click",
+        () => {
+
+            window.clearTimeout(
+                timeoutId
+            );
+
+            toast.classList.remove(
+                "show"
+            );
+
+
+            window.setTimeout(
+                () => {
+                    toast.remove();
+                },
+                200
+            );
+
+        }
+    );
+
+}
+
 
 function escapeHtml(
     value

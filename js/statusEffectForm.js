@@ -7,6 +7,9 @@ import {
     getAllArcanists
 } from "./arcanistService.js";
 
+import {
+    showToast
+} from "./ui.js";
 
 export function renderStatusEffectForm(
     container,
@@ -381,13 +384,29 @@ export function renderStatusEffectForm(
 
 
                 if (!updatedStatusEffect) {
+
+                    showToast(
+                        "Unable to update Status Effect.",
+                        "error"
+                    );
+
                     return;
                 }
+
+
+                showToast(
+                    "Status Effect updated successfully."
+                );
 
             } else {
 
                 createStatusEffect(
                     statusEffectData
+                );
+
+
+                showToast(
+                    "Status Effect added successfully."
                 );
 
             }
