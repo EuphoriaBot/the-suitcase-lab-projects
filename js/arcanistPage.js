@@ -10,6 +10,11 @@ import {
     showDeleteConfirmation
 } from "./ui.js";
 
+import {
+    showDeleteConfirmation,
+    showToast
+} from "./ui.js";
+
 
 export function renderArcanistsPage(
     container
@@ -471,11 +476,17 @@ function renderArcanistList(
                         "Delete Arcanist?",
                         arcanist.name,
                         () => {
+
                             deleteArcanist(id);
+
+                            showToast(
+                                "Arcanist deleted successfully."
+                            );
 
                             renderArcanistsPage(
                                 container
                             );
+
                         }
                     );
                 }

@@ -149,6 +149,17 @@ export function showToast(
     type = "success"
 ) {
 
+    const existingToast =
+        document.querySelector(
+            ".toast"
+        );
+
+
+    if (existingToast) {
+        existingToast.remove();
+    }
+
+
     const toast =
         document.createElement("div");
 
@@ -160,9 +171,18 @@ export function showToast(
         "status"
     );
 
+    toast.setAttribute(
+        "aria-live",
+        "polite"
+    );
+
+
     toast.innerHTML = `
 
-        <span class="toast-icon">
+        <span
+            class="toast-icon"
+            aria-hidden="true"
+        >
             ${type === "success" ? "✓" : "!"}
         </span>
 
@@ -172,6 +192,7 @@ export function showToast(
 
     `;
 
+
     document.body.appendChild(
         toast
     );
@@ -179,9 +200,11 @@ export function showToast(
 
     requestAnimationFrame(
         () => {
+
             toast.classList.add(
                 "show"
             );
+
         }
     );
 
@@ -190,16 +213,8 @@ export function showToast(
         window.setTimeout(
             () => {
 
-                toast.classList.remove(
-                    "show"
-                );
-
-
-                window.setTimeout(
-                    () => {
-                        toast.remove();
-                    },
-                    200
+                removeToast(
+                    toast
                 );
 
             },
@@ -215,19 +230,36 @@ export function showToast(
                 timeoutId
             );
 
-            toast.classList.remove(
-                "show"
-            );
-
-
-            window.setTimeout(
-                () => {
-                    toast.remove();
-                },
-                200
+            removeToast(
+                toast
             );
 
         }
+    );
+
+}
+
+function removeToast(
+    toast
+) {
+
+    if (!toast.isConnected) {
+        return;
+    }
+
+
+    toast.classList.remove(
+        "show"
+    );
+
+
+    window.setTimeout(
+        () => {
+
+            toast.remove();
+
+        },
+        200
     );
 
 }

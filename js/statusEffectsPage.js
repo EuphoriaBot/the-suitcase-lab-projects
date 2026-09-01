@@ -14,6 +14,10 @@ import {
     showDeleteConfirmation
 } from "./ui.js";
 
+import {
+    showDeleteConfirmation,
+    showToast
+} from "./ui.js";
 
 export function renderStatusEffectsPage(
     container
@@ -439,6 +443,11 @@ function renderStatusEffectList(
 
                             deleteStatusEffect(
                                 id
+                            );
+
+
+                            showToast(
+                                "Status Effect deleted successfully."
                             );
 
 
