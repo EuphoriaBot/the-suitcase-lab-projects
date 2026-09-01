@@ -11,10 +11,6 @@ import {
 } from "./statusEffectDetail.js";
 
 import {
-    showDeleteConfirmation
-} from "./ui.js";
-
-import {
     showDeleteConfirmation,
     showToast
 } from "./ui.js";

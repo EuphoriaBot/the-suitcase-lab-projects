@@ -7,14 +7,9 @@ import {
 } from "./arcanistService.js";
 
 import {
-    showDeleteConfirmation
-} from "./ui.js";
-
-import {
     showDeleteConfirmation,
     showToast
 } from "./ui.js";
-
 
 export function renderArcanistsPage(
     container
