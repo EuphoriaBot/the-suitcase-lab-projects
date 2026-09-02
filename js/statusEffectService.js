@@ -1,8 +1,9 @@
 import {
     getStatusEffects,
-    saveStatusEffects
+    saveStatusEffects,
+    getArcanists,
+    saveArcanists
 } from "./storage.js";
-
 
 export function getAllStatusEffects() {
     return getStatusEffects();
@@ -61,15 +62,47 @@ export function deleteStatusEffect(id) {
     const statusEffects =
         getStatusEffects();
 
+
     const filteredStatusEffects =
         statusEffects.filter(
             statusEffect =>
                 statusEffect.id !== id
         );
 
+
     saveStatusEffects(
         filteredStatusEffects
     );
 
+
+    const arcanists =
+        getArcanists();
+
+
+    const cleanedArcanists =
+        arcanists.map(
+            arcanist => ({
+
+                ...arcanist,
+
+                relatedStatusEffects:
+                    (
+                        arcanist.relatedStatusEffects ||
+                        []
+                    ).filter(
+                        statusEffectId =>
+                            statusEffectId !== id
+                    )
+
+            })
+        );
+
+
+    saveArcanists(
+        cleanedArcanists
+    );
+
+
     return filteredStatusEffects;
+
 }

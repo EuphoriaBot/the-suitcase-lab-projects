@@ -404,22 +404,29 @@
 }
 
 .detail-section-nav {
-    position: sticky;
-    top: 82px;
-    z-index: 10;
     display: flex;
+
     align-items: center;
+
     gap: 4px;
+
     margin-bottom: 24px;
+
     padding: 6px;
+
     overflow-x: auto;
+
     background:
         rgba(30, 37, 43, 0.94);
 
     border:
-        1px solid var(--color-border);
+        1px solid
+        var(--color-border);
+
     border-radius: 11px;
-    backdrop-filter: blur(10px);
+
+    backdrop-filter:
+        blur(10px);
 }
 
 .detail-section-nav::-webkit-scrollbar {

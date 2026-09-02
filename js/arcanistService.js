@@ -1,6 +1,8 @@
 import {
     getArcanists,
-    saveArcanists
+    saveArcanists,
+    getStatusEffects,
+    saveStatusEffects
 } from "./storage.js";
 
 
@@ -47,15 +49,52 @@ export function updateArcanist(id, updatedData) {
     return arcanists[index];
 }
 
-
 export function deleteArcanist(id) {
-    const arcanists = getArcanists();
 
-    const filteredArcanists = arcanists.filter(
-        arcanist => arcanist.id !== id
+    const arcanists =
+        getArcanists();
+
+
+    const filteredArcanists =
+        arcanists.filter(
+            arcanist =>
+                arcanist.id !== id
+        );
+
+
+    saveArcanists(
+        filteredArcanists
     );
 
-    saveArcanists(filteredArcanists);
+
+    const statusEffects =
+        getStatusEffects();
+
+
+    const cleanedStatusEffects =
+        statusEffects.map(
+            statusEffect => ({
+
+                ...statusEffect,
+
+                relatedArcanists:
+                    (
+                        statusEffect.relatedArcanists ||
+                        []
+                    ).filter(
+                        arcanistId =>
+                            arcanistId !== id
+                    )
+
+            })
+        );
+
+
+    saveStatusEffects(
+        cleanedStatusEffects
+    );
+
 
     return filteredArcanists;
+
 }
