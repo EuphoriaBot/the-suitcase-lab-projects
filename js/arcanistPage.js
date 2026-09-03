@@ -302,6 +302,10 @@ function renderArcanistList(
         `)
             .join("");
 
+    setupImageFallback(
+        listContainer
+    );
+
     const editButtons =
         listContainer.querySelectorAll(
             ".edit-arcanist-button"
@@ -492,6 +496,61 @@ function renderArcanistList(
 
 }
 
+function setupImageFallback(
+    container
+) {
+
+    const images =
+        container.querySelectorAll(
+            ".arcanist-card-image"
+        );
+
+
+    images.forEach(
+        image => {
+
+            image.addEventListener(
+                "error",
+                () => {
+
+                    const imageContainer =
+                        image.closest(
+                            ".arcanist-image-container"
+                        );
+
+
+                    if (!imageContainer) {
+                        return;
+                    }
+
+
+                    const name =
+                        image.alt || "";
+
+
+                    imageContainer.innerHTML = `
+
+                        <div
+                            class="arcanist-image-placeholder"
+                        >
+
+                            <span>
+                                ${escapeHtml(
+                        getInitials(name)
+                    )}
+                            </span>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+    );
+
+}
 
 function matchesArcanistSearch(
     arcanist,
