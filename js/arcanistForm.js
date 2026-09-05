@@ -164,6 +164,76 @@ export function renderArcanistForm(
 
                 </section>
 
+                <!-- Appearance -->
+
+                <section class="form-section">
+
+                    <div class="form-section-heading">
+
+                        <div>
+
+                            <h2>Appearance</h2>
+
+                            <p>
+                                Add the character image used in the Arcanist gallery and detail page.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="arcanist-image">
+                            Image Path
+                        </label>
+
+                        <input
+                            type="text"
+                            id="arcanist-image"
+                            name="image"
+                            placeholder="e.g. assets/arcanist/lucy_card.webp"
+                            value="${escapeHtml(
+            existingArcanist?.image ?? ""
+        )}"
+                        >
+
+                        <small>
+                            Enter the path to an image inside your project.
+                        </small>
+
+                    </div>
+
+
+                    <div
+                        id="arcanist-image-preview"
+                        class="arcanist-form-image-preview"
+                    >
+
+                        ${existingArcanist?.image
+            ? `
+                                    <img
+                                        src="${escapeHtml(
+                existingArcanist.image
+            )}"
+                                        alt="${escapeHtml(
+                existingArcanist.name || "Arcanist"
+            )}"
+                                        class="arcanist-form-preview-image"
+                                    >
+                                `
+            : `
+                                    <div class="arcanist-form-preview-empty">
+                                        <span>No image preview</span>
+                                    </div>
+                                `
+        }
+
+                    </div>
+
+                </section>
+
 
                 <!-- Skills -->
 
@@ -432,6 +502,15 @@ export function renderArcanistForm(
             "cancel-arcanist-button"
         );
 
+    const imageInput =
+        document.getElementById(
+            "arcanist-image"
+        );
+
+    const imagePreview =
+        document.getElementById(
+            "arcanist-image-preview"
+        );
 
     renderSkills(
         skillsList,
@@ -444,6 +523,20 @@ export function renderArcanistForm(
         existingArcanist?.portray ?? []
     );
 
+    imageInput.addEventListener(
+        "input",
+        () => {
+
+            updateImagePreview(
+                imagePreview,
+                imageInput.value,
+                form.querySelector(
+                    "#arcanist-name"
+                )?.value
+            );
+
+        }
+    );
 
     addSkillButton.addEventListener(
         "click",
@@ -494,6 +587,12 @@ export function renderArcanistForm(
                     formData
                         .get("name")
                         .trim(),
+
+                image:
+                    formData
+                        .get("image")
+                        .trim(),
+
 
                 afflatus:
                     formData
@@ -1099,6 +1198,76 @@ function getCheckedValues(
     ).map(
         checkbox =>
             checkbox.value
+    );
+
+}
+
+function updateImagePreview(
+    container,
+    imagePath,
+    name
+) {
+
+    const trimmedPath =
+        imagePath.trim();
+
+
+    if (!trimmedPath) {
+
+        container.innerHTML = `
+
+            <div
+                class="arcanist-form-preview-empty"
+            >
+                <span>
+                    No image preview
+                </span>
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = `
+
+        <img
+            src="${escapeHtml(
+        trimmedPath
+    )}"
+            alt="${escapeHtml(
+        name || "Arcanist"
+    )}"
+            class="arcanist-form-preview-image"
+        >
+
+    `;
+
+
+    const image =
+        container.querySelector(
+            ".arcanist-form-preview-image"
+        );
+
+
+    image.addEventListener(
+        "error",
+        () => {
+
+            container.innerHTML = `
+
+                <div
+                    class="arcanist-form-preview-empty is-error"
+                >
+                    <span>
+                        Image could not be loaded.
+                    </span>
+                </div>
+
+            `;
+
+        }
     );
 
 }
