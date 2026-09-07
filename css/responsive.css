@@ -59,6 +59,20 @@
         width: 130px;
         height: 210px;
     }
+
+    .arcanist-image-container {
+        height: 230px;
+    }
+
+    .arcanist-gallery-info {
+        padding:
+            14px 15px 15px;
+    }
+
+    .arcanist-gallery-name {
+        font-size:
+            17px;
+    }
 }
 
 @media (max-width: 700px) {
@@ -301,11 +315,22 @@
     .toast {
         right: 16px;
         bottom: 16px;
-
         left: 16px;
-
         min-width: 0;
         max-width: none;
     }
 
+    .arcanist-image-container {
+        height: 260px;
+    }
+
+    .arcanist-gallery-info {
+        padding:
+            15px 16px 16px;
+    }
+
+    .arcanist-gallery-name {
+        font-size:
+            18px;
+    }
 }

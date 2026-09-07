@@ -196,6 +196,14 @@ function renderArcanistList(
 
                 <div class="arcanist-card-main">
 
+                    <div class="arcanist-image-overlay">
+
+                        <span class="arcanist-gallery-type">
+                            ARCANIST
+                        </span>
+
+                     </div>
+
                     <div class="arcanist-image-container">
 
                         ${arcanist.image
@@ -230,42 +238,57 @@ function renderArcanistList(
 
                     <div class="arcanist-gallery-info">
 
-                        <h2>
+                        <h2 class="arcanist-gallery-name">
                             ${escapeHtml(
                     arcanist.name
                 )}
                         </h2>
 
 
-                        <p class="arcanist-gallery-meta">
+                        <div class="arcanist-gallery-meta">
 
-                            ${escapeHtml(
+                            <span>
+                                ${escapeHtml(
                     arcanist.afflatus ||
                     "Unknown"
                 )}
+                            </span>
 
-                            <span>•</span>
+                            <span
+                                class="arcanist-gallery-divider"
+                                aria-hidden="true"
+                            >
+                                •
+                            </span>
 
-                            ${escapeHtml(
+                            <span>
+                                ${escapeHtml(
                     arcanist.damageType ||
                     "Unknown"
                 )}
-
-                        </p>
-
-
-                        <div class="arcanist-gallery-tags">
-
-                            ${(arcanist.roles || [])
-                    .map(role => `
-                                    <span class="tag">
-                                        ${escapeHtml(role)}
-                                    </span>
-                                `)
-                    .join("")
-                }
+                            </span>
 
                         </div>
+
+
+                        ${Array.isArray(arcanist.roles) &&
+                    arcanist.roles.length > 0
+                    ? `
+                                    <div class="arcanist-gallery-tags">
+
+                                        ${arcanist.roles
+                        .map(role => `
+                                                <span class="tag">
+                                                    ${escapeHtml(role)}
+                                                </span>
+                                            `)
+                        .join("")
+                    }
+
+                                    </div>
+                                `
+                    : ""
+                }
 
                     </div>
 
