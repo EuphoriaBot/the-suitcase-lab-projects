@@ -243,11 +243,7 @@ export function renderArcanistDetail(
 
                 <div class="detail-note">
 
-                    ${arcanist.notes ? formatText(arcanist.notes) : `
-                                <p class="detail-empty">
-                                    No notes added yet.
-                                </p>
-                            `}
+                    ${formatText(arcanist.mechanics)}
 
                 </div>
 
