@@ -1,128 +1,39 @@
-
 import { useEffect, useState } from 'react'
+import Sidebar from './components/Sidebar'
+import Topbar from './components/Topbar'
+import type { JSX } from 'react'
 
-const pageTitles = {
-  dashboard: 'Dashboard',
-  arcanists: 'Arcanists',
-  'status-effects': 'Status Effects'
-} as const
+import { getPageFromHash, pageTitles, type Page } from './navigation'
 
-type Page = keyof typeof pageTitles
-
-function getPageFromHash(): Page {
-  const hash = window.location.hash.slice(1)
-
-  return hash in pageTitles
-    ? (hash as Page)
-    : 'dashboard'
-}
-
-function App() {
-  const [currentPage, setCurrentPage] =
-    useState<Page>(getPageFromHash)
+function App(): JSX.Element {
+  const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash)
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleHashChange = (): void => {
       setCurrentPage(getPageFromHash())
     }
 
-    window.addEventListener(
-      'hashchange',
-      handleHashChange
-    )
+    window.addEventListener('hashchange', handleHashChange)
 
     return () => {
-      window.removeEventListener(
-        'hashchange',
-        handleHashChange
-      )
+      window.removeEventListener('hashchange', handleHashChange)
     }
   }, [])
 
+  const title = pageTitles[currentPage]
+
   return (
     <div className="app">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <h1>Reverse: 1999</h1>
-          <p>Knowledge Base</p>
-        </div>
-
-        <nav className="sidebar-nav">
-          <a
-            href="#dashboard"
-            className={`nav-item ${
-              currentPage === 'dashboard' ? 'active' : ''
-            }`}
-          >
-            <span>⌂</span>
-            <span>Dashboard</span>
-          </a>
-
-          <div className="nav-section-title">
-            DATABASE
-          </div>
-
-          <a
-            href="#arcanists"
-            className={`nav-item ${
-              currentPage === 'arcanists' ? 'active' : ''
-            }`}
-          >
-            <span>♙</span>
-            <span>Arcanists</span>
-          </a>
-
-          <a
-            href="#status-effects"
-            className={`nav-item ${
-              currentPage === 'status-effects'
-                ? 'active'
-                : ''
-            }`}
-          >
-            <span>◇</span>
-            <span>Status Effects</span>
-          </a>
-        </nav>
-      </aside>
+      <Sidebar currentPage={currentPage} />
 
       <main className="main-content">
-        <header className="topbar">
-          <div>
-            <h2>{pageTitles[currentPage]}</h2>
-          </div>
+        <Topbar title={title} />
 
-          <div className="search-box">
-            <span
-              className="search-icon"
-              aria-hidden="true"
-            >
-              🔍
-            </span>
-
-            <input
-              type="search"
-              placeholder="Search Arcanists and Status Effects..."
-              aria-label="Search Arcanists and Status Effects"
-              disabled
-            />
-
-            <kbd className="search-shortcut">
-              /
-            </kbd>
-          </div>
-        </header>
-
-        <section
-          className="page-content"
-          id="page-content"
-        >
+        <section className="page-content" id="page-content">
           <div className="page-header">
             <div>
-              <h1>{pageTitles[currentPage]}</h1>
-              <p className="page-description">
-                Content will be migrated to React.
-              </p>
+              <h1>{title}</h1>
+              <p className="page-description">Content will be migrated to React.</p>
             </div>
           </div>
         </section>
