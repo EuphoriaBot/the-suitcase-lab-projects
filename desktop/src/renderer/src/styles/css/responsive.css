@@ -1,0 +1,391 @@
+@media (max-width: 1100px) {
+
+    .detail-page {
+        max-width: 100%;
+    }
+
+    .detail-hero {
+        grid-template-columns:
+            150px
+            minmax(0, 1fr);
+
+        gap: 20px;
+    }
+
+    .detail-hero-image {
+        width: 150px;
+        height: 220px;
+    }
+
+    .arcanist-grid {
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0, 1fr)
+            );
+    }
+
+}
+
+@media (max-width: 900px) {
+    .dashboard-stats {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+}
+
+@media (max-width: 800px) {
+    .arcanist-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+    .detail-hero {
+    grid-template-columns: 130px minmax(0, 1fr);
+    gap: 18px;
+    }
+
+    .detail-hero-image {
+        width: 130px;
+        height: 210px;
+    }
+
+    .detail-section {
+    padding: 20px;
+    }
+
+    .arcanist-image-container {
+        height: 230px;
+    }
+
+    .arcanist-gallery-info {
+        padding:
+            14px 15px 15px;
+    }
+
+    .arcanist-gallery-name {
+        font-size:
+            17px;
+    }
+}
+
+@media (max-width: 700px) {
+    .page-content {
+        padding: 20px;
+    }
+
+    .topbar {
+        height: auto;
+
+        min-height: 72px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        justify-content: center;
+
+        gap: 12px;
+
+        padding: 14px 20px;
+    }
+
+    .topbar > div:first-child {
+        min-width: 0;
+    }
+
+    .topbar h2 {
+        font-size: 17px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-shortcut {
+        display: none;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .search-results-page {
+        max-width: 100%;
+    }
+
+    .search-results-section {
+        padding: 18px;
+    }
+
+    .dashboard-stats,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-hero {
+        padding: 24px;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 26px;
+    }
+
+    .dashboard-panel-header {
+        flex-direction: column;
+    }
+
+    .dashboard-view-button {
+        width: 100%;
+    }
+
+    .arcanist-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 12px;
+    }
+
+    .arcanist-gallery-info {
+        padding: 14px;
+    }
+
+    .arcanist-gallery-actions {
+        padding:
+            0 14px 14px;
+    }
+
+    .detail-hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+
+    padding: 20px;
+    }
+
+    .detail-hero-image {
+    width: 100%;
+    height: 280px;
+    }
+
+    .detail-hero-content {
+        width: 100%;
+    }
+
+    .detail-section-heading {
+    margin-bottom: 16px;
+    }
+
+    .detail-hero-actions {
+        width: 100%;
+    }
+
+    .detail-hero-actions
+    .secondary-button {
+        width: 100%;
+    }
+
+    .detail-hero h1 {
+        font-size: 30px;
+    }
+
+    .detail-section {
+    padding: 18px;
+    }
+
+    .detail-section-nav {
+        margin-bottom: 18px;
+    }
+
+    .detail-section-nav-item {
+        padding: 8px 11px;
+        font-size: 11px;
+    }
+
+    .skill-detail-header {
+        gap: 12px;
+    }
+
+    .skill-type-badge {
+        align-self: flex-start;
+    }
+
+    .skill-detail-description {
+        padding-left: 0;
+    }
+
+    .portray-detail-description {
+        padding-left: 0;
+    }
+
+    .related-status-effect-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-effect-detail-hero {
+        min-height: auto;
+    }
+
+    .status-effect-detail-hero
+    .detail-hero-actions {
+        width: 100%;
+    }
+
+    .status-effect-detail-hero
+    .detail-hero-actions
+    .secondary-button {
+        width: 100%;
+    }
+
+    .related-arcanist-button {
+        width: 100%;
+    }
+
+    .status-effect-tags-section
+    .detail-tags {
+        gap: 6px;
+    }
+
+    .status-effect-tags-section
+    .tag {
+        padding:
+            6px 9px;
+
+        font-size: 10px;
+    }
+
+    .status-effect-notes-section
+    .detail-note {
+        padding: 16px;
+    }
+
+}
+
+@media (max-width: 520px) {
+    .arcanist-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .arcanist-image-container {
+        height: 210px;
+    }
+
+    .confirmation-overlay {
+        padding: 16px;
+    }
+
+
+    .confirmation-modal {
+        padding: 20px;
+    }
+
+
+    .confirmation-actions {
+        flex-direction: column-reverse;
+    }
+
+
+    .confirmation-actions button {
+        width: 100%;
+    }
+
+    .status-effect-card {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 14px;
+    }
+
+
+    .status-effect-card-actions {
+        width: 100%;
+    }
+
+
+    .status-effect-card-actions
+    .delete-status-effect-button {
+        width: 100%;
+    }
+
+    .toast {
+        right: 16px;
+        bottom: 16px;
+        left: 16px;
+        min-width: 0;
+        max-width: none;
+    }
+
+    .arcanist-image-container {
+        height: 260px;
+    }
+
+    .arcanist-gallery-info {
+        padding:
+            15px 16px 16px;
+    }
+
+    .arcanist-gallery-name {
+        font-size:
+            18px;
+    }
+
+    .detail-hero {
+    padding: 16px;
+    }
+
+    .detail-hero-image {
+        height: 260px;
+    }
+
+    .detail-hero h1 {
+        font-size: 26px;
+    }
+
+    .detail-section {
+        padding: 16px;
+    }
+
+    .detail-section-heading h2 {
+        font-size: 17px;
+    }
+
+    .detail-section-heading p {
+        font-size: 11px;
+    }
+
+    .skill-detail-card,
+    .portray-detail-card,
+    .related-status-effect-card {
+        padding: 15px;
+    }
+
+    .skill-detail-description {
+        padding-left: 0;
+    }
+
+    .portray-detail-description {
+        padding-left: 0;
+    }
+
+    .detail-item-title {
+        gap: 9px;
+    }
+
+    .skill-type-badge {
+        font-size: 9px;
+    }
+
+    #tags-section .detail-tags {
+        gap: 6px;
+    }
+}

@@ -1,0 +1,26 @@
+:root {
+    --color-bg: #171C20;
+    --color-sidebar: #1E252B;
+    --color-card: #242C32;
+    --color-card-hover: #2D363D;
+    --color-border: #3B454B;
+    --color-text: #F1ECE1;
+    --color-text-secondary: #C9C0B2;
+    --color-text-muted: #92918B;
+    --color-gold: #B69A63;
+    --color-gold-hover: #C5AA70;
+    --color-teal: #718A87;
+    --color-copper: #A96B50;
+    --color-danger: #9A4F52;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+}

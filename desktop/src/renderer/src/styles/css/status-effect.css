@@ -1,0 +1,236 @@
+.status-effect-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.status-effect-card {
+    display: block;
+    padding: 20px 22px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.status-effect-card:hover {
+    background: var(--color-card-hover);
+    border-color: rgba(182, 154, 99, 0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.status-effect-card-content {
+    min-width: 0;
+}
+
+.status-effect-card-header {
+    margin: 0 0 8px;
+}
+
+.status-effect-card-header h2 {
+    margin: 0;
+    line-height: 1.3;
+}
+
+.status-effect-name-button {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.2s ease;
+}
+
+.status-effect-name-button:hover {
+    color: var(--color-gold);
+}
+
+.status-effect-meta {
+    margin: 4px 0 0;
+    color: var(--color-text-muted);
+    font-size: 12px;
+}
+
+.status-effect-summary {
+    max-width: 850px;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.status-effect-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.status-effect-card-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.status-effect-card-stats span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 27px;
+    padding: 5px 9px;
+    border: 1px solid var(--color-border);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--color-text-muted);
+    font-size: 11px;
+    line-height: 1;
+}
+
+.status-effect-summary-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.detail-info-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  background: rgba(182, 154, 99, 0.08);
+  border: 1px solid rgba(182, 154, 99, 0.24);
+  border-radius: 7px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.detail-info-badge-active {
+  color: var(--color-gold);
+  border-color: rgba(182, 154, 99, 0.42);
+  background: rgba(182, 154, 99, 0.12);
+}
+
+.detail-info-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.status-effect-detail-hero {
+    min-height: 190px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(169, 107, 80, 0.08),
+            rgba(36, 44, 50, 0.97) 58%
+        );
+}
+
+.status-effect-detail-hero
+.detail-hero-content {
+    min-width: 0;
+}
+
+.status-effect-detail-hero
+.detail-hero-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.status-effect-primary-section
+.detail-note {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(113, 138, 135, 0.045),
+            rgba(27, 34, 39, 0.98)
+        );
+    border-color:
+        rgba(113, 138, 135, 0.18);
+}
+
+.status-effect-primary-section
+.detail-text {
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+.status-effect-detail-hero
+.status-effect-summary-badges {
+    margin-top: 4px;
+}
+
+.status-effect-detail-hero
+.detail-info-badge {
+    min-height: 30px;
+}
+
+.related-arcanist-button {
+    min-width: 150px;
+}
+
+.status-effect-tags-section .detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.status-effect-tags-section .tag {
+    padding: 7px 11px;
+    border-radius: 7px;
+    background:
+        rgba(113, 138, 135, 0.10);
+    border:
+        1px solid
+        rgba(113, 138, 135, 0.24);
+    color:
+        #A6B8B5;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-effect-notes-section .detail-note {
+    padding: 18px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(182, 154, 99, 0.055),
+            rgba(27, 34, 39, 0.98)
+        );
+    border:
+        1px solid
+        rgba(182, 154, 99, 0.18);
+}
+
+.status-effect-notes-section
+.detail-note
+.detail-text {
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+.status-effect-card-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.status-effect-card-actions
+.delete-status-effect-button {
+    white-space: nowrap;
+}
