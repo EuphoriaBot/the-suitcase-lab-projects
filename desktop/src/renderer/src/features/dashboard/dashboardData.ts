@@ -1,0 +1,43 @@
+export interface DashboardArcanist {
+  id: string
+  name: string
+  afflatus?: string
+  damageType?: string
+  skills?: unknown[]
+  portray?: unknown[]
+}
+
+export interface DashboardStatusEffect {
+  id: string
+  name: string
+  duration?: string
+}
+
+export interface DashboardData {
+  arcanists: DashboardArcanist[]
+  statusEffects: DashboardStatusEffect[]
+}
+
+function readStoredList<T>(key: string): T[] {
+  const stored = localStorage.getItem(key)
+
+  if (!stored) {
+    return []
+  }
+
+  try {
+    const result: unknown = JSON.parse(stored)
+
+    return Array.isArray(result) ? (result as T[]) : []
+  } catch (error) {
+    console.error(`Failed to read ${key}`, error)
+    return []
+  }
+}
+
+export function getDashboardData(): DashboardData {
+  return {
+    arcanists: readStoredList<DashboardArcanist>('reverse1999_arcanists'),
+    statusEffects: readStoredList<DashboardStatusEffect>('reverse1999_status_effects')
+  }
+}

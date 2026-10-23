@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Topbar from './components/Topbar'
 import type { JSX } from 'react'
+import DashboardPage from './features/dashboard/DashboardPage'
 
 import { getPageFromHash, pageTitles, type Page } from './navigation'
 
@@ -30,12 +31,16 @@ function App(): JSX.Element {
         <Topbar title={title} />
 
         <section className="page-content" id="page-content">
-          <div className="page-header">
-            <div>
-              <h1>{title}</h1>
-              <p className="page-description">Content will be migrated to React.</p>
+          {currentPage === 'dashboard' ? (
+            <DashboardPage />
+          ) : (
+            <div className="page-header">
+              <div>
+                <h1>{title}</h1>
+                <p className="page-description">Content will be migrated to React.</p>
+              </div>
             </div>
-          </div>
+          )}
         </section>
       </main>
     </div>
