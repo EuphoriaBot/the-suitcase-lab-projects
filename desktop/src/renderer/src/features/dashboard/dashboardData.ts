@@ -1,8 +1,10 @@
 export interface DashboardArcanist {
   id: string
   name: string
+  image?: string
   afflatus?: string
   damageType?: string
+  roles?: string[]
   skills?: unknown[]
   portray?: unknown[]
 }
