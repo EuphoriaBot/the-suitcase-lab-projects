@@ -5,9 +5,10 @@ import { getImageUrl, getInitials } from './arcanistImage'
 interface ArcanistCardProps {
   arcanist: DashboardArcanist
   onOpen: (id: string) => void
+  onEdit: (id: string) => void
 }
 
-function ArcanistCard({ arcanist, onOpen }: ArcanistCardProps): JSX.Element {
+function ArcanistCard({ arcanist, onOpen, onEdit }: ArcanistCardProps): JSX.Element {
   const [imageError, setImageError] = useState(false)
 
   const imageUrl = getImageUrl(arcanist.image)
@@ -75,8 +76,7 @@ function ArcanistCard({ arcanist, onOpen }: ArcanistCardProps): JSX.Element {
         <button
           type="button"
           className="secondary-button"
-          disabled
-          title="Edit feature is not available yet"
+          onClick={(): void => onEdit(arcanist.id)}
         >
           Edit
         </button>

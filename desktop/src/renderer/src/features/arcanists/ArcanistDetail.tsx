@@ -8,6 +8,7 @@ interface ArcanistDetailProps {
   arcanist: DashboardArcanist
   statusEffects: DashboardStatusEffect[]
   onBack: () => void
+  onEdit: () => void
 }
 
 const sections = [
@@ -26,14 +27,8 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function toText(value: unknown): string {
-  if (typeof value === 'string') {
-    return value
-  }
-
-  if (typeof value === 'number') {
-    return String(value)
-  }
-
+  if (typeof value === 'string') return value
+  if (typeof value === 'number') return String(value)
   return ''
 }
 
@@ -67,7 +62,12 @@ function DetailSection({ id, title, description, children }: DetailSectionProps)
   )
 }
 
-function ArcanistDetail({ arcanist, statusEffects, onBack }: ArcanistDetailProps): JSX.Element {
+function ArcanistDetail({
+  arcanist,
+  statusEffects,
+  onBack,
+  onEdit
+}: ArcanistDetailProps): JSX.Element {
   const [activeSection, setActiveSection] = useState<SectionId>('skills-section')
 
   const [imageError, setImageError] = useState(false)
@@ -99,10 +99,7 @@ function ArcanistDetail({ arcanist, statusEffects, onBack }: ArcanistDetailProps
 
     sections.forEach(({ id }): void => {
       const element = document.getElementById(id)
-
-      if (element) {
-        observer.observe(element)
-      }
+      if (element) observer.observe(element)
     })
 
     return (): void => observer.disconnect()
@@ -167,12 +164,7 @@ function ArcanistDetail({ arcanist, statusEffects, onBack }: ArcanistDetailProps
           </div>
 
           <div className="detail-hero-actions">
-            <button
-              type="button"
-              className="secondary-button"
-              disabled
-              title="Editing will be available later"
-            >
+            <button type="button" className="secondary-button" onClick={onEdit}>
               Edit Arcanist
             </button>
           </div>

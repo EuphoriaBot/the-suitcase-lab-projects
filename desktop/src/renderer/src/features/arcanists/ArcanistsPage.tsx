@@ -4,14 +4,24 @@ import { getDashboardData } from '../dashboard/dashboardData'
 
 import ArcanistCard from './ArcanistCard'
 import ArcanistDetail from './ArcanistDetail'
+import ArcanistForm from './ArcanistForm'
+
 import { matchesArcanistSearch } from './arcanistSearch'
 
+import { saveArcanist, type ArcanistPayload } from './arcanistStorage'
+
+type PageMode = 'list' | 'detail' | 'create' | 'edit'
+
 function ArcanistsPage(): JSX.Element {
+  const [data, setData] = useState(getDashboardData)
+
   const [searchQuery, setSearchQuery] = useState('')
+
+  const [mode, setMode] = useState<PageMode>('list')
 
   const [selectedArcanistId, setSelectedArcanistId] = useState<string | null>(null)
 
-  const { arcanists, statusEffects } = getDashboardData()
+  const { arcanists, statusEffects } = data
 
   const keyword = searchQuery.trim().toLowerCase()
 
@@ -21,18 +31,77 @@ function ArcanistsPage(): JSX.Element {
 
   const selectedArcanist = arcanists.find((arcanist) => arcanist.id === selectedArcanistId)
 
-  // TAMPILKAN DETAIL JIKA KARAKTER DIPILIH
-  if (selectedArcanist) {
+  function openDetail(id: string): void {
+    setSelectedArcanistId(id)
+    setMode('detail')
+  }
+
+  function openCreate(): void {
+    setSelectedArcanistId(null)
+    setMode('create')
+  }
+
+  function openEdit(id: string): void {
+    setSelectedArcanistId(id)
+    setMode('edit')
+  }
+
+  function handleSave(payload: ArcanistPayload): void {
+    if (mode === 'edit' && !selectedArcanist) {
+      throw new Error('Arcanist could not be found.')
+    }
+
+    const savedArcanist = saveArcanist(payload, mode === 'edit' ? selectedArcanist?.id : undefined)
+
+    setData(getDashboardData())
+    setSelectedArcanistId(savedArcanist.id)
+    setMode('detail')
+  }
+
+  function handleCancel(): void {
+    if (mode === 'edit' && selectedArcanist) {
+      setMode('detail')
+    } else {
+      setMode('list')
+    }
+  }
+
+  function backToList(): void {
+    setMode('list')
+  }
+
+  // ADD ARCANIST FORM
+  if (mode === 'create') {
     return (
-      <ArcanistDetail
-        arcanist={selectedArcanist}
+      <ArcanistForm statusEffects={statusEffects} onSave={handleSave} onCancel={handleCancel} />
+    )
+  }
+
+  // EDIT ARCANIST FORM
+  if (mode === 'edit' && selectedArcanist) {
+    return (
+      <ArcanistForm
+        initialArcanist={selectedArcanist}
         statusEffects={statusEffects}
-        onBack={(): void => setSelectedArcanistId(null)}
+        onSave={handleSave}
+        onCancel={handleCancel}
       />
     )
   }
 
-  // TAMPILKAN GALERI ARCANISTS
+  // DETAIL ARCANIST
+  if (mode === 'detail' && selectedArcanist) {
+    return (
+      <ArcanistDetail
+        arcanist={selectedArcanist}
+        statusEffects={statusEffects}
+        onBack={backToList}
+        onEdit={(): void => openEdit(selectedArcanist.id)}
+      />
+    )
+  }
+
+  // ARCANISTS GALLERY
   return (
     <div className="arcanists-page">
       <div className="page-header">
@@ -44,17 +113,11 @@ function ArcanistsPage(): JSX.Element {
           <p className="page-description">Browse and manage your Reverse: 1999 Arcanist notes.</p>
         </div>
 
-        <button
-          type="button"
-          className="primary-button"
-          disabled
-          title="Add Arcanist feature is not available yet"
-        >
+        <button type="button" className="primary-button" onClick={openCreate}>
           + Add Arcanist
         </button>
       </div>
 
-      {/* SEARCH */}
       <div className="search-container">
         <input
           type="text"
@@ -66,7 +129,6 @@ function ArcanistsPage(): JSX.Element {
         />
       </div>
 
-      {/* EMPTY STATE ATAU GALERI */}
       {filteredArcanists.length === 0 ? (
         <div className="empty-state">
           <h2>No Arcanists Found</h2>
@@ -83,7 +145,8 @@ function ArcanistsPage(): JSX.Element {
             <ArcanistCard
               key={arcanist.id}
               arcanist={arcanist}
-              onOpen={(id): void => setSelectedArcanistId(id)}
+              onOpen={openDetail}
+              onEdit={openEdit}
             />
           ))}
         </div>
