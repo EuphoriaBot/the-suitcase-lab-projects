@@ -1,12 +1,17 @@
 import { useState, type JSX } from 'react'
+
 import { getDashboardData } from '../dashboard/dashboardData'
+
 import ArcanistCard from './ArcanistCard'
+import ArcanistDetail from './ArcanistDetail'
 import { matchesArcanistSearch } from './arcanistSearch'
 
 function ArcanistsPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
 
-  const { arcanists } = getDashboardData()
+  const [selectedArcanistId, setSelectedArcanistId] = useState<string | null>(null)
+
+  const { arcanists, statusEffects } = getDashboardData()
 
   const keyword = searchQuery.trim().toLowerCase()
 
@@ -14,6 +19,20 @@ function ArcanistsPage(): JSX.Element {
     ? arcanists.filter((arcanist) => matchesArcanistSearch(arcanist, keyword))
     : arcanists
 
+  const selectedArcanist = arcanists.find((arcanist) => arcanist.id === selectedArcanistId)
+
+  // TAMPILKAN DETAIL JIKA KARAKTER DIPILIH
+  if (selectedArcanist) {
+    return (
+      <ArcanistDetail
+        arcanist={selectedArcanist}
+        statusEffects={statusEffects}
+        onBack={(): void => setSelectedArcanistId(null)}
+      />
+    )
+  }
+
+  // TAMPILKAN GALERI ARCANISTS
   return (
     <div className="arcanists-page">
       <div className="page-header">
@@ -35,6 +54,7 @@ function ArcanistsPage(): JSX.Element {
         </button>
       </div>
 
+      {/* SEARCH */}
       <div className="search-container">
         <input
           type="text"
@@ -46,6 +66,7 @@ function ArcanistsPage(): JSX.Element {
         />
       </div>
 
+      {/* EMPTY STATE ATAU GALERI */}
       {filteredArcanists.length === 0 ? (
         <div className="empty-state">
           <h2>No Arcanists Found</h2>
@@ -59,7 +80,11 @@ function ArcanistsPage(): JSX.Element {
       ) : (
         <div className="arcanist-grid">
           {filteredArcanists.map((arcanist) => (
-            <ArcanistCard key={arcanist.id} arcanist={arcanist} />
+            <ArcanistCard
+              key={arcanist.id}
+              arcanist={arcanist}
+              onOpen={(id): void => setSelectedArcanistId(id)}
+            />
           ))}
         </div>
       )}

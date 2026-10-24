@@ -10,12 +10,15 @@ export interface DashboardArcanist {
   tags?: string[]
   skills?: unknown[]
   portray?: unknown[]
+  relatedStatusEffects?: string[]
 }
 
 export interface DashboardStatusEffect {
   id: string
   name: string
+  description?: string
   duration?: string
+  tags?: string[]
 }
 
 export interface DashboardData {

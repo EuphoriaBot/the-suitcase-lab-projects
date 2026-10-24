@@ -1,49 +1,32 @@
 import { useState, type JSX } from 'react'
 import type { DashboardArcanist } from '../dashboard/dashboardData'
+import { getImageUrl, getInitials } from './arcanistImage'
 
 interface ArcanistCardProps {
   arcanist: DashboardArcanist
+  onOpen: (id: string) => void
 }
 
-const imageAssets = import.meta.glob('../../assets/arcanist/*.webp', {
-  eager: true,
-  query: '?url',
-  import: 'default'
-}) as Record<string, string>
-
-function getImageUrl(imagePath?: string): string | undefined {
-  if (!imagePath) return undefined
-
-  const filename = imagePath.split(/[\\/]/).pop()
-  if (!filename) return undefined
-
-  for (const [path, url] of Object.entries(imageAssets)) {
-    if (path.endsWith('/' + filename)) {
-      return url
-    }
-  }
-
-  return undefined
-}
-
-function getInitials(name: string): string {
-  const parts = name.trim().split(/\s+/)
-  if (!parts[0]) return '?'
-
-  if (parts.length === 1) {
-    return parts[0].slice(0, 2).toUpperCase()
-  }
-
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-}
-
-function ArcanistCard({ arcanist }: ArcanistCardProps): JSX.Element {
+function ArcanistCard({ arcanist, onOpen }: ArcanistCardProps): JSX.Element {
   const [imageError, setImageError] = useState(false)
+
   const imageUrl = getImageUrl(arcanist.image)
 
   return (
-    <article className="arcanist-gallery-card" style={{ cursor: 'default' }}>
-      <div className="arcanist-card-main">
+    <article className="arcanist-gallery-card">
+      <div
+        className="arcanist-card-main"
+        role="button"
+        tabIndex={0}
+        aria-label={`Open ${arcanist.name} details`}
+        onClick={(): void => onOpen(arcanist.id)}
+        onKeyDown={(event): void => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            onOpen(arcanist.id)
+          }
+        }}
+      >
         <div className="arcanist-image-overlay">
           <span className="arcanist-gallery-type">ARCANIST</span>
         </div>
