@@ -6,9 +6,10 @@ interface ArcanistCardProps {
   arcanist: DashboardArcanist
   onOpen: (id: string) => void
   onEdit: (id: string) => void
+  onDelete: (id: string) => void
 }
 
-function ArcanistCard({ arcanist, onOpen, onEdit }: ArcanistCardProps): JSX.Element {
+function ArcanistCard({ arcanist, onOpen, onEdit, onDelete }: ArcanistCardProps): JSX.Element {
   const [imageError, setImageError] = useState(false)
 
   const imageUrl = getImageUrl(arcanist.image)
@@ -81,12 +82,7 @@ function ArcanistCard({ arcanist, onOpen, onEdit }: ArcanistCardProps): JSX.Elem
           Edit
         </button>
 
-        <button
-          type="button"
-          className="danger-button"
-          disabled
-          title="Delete feature is not available yet"
-        >
+        <button type="button" className="danger-button" onClick={(): void => onDelete(arcanist.id)}>
           Delete
         </button>
       </div>
