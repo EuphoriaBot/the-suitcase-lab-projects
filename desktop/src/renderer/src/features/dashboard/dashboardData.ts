@@ -5,6 +5,9 @@ export interface DashboardArcanist {
   afflatus?: string
   damageType?: string
   roles?: string[]
+  mechanics?: string
+  notes?: string
+  tags?: string[]
   skills?: unknown[]
   portray?: unknown[]
 }

@@ -1,9 +1,18 @@
-import type { JSX } from 'react'
+import { useState, type JSX } from 'react'
 import { getDashboardData } from '../dashboard/dashboardData'
 import ArcanistCard from './ArcanistCard'
+import { matchesArcanistSearch } from './arcanistSearch'
 
 function ArcanistsPage(): JSX.Element {
+  const [searchQuery, setSearchQuery] = useState('')
+
   const { arcanists } = getDashboardData()
+
+  const keyword = searchQuery.trim().toLowerCase()
+
+  const filteredArcanists = keyword
+    ? arcanists.filter((arcanist) => matchesArcanistSearch(arcanist, keyword))
+    : arcanists
 
   return (
     <div className="arcanists-page">
@@ -32,18 +41,24 @@ function ArcanistsPage(): JSX.Element {
           className="search-input"
           placeholder="Search Arcanists..."
           aria-label="Search Arcanists"
-          disabled
+          value={searchQuery}
+          onChange={(event): void => setSearchQuery(event.target.value)}
         />
       </div>
 
-      {arcanists.length === 0 ? (
+      {filteredArcanists.length === 0 ? (
         <div className="empty-state">
           <h2>No Arcanists Found</h2>
-          <p>No Arcanists have been recorded yet.</p>
+
+          <p>
+            {keyword
+              ? 'There are no Arcanists matching your search.'
+              : 'No Arcanists have been recorded yet.'}
+          </p>
         </div>
       ) : (
         <div className="arcanist-grid">
-          {arcanists.map((arcanist) => (
+          {filteredArcanists.map((arcanist) => (
             <ArcanistCard key={arcanist.id} arcanist={arcanist} />
           ))}
         </div>

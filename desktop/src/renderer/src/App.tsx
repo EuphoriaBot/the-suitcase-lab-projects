@@ -30,7 +30,7 @@ function App(): JSX.Element {
 
       <main className="main-content">
         <Topbar title={title} />
-        
+
         <section className="page-content" id="page-content">
           {currentPage === 'dashboard' ? (
             <DashboardPage />
@@ -40,9 +40,7 @@ function App(): JSX.Element {
             <div className="page-header">
               <div>
                 <h1>{title}</h1>
-                <p className="page-description">
-                  Content will be migrated to React.
-                </p>
+                <p className="page-description">Content will be migrated to React.</p>
               </div>
             </div>
           )}
