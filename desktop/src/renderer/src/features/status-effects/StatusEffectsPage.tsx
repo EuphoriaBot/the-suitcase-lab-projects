@@ -5,10 +5,15 @@ import { getDashboardData } from '../dashboard/dashboardData'
 import StatusEffectCard from './StatusEffectCard'
 import StatusEffectDetail from './StatusEffectDetail'
 import StatusEffectForm from './StatusEffectForm'
+import DeleteStatusEffectDialog from './DeleteStatusEffectDialog'
 
 import { matchesStatusEffectSearch } from './statusEffectSearch'
 
-import { saveStatusEffect, type StatusEffectPayload } from './statusEffectStorage'
+import {
+  saveStatusEffect,
+  deleteStatusEffect,
+  type StatusEffectPayload
+} from './statusEffectStorage'
 
 type PageMode = 'list' | 'detail' | 'create' | 'edit'
 
@@ -20,6 +25,10 @@ function StatusEffectsPage(): JSX.Element {
   const [mode, setMode] = useState<PageMode>('list')
 
   const [selectedStatusEffectId, setSelectedStatusEffectId] = useState<string | null>(null)
+
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
+
+  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   const [notice, setNotice] = useState('')
 
@@ -35,7 +44,14 @@ function StatusEffectsPage(): JSX.Element {
     (statusEffect) => statusEffect.id === selectedStatusEffectId
   )
 
-  // HIDE SUCCESS NOTIFICATION AFTER 3 SECONDS
+  const statusEffectToDelete = statusEffects.find(
+    (statusEffect) => statusEffect.id === deleteTargetId
+  )
+
+  // ==========================================
+  // SUCCESS NOTIFICATION
+  // ==========================================
+
   useEffect(() => {
     if (!notice) {
       return
@@ -50,26 +66,34 @@ function StatusEffectsPage(): JSX.Element {
     }
   }, [notice])
 
-  // OPEN DETAIL
+  // ==========================================
+  // NAVIGATION
+  // ==========================================
+
   function openDetail(id: string): void {
     setSelectedStatusEffectId(id)
     setMode('detail')
   }
 
-  // OPEN ADD FORM
   function openCreate(): void {
     setSelectedStatusEffectId(null)
     setMode('create')
   }
 
-  // OPEN EDIT FORM
   function openEdit(): void {
     if (selectedStatusEffect) {
       setMode('edit')
     }
   }
 
-  // SAVE STATUS EFFECT
+  function backToList(): void {
+    setMode('list')
+  }
+
+  // ==========================================
+  // ADD AND EDIT
+  // ==========================================
+
   function handleSave(payload: StatusEffectPayload): void {
     if (mode === 'edit' && !selectedStatusEffect) {
       throw new Error('Status Effect could not be found.')
@@ -82,7 +106,6 @@ function StatusEffectsPage(): JSX.Element {
       wasEditing ? selectedStatusEffect?.id : undefined
     )
 
-    // Refresh data after saving.
     setData(getDashboardData())
 
     setSelectedStatusEffectId(savedStatusEffect.id)
@@ -94,7 +117,6 @@ function StatusEffectsPage(): JSX.Element {
     )
   }
 
-  // CANCEL ADD OR EDIT
   function handleCancel(): void {
     if (mode === 'edit' && selectedStatusEffect) {
       setMode('detail')
@@ -103,13 +125,62 @@ function StatusEffectsPage(): JSX.Element {
     }
   }
 
-  function backToList(): void {
-    setMode('list')
+  // ==========================================
+  // DELETE STATUS EFFECT
+  // ==========================================
+
+  function requestDelete(id: string): void {
+    setDeleteError(null)
+    setDeleteTargetId(id)
   }
+
+  function cancelDelete(): void {
+    setDeleteTargetId(null)
+    setDeleteError(null)
+  }
+
+  function confirmDelete(): void {
+    if (!statusEffectToDelete) {
+      return
+    }
+
+    const deletedId = statusEffectToDelete.id
+
+    try {
+      // Delete Status Effect and clean related Arcanists.
+      deleteStatusEffect(deletedId)
+
+      // Refresh data after deletion.
+      setData(getDashboardData())
+
+      // Clear selection if it references the deleted item.
+      if (selectedStatusEffectId === deletedId) {
+        setSelectedStatusEffectId(null)
+      }
+
+      // Close the confirmation dialog.
+      setDeleteTargetId(null)
+      setDeleteError(null)
+
+      // Return to the list.
+      setMode('list')
+
+      // Display success message.
+      setNotice('Status Effect deleted successfully.')
+    } catch (error) {
+      console.error('Failed to delete Status Effect:', error)
+
+      setDeleteError(error instanceof Error ? error.message : 'Unable to delete Status Effect.')
+    }
+  }
+
+  // ==========================================
+  // PAGE CONTENT
+  // ==========================================
 
   let content: JSX.Element
 
-  // CREATE FORM
+  // ADD FORM
   if (mode === 'create') {
     content = <StatusEffectForm arcanists={arcanists} onSave={handleSave} onCancel={handleCancel} />
   }
@@ -188,6 +259,7 @@ function StatusEffectsPage(): JSX.Element {
                 statusEffect={statusEffect}
                 arcanists={arcanists}
                 onOpen={openDetail}
+                onDelete={requestDelete}
               />
             ))
           )}
@@ -196,9 +268,23 @@ function StatusEffectsPage(): JSX.Element {
     )
   }
 
+  // ==========================================
+  // FINAL RENDER
+  // ==========================================
+
   return (
     <>
       {content}
+
+      {/* DELETE CONFIRMATION */}
+      {statusEffectToDelete && (
+        <DeleteStatusEffectDialog
+          statusEffectName={statusEffectToDelete.name}
+          error={deleteError}
+          onCancel={cancelDelete}
+          onConfirm={confirmDelete}
+        />
+      )}
 
       {/* SUCCESS NOTIFICATION */}
       {notice && (

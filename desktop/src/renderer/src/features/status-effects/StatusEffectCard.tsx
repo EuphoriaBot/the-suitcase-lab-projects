@@ -6,9 +6,15 @@ interface StatusEffectCardProps {
   statusEffect: DashboardStatusEffect
   arcanists: DashboardArcanist[]
   onOpen: (id: string) => void
+  onDelete: (id: string) => void
 }
 
-function StatusEffectCard({ statusEffect, arcanists, onOpen }: StatusEffectCardProps): JSX.Element {
+function StatusEffectCard({
+  statusEffect,
+  arcanists,
+  onOpen,
+  onDelete
+}: StatusEffectCardProps): JSX.Element {
   const relatedArcanistCount = arcanists.filter(
     (arcanist) =>
       statusEffect.relatedArcanists?.includes(arcanist.id) ||
@@ -66,8 +72,7 @@ function StatusEffectCard({ statusEffect, arcanists, onOpen }: StatusEffectCardP
         <button
           type="button"
           className="danger-button delete-status-effect-button"
-          disabled
-          title="Delete will be available in a later stage"
+          onClick={(): void => onDelete(statusEffect.id)}
         >
           Delete
         </button>
