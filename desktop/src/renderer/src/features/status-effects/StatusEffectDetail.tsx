@@ -6,6 +6,7 @@ interface StatusEffectDetailProps {
   statusEffect: DashboardStatusEffect
   arcanists: DashboardArcanist[]
   onBack: () => void
+  onEdit: () => void
 }
 
 interface DetailSectionProps {
@@ -50,12 +51,17 @@ function DetailText({ value }: { value?: string }): JSX.Element {
 function StatusEffectDetail({
   statusEffect,
   arcanists,
-  onBack
+  onBack,
+  onEdit
 }: StatusEffectDetailProps): JSX.Element {
-  // Support relationships recorded from either side.
+  const directRelations = Array.isArray(statusEffect.relatedArcanists)
+    ? statusEffect.relatedArcanists
+    : []
+
+  // Read relationships recorded on either side.
   const relatedArcanists = arcanists.filter(
     (arcanist) =>
-      statusEffect.relatedArcanists?.includes(arcanist.id) ||
+      directRelations.includes(arcanist.id) ||
       arcanist.relatedStatusEffects?.includes(statusEffect.id)
   )
 
@@ -96,13 +102,9 @@ function StatusEffectDetail({
           </div>
         </div>
 
+        {/* EDIT BUTTON */}
         <div className="detail-hero-actions">
-          <button
-            type="button"
-            className="secondary-button"
-            disabled
-            title="Editing will be available in a later stage"
-          >
+          <button type="button" className="secondary-button" onClick={onEdit}>
             Edit Status Effect
           </button>
         </div>
