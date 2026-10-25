@@ -2,12 +2,12 @@ import type { DashboardArcanist, DashboardStatusEffect } from '../dashboard/dash
 
 export type ArcanistPayload = Omit<DashboardArcanist, 'id'>
 
-interface StoredStatusEffect extends DashboardStatusEffect {
-  relatedArcanists?: string[]
-}
-
 const ARCANIST_KEY = 'reverse1999_arcanists'
 const STATUS_EFFECT_KEY = 'reverse1999_status_effects'
+
+// ==========================================
+// LOCAL STORAGE UTILITIES
+// ==========================================
 
 function readStoredList<T>(stored: string | null, key: string): T[] {
   if (stored === null) {
@@ -33,54 +33,176 @@ function readArcanists(): DashboardArcanist[] {
   return readStoredList<DashboardArcanist>(localStorage.getItem(ARCANIST_KEY), ARCANIST_KEY)
 }
 
-// CREATE AND UPDATE
+function readStatusEffects(): DashboardStatusEffect[] {
+  return readStoredList<DashboardStatusEffect>(
+    localStorage.getItem(STATUS_EFFECT_KEY),
+    STATUS_EFFECT_KEY
+  )
+}
+
+function restoreStorage(key: string, originalValue: string | null): void {
+  if (originalValue === null) {
+    localStorage.removeItem(key)
+  } else {
+    localStorage.setItem(key, originalValue)
+  }
+}
+
+// ==========================================
+// SYNCHRONIZE STATUS EFFECT RELATIONSHIPS
+// ==========================================
+
+function synchronizeStatusEffects(
+  statusEffects: DashboardStatusEffect[],
+  arcanistId: string,
+  selectedStatusEffectIds: string[]
+): DashboardStatusEffect[] {
+  const selectedIds = new Set(selectedStatusEffectIds)
+
+  return statusEffects.map((statusEffect) => {
+    const currentRelations = Array.isArray(statusEffect.relatedArcanists)
+      ? statusEffect.relatedArcanists
+      : []
+
+    const isSelected = selectedIds.has(statusEffect.id)
+
+    const isAlreadyRelated = currentRelations.includes(arcanistId)
+
+    // Add Arcanist to the Status Effect.
+    if (isSelected && !isAlreadyRelated) {
+      return {
+        ...statusEffect,
+        relatedArcanists: [...currentRelations, arcanistId]
+      }
+    }
+
+    // Remove Arcanist from the Status Effect.
+    if (!isSelected && isAlreadyRelated) {
+      return {
+        ...statusEffect,
+        relatedArcanists: currentRelations.filter((id) => id !== arcanistId)
+      }
+    }
+
+    // No relationship changes needed.
+    return statusEffect
+  })
+}
+
+// ==========================================
+// CREATE AND UPDATE ARCANIST
+// ==========================================
+
 export function saveArcanist(payload: ArcanistPayload, existingId?: string): DashboardArcanist {
-  if (!payload.name.trim()) {
+  const name = payload.name.trim()
+
+  if (!name) {
     throw new Error('Arcanist name is required.')
   }
 
-  const arcanists = readArcanists()
-
-  if (existingId) {
-    const index = arcanists.findIndex((arcanist) => arcanist.id === existingId)
-
-    if (index === -1) {
-      throw new Error('Arcanist could not be found.')
-    }
-
-    const updatedArcanist: DashboardArcanist = {
-      ...arcanists[index],
-      ...payload,
-      id: existingId
-    }
-
-    const updatedList = [...arcanists]
-    updatedList[index] = updatedArcanist
-
-    localStorage.setItem(ARCANIST_KEY, JSON.stringify(updatedList))
-
-    return updatedArcanist
-  }
-
-  const newArcanist: DashboardArcanist = {
-    ...payload,
-    id: crypto.randomUUID()
-  }
-
-  localStorage.setItem(ARCANIST_KEY, JSON.stringify([...arcanists, newArcanist]))
-
-  return newArcanist
-}
-
-// DELETE AND CLEAN RELATED STATUS EFFECTS
-export function deleteArcanist(id: string): void {
+  // Preserve existing storage for error recovery.
   const originalArcanistData = localStorage.getItem(ARCANIST_KEY)
 
   const originalStatusData = localStorage.getItem(STATUS_EFFECT_KEY)
 
-  const arcanists = readStoredList<DashboardArcanist>(originalArcanistData, ARCANIST_KEY)
+  const arcanists = readArcanists()
+  const statusEffects = readStatusEffects()
 
-  const statusEffects = readStoredList<StoredStatusEffect>(originalStatusData, STATUS_EFFECT_KEY)
+  // Find the original Arcanist when editing.
+  const existingArcanist = existingId
+    ? arcanists.find((arcanist) => arcanist.id === existingId)
+    : undefined
+
+  if (existingId && !existingArcanist) {
+    throw new Error('Arcanist could not be found.')
+  }
+
+  // Generate ID only for new Arcanists.
+  const arcanistId = existingId ?? crypto.randomUUID()
+
+  // Only allow relationships with existing Status Effects.
+  const validStatusEffectIds = new Set(statusEffects.map((statusEffect) => statusEffect.id))
+
+  const requestedRelations = Array.isArray(payload.relatedStatusEffects)
+    ? payload.relatedStatusEffects
+    : []
+
+  const selectedStatusEffectIds = [...new Set(requestedRelations)].filter((id) =>
+    validStatusEffectIds.has(id)
+  )
+
+  // Preserve existing data when editing.
+  const savedArcanist: DashboardArcanist = {
+    ...existingArcanist,
+    ...payload,
+    id: arcanistId,
+    name,
+    relatedStatusEffects: selectedStatusEffectIds
+  }
+
+  // Update the Arcanist list.
+  const updatedArcanists = existingId
+    ? arcanists.map((arcanist) => (arcanist.id === existingId ? savedArcanist : arcanist))
+    : [...arcanists, savedArcanist]
+
+  // Update reverse relationships on Status Effects.
+  const updatedStatusEffects = synchronizeStatusEffects(
+    statusEffects,
+    arcanistId,
+    selectedStatusEffectIds
+  )
+
+  const statusEffectsChanged = updatedStatusEffects.some(
+    (item, index) => item !== statusEffects[index]
+  )
+
+  let statusDataSaved = false
+
+  // ==========================================
+  // SAVE BOTH SIDES
+  // ==========================================
+
+  try {
+    // Update Status Effect relationships first.
+    if (statusEffectsChanged) {
+      localStorage.setItem(STATUS_EFFECT_KEY, JSON.stringify(updatedStatusEffects))
+
+      statusDataSaved = true
+    }
+
+    // Save the Arcanist data.
+    localStorage.setItem(ARCANIST_KEY, JSON.stringify(updatedArcanists))
+  } catch (error) {
+    // Attempt to restore Status Effects if
+    // saving the Arcanist fails.
+    if (statusDataSaved) {
+      try {
+        restoreStorage(STATUS_EFFECT_KEY, originalStatusData)
+      } catch (restoreError) {
+        console.error('Failed to restore Status Effects:', restoreError)
+      }
+    }
+
+    // The original Arcanist data was not modified
+    // successfully if its setItem operation threw.
+    // Keep this reference for future transaction migration.
+    void originalArcanistData
+
+    throw error
+  }
+
+  return savedArcanist
+}
+
+// ==========================================
+// DELETE ARCANIST
+// ==========================================
+
+export function deleteArcanist(id: string): void {
+  const originalStatusData = localStorage.getItem(STATUS_EFFECT_KEY)
+
+  const arcanists = readArcanists()
+  const statusEffects = readStatusEffects()
 
   const exists = arcanists.some((arcanist) => arcanist.id === id)
 
@@ -88,46 +210,45 @@ export function deleteArcanist(id: string): void {
     throw new Error('Arcanist could not be found.')
   }
 
+  // Remove the selected Arcanist.
   const remainingArcanists = arcanists.filter((arcanist) => arcanist.id !== id)
 
-  const cleanedStatusEffects = statusEffects.map((effect) => {
-    if (!Array.isArray(effect.relatedArcanists) || !effect.relatedArcanists.includes(id)) {
-      return effect
+  // Clean its references from all Status Effects.
+  const cleanedStatusEffects = statusEffects.map((statusEffect) => {
+    const relations = statusEffect.relatedArcanists
+
+    if (!Array.isArray(relations) || !relations.includes(id)) {
+      return statusEffect
     }
 
     return {
-      ...effect,
-      relatedArcanists: effect.relatedArcanists.filter((arcanistId) => arcanistId !== id)
+      ...statusEffect,
+      relatedArcanists: relations.filter((arcanistId) => arcanistId !== id)
     }
   })
 
-  const statusRelationsChanged = cleanedStatusEffects.some(
-    (effect, index) => effect !== statusEffects[index]
+  const statusEffectsChanged = cleanedStatusEffects.some(
+    (item, index) => item !== statusEffects[index]
   )
 
   let statusDataSaved = false
 
   try {
-    // Clean reverse relationships first.
-    if (statusRelationsChanged) {
+    // Clean the Status Effect relationships first.
+    if (statusEffectsChanged) {
       localStorage.setItem(STATUS_EFFECT_KEY, JSON.stringify(cleanedStatusEffects))
+
       statusDataSaved = true
     }
 
-    // Delete only the selected Arcanist.
+    // Delete the Arcanist.
     localStorage.setItem(ARCANIST_KEY, JSON.stringify(remainingArcanists))
   } catch (error) {
-    // Attempt to restore Status Effects if the
-    // second storage operation fails.
     if (statusDataSaved) {
       try {
-        if (originalStatusData === null) {
-          localStorage.removeItem(STATUS_EFFECT_KEY)
-        } else {
-          localStorage.setItem(STATUS_EFFECT_KEY, originalStatusData)
-        }
+        restoreStorage(STATUS_EFFECT_KEY, originalStatusData)
       } catch (restoreError) {
-        console.error('Failed to restore Status Effects:', restoreError)
+        console.error('Failed to restore Status Effect relationships:', restoreError)
       }
     }
 
