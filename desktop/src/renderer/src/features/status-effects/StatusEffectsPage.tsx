@@ -3,12 +3,16 @@ import { useState, type JSX } from 'react'
 import { getDashboardData } from '../dashboard/dashboardData'
 
 import StatusEffectCard from './StatusEffectCard'
+import StatusEffectDetail from './StatusEffectDetail'
+
 import { matchesStatusEffectSearch } from './statusEffectSearch'
 
 function StatusEffectsPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
 
-  const { statusEffects } = getDashboardData()
+  const [selectedStatusEffectId, setSelectedStatusEffectId] = useState<string | null>(null)
+
+  const { arcanists, statusEffects } = getDashboardData()
 
   const keyword = searchQuery.trim()
 
@@ -16,6 +20,30 @@ function StatusEffectsPage(): JSX.Element {
     ? statusEffects.filter((statusEffect) => matchesStatusEffectSearch(statusEffect, keyword))
     : statusEffects
 
+  const selectedStatusEffect = statusEffects.find(
+    (statusEffect) => statusEffect.id === selectedStatusEffectId
+  )
+
+  function openDetail(id: string): void {
+    setSelectedStatusEffectId(id)
+  }
+
+  function backToList(): void {
+    setSelectedStatusEffectId(null)
+  }
+
+  // STATUS EFFECT DETAIL
+  if (selectedStatusEffect) {
+    return (
+      <StatusEffectDetail
+        statusEffect={selectedStatusEffect}
+        arcanists={arcanists}
+        onBack={backToList}
+      />
+    )
+  }
+
+  // STATUS EFFECT LIST
   return (
     <div className="status-effects-page">
       {/* PAGE HEADER */}
@@ -46,9 +74,7 @@ function StatusEffectsPage(): JSX.Element {
           placeholder="Search by name, effect, tag..."
           aria-label="Search Status Effects"
           value={searchQuery}
-          onChange={(event): void => {
-            setSearchQuery(event.target.value)
-          }}
+          onChange={(event): void => setSearchQuery(event.target.value)}
         />
       </div>
 
@@ -66,7 +92,12 @@ function StatusEffectsPage(): JSX.Element {
           </div>
         ) : (
           filteredStatusEffects.map((statusEffect) => (
-            <StatusEffectCard key={statusEffect.id} statusEffect={statusEffect} />
+            <StatusEffectCard
+              key={statusEffect.id}
+              statusEffect={statusEffect}
+              arcanists={arcanists}
+              onOpen={openDetail}
+            />
           ))
         )}
       </div>

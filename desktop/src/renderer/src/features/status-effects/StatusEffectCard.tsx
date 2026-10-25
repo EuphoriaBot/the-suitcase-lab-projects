@@ -1,15 +1,19 @@
 import type { JSX } from 'react'
 
-import type { DashboardStatusEffect } from '../dashboard/dashboardData'
+import type { DashboardArcanist, DashboardStatusEffect } from '../dashboard/dashboardData'
 
 interface StatusEffectCardProps {
   statusEffect: DashboardStatusEffect
+  arcanists: DashboardArcanist[]
+  onOpen: (id: string) => void
 }
 
-function StatusEffectCard({ statusEffect }: StatusEffectCardProps): JSX.Element {
-  const relatedArcanistCount = Array.isArray(statusEffect.relatedArcanists)
-    ? statusEffect.relatedArcanists.length
-    : 0
+function StatusEffectCard({ statusEffect, arcanists, onOpen }: StatusEffectCardProps): JSX.Element {
+  const relatedArcanistCount = arcanists.filter(
+    (arcanist) =>
+      statusEffect.relatedArcanists?.includes(arcanist.id) ||
+      arcanist.relatedStatusEffects?.includes(statusEffect.id)
+  ).length
 
   const tags = Array.isArray(statusEffect.tags) ? statusEffect.tags : []
 
@@ -18,17 +22,15 @@ function StatusEffectCard({ statusEffect }: StatusEffectCardProps): JSX.Element 
       <div className="status-effect-card-content">
         {/* STATUS EFFECT NAME */}
         <div className="status-effect-card-header">
-          <div>
-            <h2
-              style={{
-                fontSize: '18px',
-                fontWeight: 600,
-                color: 'var(--color-text)'
-              }}
+          <h2>
+            <button
+              type="button"
+              className="status-effect-name-button"
+              onClick={(): void => onOpen(statusEffect.id)}
             >
               {statusEffect.name}
-            </h2>
-          </div>
+            </button>
+          </h2>
         </div>
 
         {/* DESCRIPTION */}
