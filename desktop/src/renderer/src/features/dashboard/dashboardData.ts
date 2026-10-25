@@ -16,9 +16,15 @@ export interface DashboardArcanist {
 export interface DashboardStatusEffect {
   id: string
   name: string
+  category?: string
   description?: string
+  effect?: string
   duration?: string
+  stackable?: boolean
+  relatedArcanists?: string[]
+  relatedMechanics?: string[]
   tags?: string[]
+  notes?: string
 }
 
 export interface DashboardData {
