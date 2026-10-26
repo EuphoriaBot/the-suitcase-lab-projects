@@ -2,12 +2,11 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-
 import icon from '../../resources/icon.png?asset'
 
 import { initializeDatabase, closeDatabase } from './database'
-
 import { importLocalBackupFromEnvironment } from './importLocalBackup'
+import { verifySqliteMigrationFromEnvironment } from './verifySqliteMigration'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -46,9 +45,19 @@ app.whenReady().then(() => {
   try {
     initializeDatabase()
 
-    importLocalBackupFromEnvironment()
+    try {
+      importLocalBackupFromEnvironment()
+    } catch (error) {
+      console.error('[SQLite Import] FAILED:', error)
+    }
+
+    try {
+      verifySqliteMigrationFromEnvironment()
+    } catch (error) {
+      console.error('[SQLite Verify] FAILED:', error)
+    }
   } catch (error) {
-    console.error('[SQLite] Startup/import error:', error)
+    console.error('[SQLite] Initialization failed:', error)
   }
 
   app.on('browser-window-created', (_, window) => {
