@@ -7,6 +7,8 @@ import icon from '../../resources/icon.png?asset'
 
 import { initializeDatabase, closeDatabase } from './database'
 
+import { importLocalBackupFromEnvironment } from './importLocalBackup'
+
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -43,8 +45,10 @@ app.whenReady().then(() => {
 
   try {
     initializeDatabase()
+
+    importLocalBackupFromEnvironment()
   } catch (error) {
-    console.error('[SQLite] Database initialization failed:', error)
+    console.error('[SQLite] Startup/import error:', error)
   }
 
   app.on('browser-window-created', (_, window) => {
