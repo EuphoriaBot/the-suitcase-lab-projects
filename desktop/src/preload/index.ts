@@ -1,22 +1,30 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
+
 import { electronAPI } from '@electron-toolkit/preload'
 
-// Custom APIs for renderer
-const api = {}
+// ==========================================
+// CUSTOM RENDERER API
+// ==========================================
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
+const api = {
+  getSqliteSnapshot: () => ipcRenderer.invoke('database:get-snapshot')
+}
+
+// ==========================================
+// EXPOSE API TO REACT
+// ==========================================
+
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
+
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
-    console.error(error)
+    console.error('[Preload] Unable to expose API:', error)
   }
 } else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+  Object.assign(window, {
+    electron: electronAPI,
+    api
+  })
 }

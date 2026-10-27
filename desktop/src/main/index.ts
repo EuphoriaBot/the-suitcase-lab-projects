@@ -1,12 +1,18 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
+
 import { join } from 'path'
 
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+
 import icon from '../../resources/icon.png?asset'
 
 import { initializeDatabase, closeDatabase } from './database'
+
 import { importLocalBackupFromEnvironment } from './importLocalBackup'
+
 import { verifySqliteMigrationFromEnvironment } from './verifySqliteMigration'
+
+import { readSqliteSnapshot } from './sqliteRead'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -19,7 +25,9 @@ function createWindow(): void {
 
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      contextIsolation: true,
+      nodeIntegration: false
     }
   })
 
@@ -37,6 +45,18 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+}
+
+function registerDatabaseHandlers(): void {
+  ipcMain.handle('database:get-snapshot', (event) => {
+    const senderWindow = BrowserWindow.fromWebContents(event.sender)
+
+    if (!senderWindow || event.senderFrame !== senderWindow.webContents.mainFrame) {
+      throw new Error('Unauthorized database read request.')
+    }
+
+    return readSqliteSnapshot()
+  })
 }
 
 app.whenReady().then(() => {
@@ -59,6 +79,8 @@ app.whenReady().then(() => {
   } catch (error) {
     console.error('[SQLite] Initialization failed:', error)
   }
+
+  registerDatabaseHandlers()
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
