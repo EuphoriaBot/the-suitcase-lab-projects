@@ -10,6 +10,7 @@ import { importLocalBackupFromEnvironment } from './importLocalBackup'
 import { verifySqliteMigrationFromEnvironment } from './verifySqliteMigration'
 import { readSqliteSnapshot } from './sqliteRead'
 import { runSqliteCrudSmokeTest } from './sqliteCrud'
+import { reconcileLocalBackupFromEnvironment } from './reconcileLocalBackup'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -80,6 +81,12 @@ app.whenReady().then(() => {
       } catch (error) {
         console.error('[SQLite CRUD] TEST FAILED:', error)
       }
+    }
+
+    try {
+      reconcileLocalBackupFromEnvironment()
+    } catch (error) {
+      console.error('[SQLite Reconcile] FAILED:', error)
     }
   } catch (error) {
     console.error('[SQLite] Initialization failed:', error)
