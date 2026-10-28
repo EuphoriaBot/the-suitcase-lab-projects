@@ -1,5 +1,4 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-
 import { join } from 'path'
 
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -7,12 +6,10 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 import { initializeDatabase, closeDatabase } from './database'
-
 import { importLocalBackupFromEnvironment } from './importLocalBackup'
-
 import { verifySqliteMigrationFromEnvironment } from './verifySqliteMigration'
-
 import { readSqliteSnapshot } from './sqliteRead'
+import { runSqliteCrudSmokeTest } from './sqliteCrud'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -75,6 +72,14 @@ app.whenReady().then(() => {
       verifySqliteMigrationFromEnvironment()
     } catch (error) {
       console.error('[SQLite Verify] FAILED:', error)
+    }
+
+    if (process.env['SUITCASE_SQLITE_CRUD_TEST'] === 'YES') {
+      try {
+        runSqliteCrudSmokeTest()
+      } catch (error) {
+        console.error('[SQLite CRUD] TEST FAILED:', error)
+      }
     }
   } catch (error) {
     console.error('[SQLite] Initialization failed:', error)
