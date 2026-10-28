@@ -32,26 +32,16 @@ export interface DashboardData {
   statusEffects: DashboardStatusEffect[]
 }
 
-function readStoredList<T>(key: string): T[] {
-  const stored = localStorage.getItem(key)
+let currentData: DashboardData | null = null
 
-  if (!stored) {
-    return []
-  }
-
-  try {
-    const result: unknown = JSON.parse(stored)
-
-    return Array.isArray(result) ? (result as T[]) : []
-  } catch (error) {
-    console.error(`Failed to read ${key}`, error)
-    return []
-  }
+export function setDashboardData(data: DashboardData): void {
+  currentData = data
 }
 
 export function getDashboardData(): DashboardData {
-  return {
-    arcanists: readStoredList<DashboardArcanist>('reverse1999_arcanists'),
-    statusEffects: readStoredList<DashboardStatusEffect>('reverse1999_status_effects')
+  if (!currentData) {
+    throw new Error('SQLite data has not been loaded.')
   }
+
+  return currentData
 }

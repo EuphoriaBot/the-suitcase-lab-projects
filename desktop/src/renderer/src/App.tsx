@@ -1,4 +1,4 @@
-import { useEffect, useState, type JSX } from 'react'
+import { useCallback, useEffect, useState, type JSX } from 'react'
 
 import Sidebar from './components/Sidebar'
 import Topbar from './components/Topbar'
@@ -7,10 +7,49 @@ import DashboardPage from './features/dashboard/DashboardPage'
 import ArcanistsPage from './features/arcanists/ArcanistsPage'
 import StatusEffectsPage from './features/status-effects/StatusEffectsPage'
 
+import { setDashboardData } from './features/dashboard/dashboardData'
+import { verifyAndMarkCutover } from './features/dashboard/sqliteCutover'
 import { getPageFromHash, pageTitles, type Page } from './navigation'
 
 function App(): JSX.Element {
   const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash)
+  const [ready, setReady] = useState(false)
+  const [error, setError] = useState('')
+  const [, setRevision] = useState(0)
+
+  const refreshData = useCallback(async (): Promise<void> => {
+    const snapshot = await window.api.getSqliteSnapshot()
+
+    setDashboardData(snapshot)
+    setRevision((value) => value + 1)
+  }, [])
+
+  const initialize = useCallback(async (): Promise<void> => {
+    try {
+      if (!window.api || typeof window.api.getSqliteSnapshot !== 'function') {
+        throw new Error('Electron SQLite API is unavailable.')
+      }
+
+      const status = await window.api.getSqliteWriteStatus()
+
+      if (!status.enabled) {
+        throw new Error(
+          'SQLite write mode is disabled. Set SUITCASE_SQLITE_WRITE_ENABLED=YES before starting Electron.'
+        )
+      }
+
+      const snapshot = await window.api.getSqliteSnapshot()
+
+      verifyAndMarkCutover(snapshot)
+      setDashboardData(snapshot)
+
+      setError('')
+      setReady(true)
+    } catch (cause) {
+      setReady(false)
+      setError(cause instanceof Error ? cause.message : 'Unable to initialize SQLite.')
+    }
+  }, [])
 
   useEffect(() => {
     const handleHashChange = (): void => {
@@ -25,83 +64,41 @@ function App(): JSX.Element {
   }, [])
 
   useEffect(() => {
-    if (!import.meta.env.DEV) {
-      return
-    }
-
-    if (typeof window.api?.getSqliteSnapshot !== 'function') {
-      console.error('[SQLite IPC] Electron preload API is unavailable.')
-      return
-    }
-
-    let cancelled = false
-
-    void window.api
-      .getSqliteSnapshot()
-      .then((snapshot): void => {
-        if (cancelled) {
-          return
-        }
-
-        console.log('[SQLite IPC] READ SUCCESSFUL.')
-
-        console.log('[SQLite IPC] Database counts:', {
-          arcanists: snapshot.arcanists.length,
-          skills: snapshot.arcanists.reduce((total, arcanist) => total + arcanist.skills.length, 0),
-          portray: snapshot.arcanists.reduce(
-            (total, arcanist) => total + arcanist.portray.length,
-            0
-          ),
-          statusEffects: snapshot.statusEffects.length,
-          relationships: snapshot.arcanists.reduce(
-            (total, arcanist) => total + arcanist.relatedStatusEffects.length,
-            0
-          )
-        })
-
-        console.log('[SQLite IPC] Arcanists:')
-
-        console.table(
-          snapshot.arcanists.map((arcanist) => ({
-            id: arcanist.id,
-            name: arcanist.name
-          }))
-        )
-
-        console.log('[SQLite IPC] Status Effects:')
-
-        console.table(
-          snapshot.statusEffects.map((effect) => ({
-            id: effect.id,
-            name: effect.name
-          }))
-        )
-      })
-      .catch((error: unknown): void => {
-        if (cancelled) {
-          return
-        }
-
-        console.error('[SQLite IPC] READ FAILED:', error)
-      })
-
-    return (): void => {
-      cancelled = true
-    }
-  }, [])
-
-  const title = pageTitles[currentPage]
+    void Promise.resolve().then(initialize)
+  }, [initialize])
 
   function renderPage(): JSX.Element {
+    if (!ready) {
+      return (
+        <div className="empty-state">
+          <h2>{error ? 'SQLite Connection Required' : 'Loading SQLite...'}</h2>
+
+          <p>{error || 'Loading your local database.'}</p>
+
+          {error && (
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={(): void => {
+                void initialize()
+              }}
+            >
+              Retry
+            </button>
+          )}
+        </div>
+      )
+    }
+
     switch (currentPage) {
       case 'dashboard':
         return <DashboardPage />
 
       case 'arcanists':
-        return <ArcanistsPage />
+        return <ArcanistsPage onRefresh={refreshData} />
 
       case 'status-effects':
-        return <StatusEffectsPage />
+        return <StatusEffectsPage onRefresh={refreshData} />
     }
   }
 
@@ -110,7 +107,7 @@ function App(): JSX.Element {
       <Sidebar currentPage={currentPage} />
 
       <main className="main-content">
-        <Topbar title={title} />
+        <Topbar title={pageTitles[currentPage]} />
 
         <section className="page-content" id="page-content">
           {renderPage()}

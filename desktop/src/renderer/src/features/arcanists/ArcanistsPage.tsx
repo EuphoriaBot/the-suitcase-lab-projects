@@ -1,34 +1,31 @@
 import { useEffect, useState, type JSX } from 'react'
 
 import { getDashboardData } from '../dashboard/dashboardData'
+import { saveArcanist, deleteArcanist, type ArcanistPayload } from './arcanistStorage'
+import { matchesArcanistSearch } from './arcanistSearch'
 
 import ArcanistCard from './ArcanistCard'
 import ArcanistDetail from './ArcanistDetail'
 import ArcanistForm from './ArcanistForm'
 import DeleteArcanistDialog from './DeleteArcanistDialog'
 
-import { matchesArcanistSearch } from './arcanistSearch'
-
-import { saveArcanist, deleteArcanist, type ArcanistPayload } from './arcanistStorage'
+interface ArcanistsPageProps {
+  onRefresh: () => Promise<void>
+}
 
 type PageMode = 'list' | 'detail' | 'create' | 'edit'
 
-function ArcanistsPage(): JSX.Element {
-  const [data, setData] = useState(getDashboardData)
-
+function ArcanistsPage({ onRefresh }: ArcanistsPageProps): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('')
-
   const [mode, setMode] = useState<PageMode>('list')
-
   const [selectedArcanistId, setSelectedArcanistId] = useState<string | null>(null)
-
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
-
-  const [deleteError, setDeleteError] = useState<string | null>(null)
-
+  const [deleteError, setDeleteError] = useState('')
+  const [formError, setFormError] = useState('')
   const [notice, setNotice] = useState('')
+  const [busy, setBusy] = useState(false)
 
-  const { arcanists, statusEffects } = data
+  const { arcanists, statusEffects } = getDashboardData()
 
   const keyword = searchQuery.trim().toLowerCase()
 
@@ -40,7 +37,6 @@ function ArcanistsPage(): JSX.Element {
 
   const arcanistToDelete = arcanists.find((arcanist) => arcanist.id === deleteTargetId)
 
-  // REMOVE SUCCESS NOTIFICATION AFTER 3 SECONDS
   useEffect(() => {
     if (!notice) {
       return
@@ -55,39 +51,34 @@ function ArcanistsPage(): JSX.Element {
     }
   }, [notice])
 
-  // OPEN DETAIL
   function openDetail(id: string): void {
     setSelectedArcanistId(id)
     setMode('detail')
   }
 
-  // OPEN ADD FORM
   function openCreate(): void {
+    setFormError('')
     setSelectedArcanistId(null)
     setMode('create')
   }
 
-  // OPEN EDIT FORM
   function openEdit(id: string): void {
+    setFormError('')
     setSelectedArcanistId(id)
     setMode('edit')
   }
 
-  // SAVE ADD OR EDIT
-  function handleSave(payload: ArcanistPayload): void {
-    if (mode === 'edit' && !selectedArcanist) {
-      throw new Error('Arcanist could not be found.')
-    }
-
-    const savedArcanist = saveArcanist(payload, mode === 'edit' ? selectedArcanist?.id : undefined)
-
-    setData(getDashboardData())
-    setSelectedArcanistId(savedArcanist.id)
-    setMode('detail')
+  function backToList(): void {
+    setMode('list')
   }
 
-  // CANCEL ADD OR EDIT
   function handleCancel(): void {
+    if (busy) {
+      return
+    }
+
+    setFormError('')
+
     if (mode === 'edit' && selectedArcanist) {
       setMode('detail')
     } else {
@@ -95,67 +86,107 @@ function ArcanistsPage(): JSX.Element {
     }
   }
 
-  function backToList(): void {
-    setMode('list')
-  }
-
-  // OPEN DELETE CONFIRMATION
-  function requestDelete(id: string): void {
-    setDeleteError(null)
-    setDeleteTargetId(id)
-  }
-
-  // CANCEL DELETE
-  function cancelDelete(): void {
-    setDeleteTargetId(null)
-    setDeleteError(null)
-  }
-
-  // CONFIRM AND DELETE ARCANIST
-  function confirmDelete(): void {
-    if (!arcanistToDelete) {
+  function handleSave(payload: ArcanistPayload): void {
+    if (busy) {
       return
     }
 
-    try {
-      deleteArcanist(arcanistToDelete.id)
+    const wasEditing = mode === 'edit'
 
-      // Refresh Arcanists and Status Effects
-      setData(getDashboardData())
-
-      setDeleteTargetId(null)
-      setDeleteError(null)
-
-      setNotice('Arcanist deleted successfully.')
-    } catch (error) {
-      console.error('Failed to delete Arcanist:', error)
-
-      setDeleteError(error instanceof Error ? error.message : 'Unable to delete Arcanist.')
+    if (wasEditing && !selectedArcanist) {
+      setFormError('Arcanist could not be found.')
+      return
     }
+
+    setBusy(true)
+    setFormError('')
+
+    void saveArcanist(payload, wasEditing ? selectedArcanist?.id : undefined)
+      .then(async (savedId): Promise<void> => {
+        await onRefresh()
+
+        setSelectedArcanistId(savedId)
+        setMode('detail')
+
+        setNotice(wasEditing ? 'Arcanist updated successfully.' : 'Arcanist added successfully.')
+      })
+      .catch((error: unknown): void => {
+        setFormError(error instanceof Error ? error.message : 'Unable to save Arcanist.')
+      })
+      .finally((): void => {
+        setBusy(false)
+      })
   }
 
-  // ADD ARCANIST FORM
-  if (mode === 'create') {
-    return (
-      <ArcanistForm statusEffects={statusEffects} onSave={handleSave} onCancel={handleCancel} />
+  function requestDelete(id: string): void {
+    if (busy) {
+      return
+    }
+
+    setDeleteError('')
+    setDeleteTargetId(id)
+  }
+
+  function cancelDelete(): void {
+    if (busy) {
+      return
+    }
+
+    setDeleteTargetId(null)
+    setDeleteError('')
+  }
+
+  function confirmDelete(): void {
+    if (!arcanistToDelete || busy) {
+      return
+    }
+
+    setBusy(true)
+    setDeleteError('')
+
+    void deleteArcanist(arcanistToDelete.id)
+      .then(async (): Promise<void> => {
+        await onRefresh()
+
+        setDeleteTargetId(null)
+        setSelectedArcanistId(null)
+        setMode('list')
+        setNotice('Arcanist deleted successfully.')
+      })
+      .catch((error: unknown): void => {
+        setDeleteError(error instanceof Error ? error.message : 'Unable to delete Arcanist.')
+      })
+      .finally((): void => {
+        setBusy(false)
+      })
+  }
+
+  let content: JSX.Element
+
+  if (mode === 'create' || (mode === 'edit' && selectedArcanist)) {
+    content = (
+      <>
+        {formError && (
+          <p role="alert" style={{ color: '#E6A0A0' }}>
+            {formError}
+          </p>
+        )}
+
+        <fieldset
+          disabled={busy}
+          style={{ border: 0, padding: 0, margin: 0, width: '100%', minWidth: 0 }}
+        >
+          <ArcanistForm
+            initialArcanist={mode === 'edit' ? selectedArcanist : undefined}
+            statusEffects={statusEffects}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          />
+        </fieldset>
+      </>
     )
-  }
-
-  // EDIT ARCANIST FORM
-  if (mode === 'edit' && selectedArcanist) {
-    return (
-      <ArcanistForm
-        initialArcanist={selectedArcanist}
-        statusEffects={statusEffects}
-        onSave={handleSave}
-        onCancel={handleCancel}
-      />
-    )
-  }
-
-  // DETAIL ARCANIST
-  if (mode === 'detail' && selectedArcanist) {
-    return (
+  } else if (mode === 'detail' && selectedArcanist) {
+    content = (
       <ArcanistDetail
         arcanist={selectedArcanist}
         statusEffects={statusEffects}
@@ -163,11 +194,8 @@ function ArcanistsPage(): JSX.Element {
         onEdit={(): void => openEdit(selectedArcanist.id)}
       />
     )
-  }
-
-  // ARCANISTS GALLERY
-  return (
-    <>
+  } else {
+    content = (
       <div className="arcanists-page">
         <div className="page-header">
           <div>
@@ -178,12 +206,11 @@ function ArcanistsPage(): JSX.Element {
             <p className="page-description">Browse and manage your Reverse: 1999 Arcanist notes.</p>
           </div>
 
-          <button type="button" className="primary-button" onClick={openCreate}>
+          <button type="button" className="primary-button" disabled={busy} onClick={openCreate}>
             + Add Arcanist
           </button>
         </div>
 
-        {/* SEARCH */}
         <div className="search-container">
           <input
             type="text"
@@ -195,7 +222,6 @@ function ArcanistsPage(): JSX.Element {
           />
         </div>
 
-        {/* EMPTY STATE OR ARCANIST GALLERY */}
         {filteredArcanists.length === 0 ? (
           <div className="empty-state">
             <h2>No Arcanists Found</h2>
@@ -220,24 +246,27 @@ function ArcanistsPage(): JSX.Element {
           </div>
         )}
       </div>
+    )
+  }
 
-      {/* DELETE CONFIRMATION DIALOG */}
+  return (
+    <>
+      {content}
+
       {arcanistToDelete && (
         <DeleteArcanistDialog
           arcanistName={arcanistToDelete.name}
-          error={deleteError}
+          error={deleteError || null}
           onCancel={cancelDelete}
           onConfirm={confirmDelete}
         />
       )}
 
-      {/* SUCCESS NOTIFICATION */}
       {notice && (
         <div className="toast toast-success show" role="status" aria-live="polite">
           <span className="toast-icon" aria-hidden="true">
             ✓
           </span>
-
           <span className="toast-message">{notice}</span>
         </div>
       )}
