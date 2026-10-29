@@ -527,7 +527,6 @@ export function runSqliteCrudSmokeTest(): void {
         'Relationship synchronization failed.'
       )
 
-      // DELETE ARCANIST: Status Effect must remain.
       deleteSqliteArcanist(arcanistId)
 
       snapshot = readSqliteSnapshot()

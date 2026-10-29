@@ -7,6 +7,8 @@ import { is } from '@electron-toolkit/utils'
 import { readSqliteSnapshot } from './sqliteRead'
 import { createSqliteBackup } from './sqliteBackup'
 
+import { assertSqliteAvailable, withSqliteMaintenance, restoreSqliteBackup } from './sqliteRestore'
+
 import {
   saveSqliteArcanist,
   deleteSqliteArcanist,
@@ -14,7 +16,7 @@ import {
   deleteSqliteStatusEffect
 } from './sqliteCrud'
 
-function assertTrustedSender(event: IpcMainInvokeEvent): void {
+function assertTrustedSender(event: IpcMainInvokeEvent): BrowserWindow {
   const senderWindow = BrowserWindow.fromWebContents(event.sender)
 
   if (!senderWindow || event.senderFrame !== senderWindow.webContents.mainFrame) {
@@ -29,7 +31,7 @@ function assertTrustedSender(event: IpcMainInvokeEvent): void {
       throw new Error('Untrusted renderer origin.')
     }
 
-    return
+    return senderWindow
   }
 
   const expectedUrl = pathToFileURL(join(__dirname, '../renderer/index.html'))
@@ -39,6 +41,8 @@ function assertTrustedSender(event: IpcMainInvokeEvent): void {
   if (receivedUrl.protocol !== 'file:' || receivedUrl.pathname !== expectedUrl.pathname) {
     throw new Error('Untrusted renderer file.')
   }
+
+  return senderWindow
 }
 
 function isWriteEnabled(): boolean {
@@ -84,6 +88,7 @@ function optionalId(value: unknown): string | undefined {
 export function registerSqliteIpc(): void {
   ipcMain.handle('database:get-snapshot', (event: IpcMainInvokeEvent) => {
     assertTrustedSender(event)
+    assertSqliteAvailable()
 
     return readSqliteSnapshot()
   })
@@ -99,13 +104,22 @@ export function registerSqliteIpc(): void {
   ipcMain.handle('database:create-backup', (event: IpcMainInvokeEvent) => {
     assertTrustedSender(event)
 
-    return createSqliteBackup()
+    return withSqliteMaintenance(() => createSqliteBackup())
+  })
+
+  ipcMain.handle('database:restore-backup', (event: IpcMainInvokeEvent) => {
+    const senderWindow = assertTrustedSender(event)
+
+    assertWriteEnabled()
+
+    return restoreSqliteBackup(senderWindow)
   })
 
   ipcMain.handle(
     'database:save-arcanist',
     (event: IpcMainInvokeEvent, payload: unknown, existingId?: unknown) => {
       assertTrustedSender(event)
+      assertSqliteAvailable()
       assertWriteEnabled()
 
       requirePayloadFields(payload, 'Arcanist', [
@@ -128,6 +142,7 @@ export function registerSqliteIpc(): void {
 
   ipcMain.handle('database:delete-arcanist', (event: IpcMainInvokeEvent, id: unknown) => {
     assertTrustedSender(event)
+    assertSqliteAvailable()
     assertWriteEnabled()
 
     deleteSqliteArcanist(requireId(id))
@@ -137,6 +152,7 @@ export function registerSqliteIpc(): void {
     'database:save-status-effect',
     (event: IpcMainInvokeEvent, payload: unknown, existingId?: unknown) => {
       assertTrustedSender(event)
+      assertSqliteAvailable()
       assertWriteEnabled()
 
       requirePayloadFields(payload, 'Status Effect', [
@@ -156,6 +172,7 @@ export function registerSqliteIpc(): void {
 
   ipcMain.handle('database:delete-status-effect', (event: IpcMainInvokeEvent, id: unknown) => {
     assertTrustedSender(event)
+    assertSqliteAvailable()
     assertWriteEnabled()
 
     deleteSqliteStatusEffect(requireId(id))

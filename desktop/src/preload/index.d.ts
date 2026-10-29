@@ -49,18 +49,36 @@ export type SqliteArcanistInput = Omit<SqliteArcanist, 'id'>
 
 export type SqliteStatusEffectInput = Omit<SqliteStatusEffect, 'id'>
 
+export interface SqliteBackupCounts {
+  arcanists: number
+  skills: number
+  portray: number
+  statusEffects: number
+  relationships: number
+}
+
 export interface SqliteBackupResult {
   path: string
   sizeBytes: number
   schemaVersion: number
-  counts: {
-    arcanists: number
-    skills: number
-    portray: number
-    statusEffects: number
-    relationships: number
-  }
+  counts: SqliteBackupCounts
 }
+
+export interface SqliteDatabaseSummary {
+  schemaVersion: number
+  counts: SqliteBackupCounts
+}
+
+export type SqliteRestoreResult =
+  | {
+      status: 'cancelled'
+    }
+  | {
+      status: 'restored'
+      before: SqliteDatabaseSummary
+      after: SqliteDatabaseSummary
+      safetyBackupPath: string
+    }
 
 export interface SuitcaseAPI {
   getSqliteSnapshot: () => Promise<SqliteSnapshot>
@@ -70,6 +88,8 @@ export interface SuitcaseAPI {
   }>
 
   createSqliteBackup: () => Promise<SqliteBackupResult>
+
+  restoreSqliteBackup: () => Promise<SqliteRestoreResult>
 
   saveSqliteArcanist: (payload: SqliteArcanistInput, existingId?: string) => Promise<string>
 

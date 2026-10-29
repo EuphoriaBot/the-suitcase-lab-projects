@@ -8,6 +8,8 @@ const api = {
 
   createSqliteBackup: () => ipcRenderer.invoke('database:create-backup'),
 
+  restoreSqliteBackup: () => ipcRenderer.invoke('database:restore-backup'),
+
   saveSqliteArcanist: (payload: unknown, existingId?: string) =>
     ipcRenderer.invoke('database:save-arcanist', payload, existingId),
 
@@ -22,6 +24,7 @@ const api = {
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
+
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
     console.error('[Preload] Unable to expose API:', error)

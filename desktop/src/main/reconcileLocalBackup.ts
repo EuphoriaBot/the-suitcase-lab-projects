@@ -452,7 +452,6 @@ export function reconcileLocalBackupFromEnvironment(): void {
       insertRelation.run(arcanistId, statusId)
     }
 
-    // Verify the resulting database before commit.
     const result = readSqliteSnapshot()
 
     const resultArcanists = mapById(result.arcanists, 'Result Arcanist')

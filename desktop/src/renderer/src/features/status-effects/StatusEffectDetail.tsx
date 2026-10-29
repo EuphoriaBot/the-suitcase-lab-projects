@@ -58,7 +58,6 @@ function StatusEffectDetail({
     ? statusEffect.relatedArcanists
     : []
 
-  // Read relationships recorded on either side.
   const relatedArcanists = arcanists.filter(
     (arcanist) =>
       directRelations.includes(arcanist.id) ||
