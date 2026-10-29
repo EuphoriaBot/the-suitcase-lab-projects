@@ -1,11 +1,12 @@
 import { contextBridge, ipcRenderer } from 'electron'
-
 import { electronAPI } from '@electron-toolkit/preload'
 
 const api = {
   getSqliteSnapshot: () => ipcRenderer.invoke('database:get-snapshot'),
 
   getSqliteWriteStatus: () => ipcRenderer.invoke('database:get-write-status'),
+
+  createSqliteBackup: () => ipcRenderer.invoke('database:create-backup'),
 
   saveSqliteArcanist: (payload: unknown, existingId?: string) =>
     ipcRenderer.invoke('database:save-arcanist', payload, existingId),
@@ -21,7 +22,6 @@ const api = {
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
     console.error('[Preload] Unable to expose API:', error)

@@ -1,9 +1,5 @@
 import type { ElectronAPI } from '@electron-toolkit/preload'
 
-// ==========================================
-// SQLITE RECORD TYPES
-// ==========================================
-
 export interface SqliteSkill {
   name: string
   type: string
@@ -49,17 +45,22 @@ export interface SqliteSnapshot {
   statusEffects: SqliteStatusEffect[]
 }
 
-// ==========================================
-// WRITE PAYLOAD TYPES
-// ==========================================
-
 export type SqliteArcanistInput = Omit<SqliteArcanist, 'id'>
 
 export type SqliteStatusEffectInput = Omit<SqliteStatusEffect, 'id'>
 
-// ==========================================
-// IPC API
-// ==========================================
+export interface SqliteBackupResult {
+  path: string
+  sizeBytes: number
+  schemaVersion: number
+  counts: {
+    arcanists: number
+    skills: number
+    portray: number
+    statusEffects: number
+    relationships: number
+  }
+}
 
 export interface SuitcaseAPI {
   getSqliteSnapshot: () => Promise<SqliteSnapshot>
@@ -67,6 +68,8 @@ export interface SuitcaseAPI {
   getSqliteWriteStatus: () => Promise<{
     enabled: boolean
   }>
+
+  createSqliteBackup: () => Promise<SqliteBackupResult>
 
   saveSqliteArcanist: (payload: SqliteArcanistInput, existingId?: string) => Promise<string>
 
@@ -76,10 +79,6 @@ export interface SuitcaseAPI {
 
   deleteSqliteStatusEffect: (id: string) => Promise<void>
 }
-
-// ==========================================
-// GLOBAL WINDOW TYPES
-// ==========================================
 
 declare global {
   interface Window {

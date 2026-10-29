@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url'
 import { is } from '@electron-toolkit/utils'
 
 import { readSqliteSnapshot } from './sqliteRead'
+import { createSqliteBackup } from './sqliteBackup'
 
 import {
   saveSqliteArcanist,
@@ -83,6 +84,7 @@ function optionalId(value: unknown): string | undefined {
 export function registerSqliteIpc(): void {
   ipcMain.handle('database:get-snapshot', (event: IpcMainInvokeEvent) => {
     assertTrustedSender(event)
+
     return readSqliteSnapshot()
   })
 
@@ -92,6 +94,12 @@ export function registerSqliteIpc(): void {
     return {
       enabled: isWriteEnabled()
     }
+  })
+
+  ipcMain.handle('database:create-backup', (event: IpcMainInvokeEvent) => {
+    assertTrustedSender(event)
+
+    return createSqliteBackup()
   })
 
   ipcMain.handle(
