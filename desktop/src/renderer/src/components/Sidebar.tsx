@@ -1,5 +1,5 @@
-import type { Page } from '../navigation'
 import type { JSX } from 'react'
+import type { Page } from '../navigation'
 
 interface SidebarProps {
   currentPage: Page
@@ -32,6 +32,13 @@ function Sidebar({ currentPage }: SidebarProps): JSX.Element {
         >
           <span>◇</span>
           <span>Status Effects</span>
+        </a>
+
+        <div className="nav-section-title">TOOLS</div>
+
+        <a href="#database" className={`nav-item ${currentPage === 'database' ? 'active' : ''}`}>
+          <span>▣</span>
+          <span>Database</span>
         </a>
       </nav>
     </aside>

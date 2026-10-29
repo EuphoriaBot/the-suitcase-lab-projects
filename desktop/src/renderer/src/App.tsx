@@ -6,6 +6,7 @@ import Topbar from './components/Topbar'
 import DashboardPage from './features/dashboard/DashboardPage'
 import ArcanistsPage from './features/arcanists/ArcanistsPage'
 import StatusEffectsPage from './features/status-effects/StatusEffectsPage'
+import DatabasePage from './features/database/DatabasePage'
 
 import { setDashboardData } from './features/dashboard/dashboardData'
 import { verifyAndMarkCutover } from './features/dashboard/sqliteCutover'
@@ -33,9 +34,7 @@ function App(): JSX.Element {
       const status = await window.api.getSqliteWriteStatus()
 
       if (!status.enabled) {
-        throw new Error(
-          'SQLite write mode is disabled. Set SUITCASE_SQLITE_WRITE_ENABLED=YES before starting Electron.'
-        )
+        throw new Error('SQLite write access is disabled.')
       }
 
       const snapshot = await window.api.getSqliteSnapshot()
@@ -99,6 +98,9 @@ function App(): JSX.Element {
 
       case 'status-effects':
         return <StatusEffectsPage onRefresh={refreshData} />
+
+      case 'database':
+        return <DatabasePage />
     }
   }
 
