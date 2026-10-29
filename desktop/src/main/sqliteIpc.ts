@@ -13,10 +13,6 @@ import {
   deleteSqliteStatusEffect
 } from './sqliteCrud'
 
-// ==========================================
-// VALIDATE IPC SENDER
-// ==========================================
-
 function assertTrustedSender(event: IpcMainInvokeEvent): void {
   const senderWindow = BrowserWindow.fromWebContents(event.sender)
 
@@ -25,7 +21,6 @@ function assertTrustedSender(event: IpcMainInvokeEvent): void {
   }
 
   const senderUrl = event.senderFrame.url
-
   const developmentUrl = process.env['ELECTRON_RENDERER_URL']
 
   if (is.dev && developmentUrl) {
@@ -45,23 +40,15 @@ function assertTrustedSender(event: IpcMainInvokeEvent): void {
   }
 }
 
-// ==========================================
-// WRITE PERMISSION
-// ==========================================
-
 function isWriteEnabled(): boolean {
-  return process.env['SUITCASE_SQLITE_WRITE_ENABLED'] === 'YES'
+  return process.env['SUITCASE_SQLITE_WRITE_ENABLED'] !== 'NO'
 }
 
 function assertWriteEnabled(): void {
   if (!isWriteEnabled()) {
-    throw new Error('SQLite writes are disabled until the storage cutover is verified.')
+    throw new Error('SQLite write operations are disabled.')
   }
 }
-
-// ==========================================
-// VALIDATE BASIC INPUT SHAPE
-// ==========================================
 
 function requirePayloadFields(value: unknown, label: string, requiredFields: string[]): void {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
@@ -93,19 +80,12 @@ function optionalId(value: unknown): string | undefined {
   return requireId(value)
 }
 
-// ==========================================
-// REGISTER SQLITE IPC HANDLERS
-// ==========================================
-
 export function registerSqliteIpc(): void {
-  // READ DATA
   ipcMain.handle('database:get-snapshot', (event: IpcMainInvokeEvent) => {
     assertTrustedSender(event)
-
     return readSqliteSnapshot()
   })
 
-  // CHECK WRITE AVAILABILITY
   ipcMain.handle('database:get-write-status', (event: IpcMainInvokeEvent) => {
     assertTrustedSender(event)
 
@@ -114,7 +94,6 @@ export function registerSqliteIpc(): void {
     }
   })
 
-  // SAVE ARCANIST
   ipcMain.handle(
     'database:save-arcanist',
     (event: IpcMainInvokeEvent, payload: unknown, existingId?: unknown) => {
@@ -139,7 +118,6 @@ export function registerSqliteIpc(): void {
     }
   )
 
-  // DELETE ARCANIST
   ipcMain.handle('database:delete-arcanist', (event: IpcMainInvokeEvent, id: unknown) => {
     assertTrustedSender(event)
     assertWriteEnabled()
@@ -147,7 +125,6 @@ export function registerSqliteIpc(): void {
     deleteSqliteArcanist(requireId(id))
   })
 
-  // SAVE STATUS EFFECT
   ipcMain.handle(
     'database:save-status-effect',
     (event: IpcMainInvokeEvent, payload: unknown, existingId?: unknown) => {
@@ -169,7 +146,6 @@ export function registerSqliteIpc(): void {
     }
   )
 
-  // DELETE STATUS EFFECT
   ipcMain.handle('database:delete-status-effect', (event: IpcMainInvokeEvent, id: unknown) => {
     assertTrustedSender(event)
     assertWriteEnabled()
