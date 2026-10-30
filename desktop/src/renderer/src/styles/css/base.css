@@ -1,26 +1,117 @@
 :root {
-    --color-bg: #171C20;
-    --color-sidebar: #1E252B;
-    --color-card: #242C32;
-    --color-card-hover: #2D363D;
-    --color-border: #3B454B;
-    --color-text: #F1ECE1;
-    --color-text-secondary: #C9C0B2;
-    --color-text-muted: #92918B;
-    --color-gold: #B69A63;
-    --color-gold-hover: #C5AA70;
-    --color-teal: #718A87;
-    --color-copper: #A96B50;
-    --color-danger: #9A4F52;
+  color-scheme: dark;
+
+  --color-bg: #191d1b;
+  --color-sidebar: #202724;
+  --color-card: #252d2b;
+  --color-card-hover: #303936;
+  --color-border: #444b43;
+
+  --color-text: #f4ebdd;
+  --color-text-secondary: #c7bfaf;
+  --color-text-muted: #9e9c90;
+
+  --color-gold: #cab078;
+  --color-gold-hover: #e1c891;
+
+  --color-teal: #7f9e9a;
+  --color-copper: #b68067;
+  --color-danger: #bc7776;
+
+  --color-paper: #f2e8d5;
+  --color-ink: #171d1d;
+  --color-surface-deep: #131716;
+  --color-success: #91ad8f;
+
+  --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+
+  --radius-card: 16px;
+  --radius-control: 9px;
+
+  --shadow-card: 0 8px 28px rgba(0, 0, 0, 0.12);
+  --shadow-elevated: 0 16px 42px rgba(0, 0, 0, 0.22);
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 0;
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--color-bg);
-    color: var(--color-text);
+  margin: 0;
+  min-width: 0;
+  min-height: 100vh;
+
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: var(--color-text);
+
+  background:
+    radial-gradient(ellipse at 85% 0%, rgba(127, 158, 154, 0.045), transparent 48%), var(--color-bg);
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-text);
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 3vw, 38px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+
+.sidebar-header h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.page-eyebrow {
+  color: var(--color-gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+::selection {
+  color: var(--color-ink);
+  background: var(--color-gold);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
