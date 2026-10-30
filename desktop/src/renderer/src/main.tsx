@@ -9,6 +9,7 @@ import './styles/css/arcanist.css'
 import './styles/css/status-effect.css'
 import './styles/css/responsive.css'
 import './styles/css/database.css'
+import './styles/css/navigation-polish.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
