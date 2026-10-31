@@ -10,6 +10,7 @@ import './styles/css/status-effect.css'
 import './styles/css/responsive.css'
 import './styles/css/database.css'
 import './styles/css/navigation-polish.css'
+import './styles/css/archive-list-header.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
