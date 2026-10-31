@@ -199,9 +199,7 @@ function ArcanistsPage({ onRefresh }: ArcanistsPageProps): JSX.Element {
       <div className="arcanists-page">
         <div className="page-header">
           <div>
-            <div className="page-eyebrow">DATABASE</div>
-
-            <h1>Arcanists</h1>
+            <div className="page-eyebrow">ARCANIST ARCHIVE</div>
 
             <p className="page-description">Browse and manage your Reverse: 1999 Arcanist notes.</p>
           </div>
