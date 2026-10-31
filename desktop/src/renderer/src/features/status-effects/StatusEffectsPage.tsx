@@ -207,9 +207,7 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
       <div className="status-effects-page">
         <div className="page-header">
           <div>
-            <div className="page-eyebrow">DATABASE</div>
-
-            <h1>Status Effects</h1>
+            <div className="page-eyebrow">STATUS EFFECT ARCHIVE</div>
 
             <p className="page-description">Record and review your Reverse: 1999 Status Effects.</p>
           </div>
