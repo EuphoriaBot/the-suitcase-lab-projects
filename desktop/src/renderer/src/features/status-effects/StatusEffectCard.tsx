@@ -25,26 +25,22 @@ function StatusEffectCard({
 
   return (
     <article className="status-effect-card">
+      <button
+        type="button"
+        className="status-effect-card-open"
+        aria-label={`View details for ${statusEffect.name}`}
+        onClick={(): void => onOpen(statusEffect.id)}
+      />
+
       <div className="status-effect-card-content">
-        {/* STATUS EFFECT NAME */}
         <div className="status-effect-card-header">
-          <h2>
-            <button
-              type="button"
-              className="status-effect-name-button"
-              onClick={(): void => onOpen(statusEffect.id)}
-            >
-              {statusEffect.name}
-            </button>
-          </h2>
+          <h2 className="status-effect-card-title">{statusEffect.name}</h2>
         </div>
 
-        {/* DESCRIPTION */}
         <p className="status-effect-summary">
           {statusEffect.description || 'No description available.'}
         </p>
 
-        {/* TAGS */}
         {tags.length > 0 && (
           <div className="status-effect-tags">
             {tags.map((tag, index) => (
@@ -55,7 +51,6 @@ function StatusEffectCard({
           </div>
         )}
 
-        {/* STATUS EFFECT INFORMATION */}
         <div className="status-effect-card-stats">
           <span>{statusEffect.duration || 'No duration'}</span>
 
@@ -67,7 +62,6 @@ function StatusEffectCard({
         </div>
       </div>
 
-      {/* ACTIONS */}
       <div className="status-effect-card-actions">
         <button
           type="button"
