@@ -161,3 +161,287 @@
     transition: none;
   }
 }
+
+
+.timekeeper-room--opening .timekeeper-room__canvas {
+  animation: timekeeper-camera-enter 2.4s cubic-bezier(0.18, 0.7, 0.22, 1)
+    both;
+}
+
+.timekeeper-room__intro {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  perspective: 1600px;
+  background: transparent;
+  animation: timekeeper-intro-exit 450ms ease-in 1950ms forwards;
+}
+
+.timekeeper-room__intro-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.15%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.42),
+      transparent 18%,
+      rgba(196, 151, 89, 0.06) 45%,
+      rgba(0, 0, 0, 0.28)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #231d18 0,
+      #30271e 9px,
+      #28221c 17px,
+      #211b17 28px
+    );
+  box-shadow:
+    inset 0 0 0 6px rgba(119, 92, 53, 0.42),
+    inset 0 0 70px rgba(0, 0, 0, 0.75);
+}
+
+.timekeeper-room__intro-door::before {
+  content: '';
+  position: absolute;
+  inset: 7% 8%;
+  border: 2px solid rgba(183, 146, 88, 0.37);
+  box-shadow:
+    inset 0 0 0 8px rgba(0, 0, 0, 0.13),
+    inset 0 0 0 10px rgba(177, 141, 83, 0.16);
+  pointer-events: none;
+}
+
+.timekeeper-room__intro-door::after {
+  content: '';
+  position: absolute;
+  top: 21%;
+  bottom: 21%;
+  left: 18%;
+  right: 18%;
+  border: 1px solid rgba(182, 146, 92, 0.2);
+  pointer-events: none;
+}
+
+.timekeeper-room__intro-door--left {
+  left: 0;
+  transform-origin: left center;
+  animation: timekeeper-door-open-left 1400ms
+    cubic-bezier(0.3, 0.12, 0.15, 1) 550ms forwards;
+}
+
+.timekeeper-room__intro-door--right {
+  right: 0;
+  transform-origin: right center;
+  animation: timekeeper-door-open-right 1400ms
+    cubic-bezier(0.3, 0.12, 0.15, 1) 550ms forwards;
+}
+
+.timekeeper-room__intro-handle {
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(218, 183, 116, 0.72);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(195, 152, 84, 0.32),
+    rgba(24, 18, 13, 0.74)
+  );
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 4px rgba(0, 0, 0, 0.18);
+  transform: translateY(-50%);
+}
+
+.timekeeper-room__intro-door--left .timekeeper-room__intro-handle {
+  right: 19px;
+}
+
+.timekeeper-room__intro-door--right .timekeeper-room__intro-handle {
+  left: 19px;
+}
+
+.timekeeper-room__intro-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(90%, 520px);
+  color: #eaddc2;
+  text-align: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: timekeeper-intro-content-hide 380ms ease 580ms forwards;
+}
+
+.timekeeper-room__intro-emblem {
+  color: #d3b77d;
+  font: 64px/1 Georgia, serif;
+  text-shadow: 0 0 38px rgba(205, 167, 94, 0.42);
+}
+
+.timekeeper-room__intro-eyebrow {
+  color: #cbb68c;
+  font: 11px/1.5 'Segoe UI', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.27em;
+}
+
+.timekeeper-room__intro-content h1 {
+  margin: 0;
+  color: #f5e8d0;
+  font: 400 clamp(30px, 4vw, 58px)/1.2 Georgia, serif;
+  letter-spacing: 0.035em;
+  text-shadow: 0 5px 30px rgba(0, 0, 0, 0.6);
+}
+
+.timekeeper-room__intro-subtitle {
+  color: rgba(225, 211, 185, 0.8);
+  font: italic 16px/1.4 Georgia, serif;
+}
+
+.timekeeper-room__intro-divider {
+  width: 100px;
+  height: 1px;
+  margin-top: 8px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(211, 183, 125, 0.8),
+    transparent
+  );
+}
+
+.timekeeper-room__intro-skip {
+  position: absolute;
+  right: 34px;
+  bottom: 26px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 13px;
+  border: 1px solid rgba(209, 181, 129, 0.32);
+  border-radius: 5px;
+  background: rgba(15, 19, 17, 0.7);
+  color: #dccbaa;
+  font: 11px/1 'Segoe UI', sans-serif;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+
+.timekeeper-room__intro-skip:hover,
+.timekeeper-room__intro-skip:focus-visible {
+  border-color: rgba(229, 202, 147, 0.8);
+  background: rgba(48, 44, 34, 0.9);
+}
+
+.timekeeper-room__intro-skip span {
+  font-size: 17px;
+}
+
+@keyframes timekeeper-door-open-left {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(-105deg);
+  }
+}
+
+@keyframes timekeeper-door-open-right {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(105deg);
+  }
+}
+
+@keyframes timekeeper-camera-enter {
+  from {
+    transform: translate(-50%, -50%) scale(1.075);
+    filter: brightness(0.7);
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes timekeeper-intro-content-hide {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -53%) scale(0.97);
+  }
+}
+
+@keyframes timekeeper-intro-exit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 680px) {
+  .timekeeper-room__intro-emblem {
+    font-size: 44px;
+  }
+
+  .timekeeper-room__intro-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  .timekeeper-room__intro-content h1 {
+    font-size: 30px;
+  }
+
+  .timekeeper-room__intro-subtitle {
+    font-size: 13px;
+  }
+
+  .timekeeper-room__intro-skip {
+    right: 15px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timekeeper-room--opening .timekeeper-room__canvas,
+  .timekeeper-room__intro,
+  .timekeeper-room__intro-door,
+  .timekeeper-room__intro-content {
+    animation: none;
+  }
+
+  .timekeeper-room__intro-skip {
+    transition: none;
+  }
+}
