@@ -3,522 +3,239 @@
   inset: 0;
   z-index: 500;
   overflow: hidden;
-  background: #080d12;
-  color: #ead6ad;
-  font-family: Georgia, 'Times New Roman', serif;
+  background: #0d1214;
   isolation: isolate;
 }
 
-.timekeeper-intro__world {
+.timekeeper-intro__scene {
   position: absolute;
-  inset: -4%;
-  overflow: hidden;
-  transform-origin: 50% 64%;
-  animation: tki-dolly 5.6s cubic-bezier(0.55, 0.06, 0.23, 1) both;
-}
-
-.timekeeper-intro__sky {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 22%, #7380863b, transparent 45%),
-    linear-gradient(#121c26, #29333a 63%, #0c1116);
-}
-
-.timekeeper-intro__sky::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    95deg,
-    transparent 0 19px,
-    #b3c2ce18 20px,
-    transparent 21px 48px
-  );
-  animation: tki-rain 10s linear infinite;
-}
-
-.timekeeper-intro__building {
-  position: absolute;
-  bottom: 14%;
+  top: 50%;
   left: 50%;
-  width: min(92%, 1300px);
-  height: 77%;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 22px 32px #000c);
+  width: max(100vw, 133.3333dvh);
+  aspect-ratio: 1448 / 1086;
+  background: url('../../assets/timekeeper/archive-exterior.webp') center / 100% 100% no-repeat;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: 50.8% 59%;
+  backface-visibility: hidden;
+  will-change: transform, filter;
+  animation: tki-camera-approach 6400ms cubic-bezier(0.39, 0.03, 0.28, 1) both;
 }
 
-.timekeeper-intro__roof {
+.timekeeper-intro__portal {
   position: absolute;
-  top: -5%;
-  left: 2%;
-  right: 2%;
-  height: 12%;
-  background: linear-gradient(#101216, #384049 30%, #171d21 67%, #0d1012);
-  clip-path: polygon(0 100%, 7% 34%, 21% 34%, 29% 0, 71% 0, 79% 34%, 93% 34%, 100% 100%);
-  border-bottom: 4px solid #88765b;
-}
-
-.timekeeper-intro__facade {
-  position: absolute;
-  inset: 5% 0 0;
-  border: 9px solid #303036;
-  border-bottom: 0;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 44px, #0004 45px 47px),
-    repeating-linear-gradient(90deg, #33383a 0 140px, #414448 142px 145px, #303336 147px 280px);
-  box-shadow:
-    inset 0 15px 30px #000b,
-    inset 0 0 0 6px #776c58,
-    0 -9px 0 #181e23;
-}
-
-.timekeeper-intro__facade::before {
-  content: '';
-  position: absolute;
-  top: 14%;
-  left: 0;
-  right: 0;
-  height: 8%;
-  background: linear-gradient(#131619, #978261 35%, #3e3b38 70%, #181b1d);
-  box-shadow: 0 9px 15px #0007;
-}
-
-.timekeeper-intro__wing {
-  position: absolute;
-  top: 20%;
-  width: 32%;
-  bottom: 0;
-}
-
-.timekeeper-intro__wing--left {
-  left: 0;
-}
-
-.timekeeper-intro__wing--right {
-  right: 0;
-}
-
-.timekeeper-intro__wing::before,
-.timekeeper-intro__wing::after {
-  content: '';
-  position: absolute;
-  top: -2%;
-  bottom: 0;
-  width: 8%;
-  background: linear-gradient(90deg, #16191d, #87806e 42%, #22252a 80%);
-  box-shadow: 5px 0 18px #0007;
-}
-
-.timekeeper-intro__wing::before {
-  left: 2%;
-}
-
-.timekeeper-intro__wing::after {
-  right: 2%;
-}
-
-.timekeeper-intro__window {
-  position: absolute;
-  top: 12%;
-  left: 22%;
-  width: 56%;
-  height: 54%;
-  border: 9px solid #151b1d;
-  border-top: 15px solid #6c6657;
-  border-radius: 48% 48% 0 0 / 18% 18% 0 0;
-  background:
-    linear-gradient(90deg, transparent 47%, #594b37 48% 52%, transparent 53%),
-    linear-gradient(0deg, transparent 48%, #594b37 49% 52%, transparent 53%),
-    radial-gradient(ellipse at 62% 78%, #c4a77b55, transparent 50%),
-    linear-gradient(125deg, #0a1318, #253541 60%, #070b0e);
-  box-shadow:
-    0 0 0 3px #a29370,
-    inset 0 0 25px #000c,
-    0 10px 25px #0009;
-}
-
-.timekeeper-intro__sconce {
-  position: absolute;
-  top: 51%;
-  left: 12%;
-  width: 14px;
-  height: 54px;
-  border-radius: 30% 30% 10% 10%;
-  background: linear-gradient(90deg, #544429, #ffd28a, #4f3b28);
-  box-shadow:
-    0 0 28px 12px #ffc47542,
-    0 0 60px 20px #e6a25515;
-}
-
-.timekeeper-intro__wing--right .timekeeper-intro__sconce {
-  left: auto;
-  right: 12%;
-}
-
-.timekeeper-intro__entrance {
-  position: absolute;
-  left: 34%;
-  right: 34%;
-  top: 2%;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.timekeeper-intro__crest {
-  position: relative;
-  z-index: 2;
-  margin-top: 0;
-  height: 9%;
-  color: #d5b981;
-  font-size: clamp(26px, 3.3vw, 48px);
-  text-shadow: 0 0 20px #e9bd6b88;
-}
-
-.timekeeper-intro__name {
-  position: relative;
-  z-index: 2;
-  width: 145%;
-  padding: 10px 0;
-  color: #eddbb6;
-  text-align: center;
-  font-size: clamp(11px, 1.55vw, 24px);
-  letter-spacing: 0.14em;
-  white-space: nowrap;
-  text-shadow: 0 3px 10px #000;
-  background: linear-gradient(90deg, #15191d, #34302a, #15191d);
-  border-block: 2px solid #99805b;
-  box-shadow: 0 6px 18px #0009;
-}
-
-.timekeeper-intro__arch {
-  position: relative;
-  width: 100%;
-  flex: 1;
-  min-height: 0;
-  margin-top: 2%;
-  overflow: hidden;
-  border: 13px solid #3f3b38;
-  border-top: 20px solid #75694f;
-  border-bottom: 0;
-  border-radius: 49% 49% 0 0 / 14% 14% 0 0;
-  background: #080c0c;
-  box-shadow:
-    0 0 0 5px #8c7a5b,
-    0 0 0 12px #1a1b1b,
-    0 15px 24px #000c,
-    inset 0 0 28px #000;
+  left: 42.9558%;
+  top: 44.3831%;
+  width: 16.0221%;
+  height: 31.1234%;
+  isolation: isolate;
+  overflow: visible;
   perspective: 1100px;
+  background:
+    linear-gradient(180deg, rgba(3, 8, 8, 0.46), rgba(85, 59, 35, 0.22)),
+    url('../../assets/timekeeper/room-scene.webp') 47% 42% / auto 100% no-repeat;
+  box-shadow: inset 0 0 22px 9px rgba(0, 0, 0, 0.55);
 }
 
-.timekeeper-intro__inside {
+.timekeeper-intro__portal-light {
   position: absolute;
-  inset: 0;
-  background: url('../../assets/timekeeper/room-scene.webp') center / auto 100% no-repeat;
-  filter: sepia(0.13) brightness(0.67);
-  transform: scale(1.1);
-  animation: tki-inside 5.6s ease-in forwards;
+  inset: -12%;
+  z-index: 0;
+  background: radial-gradient(ellipse, rgba(250, 210, 146, 0.36), transparent 72%);
+  filter: blur(13px);
+  opacity: 0;
+  pointer-events: none;
+  animation: tki-light-rise 6400ms ease both;
 }
 
 .timekeeper-intro__door {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 50.15%;
-  background:
-    linear-gradient(90deg, #08070599, transparent 25%, #c6a36a17 58%, #06050499),
-    repeating-linear-gradient(90deg, #241915 0 14px, #3c2820 15px 32px, #271c18 33px 44px);
-  border: 7px solid #8b6b48;
-  box-shadow:
-    inset 0 0 0 4px #30201c,
-    inset 0 0 36px #0008;
+  z-index: 1;
   backface-visibility: hidden;
+  transform-style: preserve-3d;
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.24);
 }
 
 .timekeeper-intro__door--left {
   left: 0;
+  width: 50.431%;
+  background-image: url('../../assets/timekeeper/archive-door-left.webp');
   transform-origin: left center;
-  animation: tki-left-door 1.8s cubic-bezier(0.55, 0.02, 0.15, 1) 2.55s both;
+  animation: tki-door-left 6400ms cubic-bezier(0.41, 0.05, 0.14, 1) both;
 }
 
 .timekeeper-intro__door--right {
   right: 0;
+  width: 49.569%;
+  background-image: url('../../assets/timekeeper/archive-door-right.webp');
   transform-origin: right center;
-  animation: tki-right-door 1.8s cubic-bezier(0.55, 0.02, 0.15, 1) 2.55s both;
+  animation: tki-door-right 6400ms cubic-bezier(0.41, 0.05, 0.14, 1) both;
 }
 
-.timekeeper-intro__door-inset {
-  position: absolute;
-  inset: 9% 13%;
-  border: 2px solid #ae8453;
-  box-shadow:
-    inset 0 0 0 8px #1a12109c,
-    0 0 0 5px #30211f;
+.timekeeper-intro__rain {
+  display: none;
 }
 
-.timekeeper-intro__door-inset::after {
-  content: '';
-  position: absolute;
-  inset: 6% 9%;
-  border: 1px solid #8a6a45;
-}
-
-.timekeeper-intro__handle {
-  position: absolute;
-  top: 53%;
-  width: 18px;
-  height: 42px;
-  border-radius: 10px;
-  border: 3px solid #bda06b;
-  background: #483726;
-  box-shadow:
-    0 3px 14px #000b,
-    0 0 7px #e0ba75;
-}
-
-.timekeeper-intro__door--left .timekeeper-intro__handle {
-  right: 12px;
-}
-
-.timekeeper-intro__door--right .timekeeper-intro__handle {
-  left: 12px;
-}
-
-.timekeeper-intro__steps {
-  position: absolute;
-  left: -18%;
-  right: -18%;
-  bottom: -7%;
-  height: 8%;
-  background: linear-gradient(#b6a38c, #39383b 35%, #181d23);
-  box-shadow: 0 9px 9px #0007;
-}
-
-.timekeeper-intro__street {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 16%;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 150px, #101719aa 151px 154px),
-    repeating-linear-gradient(0deg, #2e3438 0 39px, #131b21 41px 44px);
-  box-shadow: inset 0 24px 24px #0009;
-}
-
-.timekeeper-intro__street::after {
-  content: '';
+.timekeeper-intro__curtain {
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent, #e0a86925 50%, transparent 70%);
-}
-
-.timekeeper-intro__caption {
-  position: absolute;
-  top: 9%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 8px;
-  width: 90%;
-  color: #eee0bc;
-  text-align: center;
-  text-shadow: 0 4px 22px #000;
-  transform: translateX(-50%);
-  animation: tki-caption-out 850ms ease 1.6s both;
-}
-
-.timekeeper-intro__caption > span:first-child {
-  font:
-    11px 'Segoe UI',
-    sans-serif;
-  letter-spacing: 0.3em;
-}
-
-.timekeeper-intro__caption strong {
-  font-size: clamp(19px, 2.6vw, 38px);
-  font-weight: 400;
-  font-style: italic;
-}
-
-.timekeeper-intro__caption-rule {
-  width: 100px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #d3b37a, transparent);
-}
-
-.timekeeper-intro__fade {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  background: #0a0e12;
+  z-index: 3;
   pointer-events: none;
-  animation: tki-curtain 5.6s linear both;
+  background: #0c1212;
+  opacity: 0;
+  animation: tki-final-curtain 6400ms linear both;
 }
 
 .timekeeper-intro__skip {
   position: absolute;
-  z-index: 8;
-  right: 25px;
-  bottom: 23px;
+  right: 30px;
+  bottom: 26px;
+  z-index: 4;
   display: inline-flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
   padding: 11px 15px;
-  border: 1px solid #b8a07799;
-  border-radius: 4px;
-  background: #0b1014c7;
-  color: #e2d2b3;
+  border: 1px solid rgba(212, 181, 124, 0.56);
+  border-radius: 5px;
+  background: rgba(12, 17, 18, 0.84);
+  color: #e6d5b3;
   font:
-    12px 'Segoe UI',
+    12px/1 'Segoe UI',
     sans-serif;
   letter-spacing: 0.07em;
   cursor: pointer;
   transition:
-    background-color 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    background-color 180ms ease;
 }
 
 .timekeeper-intro__skip:hover,
 .timekeeper-intro__skip:focus-visible {
-  border-color: #e9cc90;
-  background: #3b3225;
+  border-color: #ebce96;
+  background: rgba(53, 45, 33, 0.97);
+}
+
+.timekeeper-intro__skip span {
+  font-size: 18px;
 }
 
 .timekeeper-entry__room {
   width: 100%;
   min-height: 100dvh;
-  background: #0b1013;
-  animation: tki-room-reveal 750ms ease-out both;
+  background: #0c1212;
+  animation: tki-interior-arrival 650ms ease-out both;
 }
 
-@keyframes tki-dolly {
-  0%,
-  15% {
-    transform: scale(1);
+@keyframes tki-camera-approach {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    filter: brightness(0.82);
   }
-
-  41% {
-    transform: scale(1.15);
+  10% {
+    filter: brightness(1);
   }
-
-  65% {
-    transform: scale(1.39);
+  28% {
+    transform: translate(-50%, -50%) scale(1.16);
   }
-
-  84% {
-    transform: scale(1.72);
+  49% {
+    transform: translate(-50%, -50%) scale(1.52);
   }
-
+  74% {
+    transform: translate(-50%, -50%) scale(2.65);
+  }
   100% {
-    transform: scale(2.6);
+    transform: translate(-50%, -50%) scale(5.1);
+    filter: brightness(1);
   }
 }
 
-@keyframes tki-left-door {
-  from {
-    transform: rotateY(0);
-  }
-
-  to {
-    transform: rotateY(-108deg);
-  }
-}
-
-@keyframes tki-right-door {
-  from {
-    transform: rotateY(0);
-  }
-
-  to {
-    transform: rotateY(108deg);
-  }
-}
-
-@keyframes tki-inside {
+@keyframes tki-door-left {
   0%,
-  65% {
-    filter: sepia(0.13) brightness(0.67);
+  42% {
+    transform: rotateY(0deg);
   }
-
+  70%,
   100% {
-    filter: sepia(0) brightness(1);
+    transform: rotateY(-112deg);
   }
 }
 
-@keyframes tki-caption-out {
-  to {
+@keyframes tki-door-right {
+  0%,
+  42% {
+    transform: rotateY(0deg);
+  }
+  70%,
+  100% {
+    transform: rotateY(112deg);
+  }
+}
+
+@keyframes tki-light-rise {
+  0%,
+  43% {
     opacity: 0;
-    transform: translate(-50%, -12px);
+  }
+  72% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 0.35;
   }
 }
 
-@keyframes tki-curtain {
+@keyframes tki-final-curtain {
   0% {
     opacity: 1;
   }
-
-  12%,
-  77% {
+  11%,
+  84% {
     opacity: 0;
   }
-
   100% {
     opacity: 1;
   }
 }
 
-@keyframes tki-room-reveal {
-  from {
-    opacity: 0;
-    transform: scale(1.025);
-  }
-
+@keyframes tki-falling-rain {
   to {
-    opacity: 1;
-    transform: scale(1);
+    background-position: 90px 320px;
   }
 }
 
-@keyframes tki-rain {
+@keyframes tki-interior-arrival {
+  from {
+    opacity: 0;
+    filter: brightness(0.7);
+  }
   to {
-    background-position: 100px 290px;
+    opacity: 1;
+    filter: brightness(1);
   }
 }
 
 @media (max-width: 700px) {
-  .timekeeper-intro__building {
-    width: 140%;
-    height: 70%;
-  }
-
-  .timekeeper-intro__entrance {
-    left: 32%;
-    right: 32%;
-  }
-
-  .timekeeper-intro__wing .timekeeper-intro__window {
-    opacity: 0.55;
-  }
-
-  .timekeeper-intro__name {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-
   .timekeeper-intro__skip {
     right: 14px;
-    bottom: 15px;
+    bottom: 14px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .timekeeper-intro *,
+  .timekeeper-intro__scene,
+  .timekeeper-intro__door,
+  .timekeeper-intro__portal-light,
+  .timekeeper-intro__curtain,
+  .timekeeper-intro__rain,
   .timekeeper-entry__room {
-    animation: none !important;
-    transition: none !important;
+    animation: none;
+  }
+
+  .timekeeper-intro__skip {
+    transition: none;
   }
 }
