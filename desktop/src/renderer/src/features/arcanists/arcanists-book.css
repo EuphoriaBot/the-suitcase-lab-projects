@@ -1,0 +1,704 @@
+.app:has(.arcanists-book) > .sidebar,
+.app:has(.arcanists-book) .topbar {
+  display: none;
+}
+
+.app:has(.arcanists-book) .page-content {
+  padding: 0;
+}
+
+.arcanists-book {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 30px 38px 35px;
+  background:
+    radial-gradient(ellipse at 50% 5%, rgba(164, 124, 76, 0.17), transparent 52%),
+    radial-gradient(ellipse at 50% 110%, rgba(12, 9, 7, 0.85), transparent 58%),
+    repeating-linear-gradient(94deg, rgba(225, 191, 137, 0.015) 0 1px, transparent 1px 8px), #1a1b18;
+  color: #403426;
+}
+
+.arcanists-book__desk {
+  width: min(1240px, 100%);
+  min-width: 0;
+}
+
+.arcanists-book__toolbar,
+.arcanists-book__footnote {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #c0aa83;
+  font:
+    600 10px/1.5 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.15em;
+}
+
+.arcanists-book__toolbar {
+  min-height: 52px;
+  justify-content: space-between;
+  padding-right: 150px;
+}
+
+.arcanists-book__toolbar button {
+  border: 1px solid rgba(205, 177, 123, 0.68);
+  border-radius: 3px;
+  background: #c8ac78;
+  color: #261e17;
+  padding: 10px 15px;
+  font:
+    700 11px/1.3 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.arcanists-book__toolbar button:hover:not(:disabled) {
+  background: #eed4a1;
+  transform: translateY(-1px);
+}
+
+.arcanists-book__toolbar button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.arcanists-book__spread {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 610px;
+  border: 8px solid #4a3525;
+  border-radius: 12px 16px 16px 12px;
+  background: #d7c6a4;
+  box-shadow:
+    0 0 0 2px #91724e,
+    0 0 0 6px rgba(21, 15, 11, 0.5),
+    0 27px 48px rgba(0, 0, 0, 0.55),
+    0 48px 85px rgba(0, 0, 0, 0.25);
+  animation: arcanists-book-reveal 550ms ease-out both;
+}
+
+.arcanists-book__spread::after {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 20px);
+  width: 40px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(74, 51, 28, 0.12) 24%,
+    rgba(49, 35, 24, 0.31) 49%,
+    rgba(72, 51, 29, 0.19) 55%,
+    transparent 100%
+  );
+}
+
+.arcanists-book__leaf {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 610px;
+  padding: 33px clamp(25px, 3.3vw, 49px) 27px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 30px, rgba(84, 60, 36, 0.019) 31px 32px),
+    radial-gradient(ellipse at 50% 10%, rgba(255, 251, 231, 0.58), transparent 70%), #e8dcc2;
+}
+
+.arcanists-book__leaf--left {
+  border-radius: 5px 0 0 5px;
+  box-shadow:
+    inset -16px 0 24px rgba(70, 46, 24, 0.12),
+    inset 9px 0 8px rgba(255, 255, 247, 0.22);
+}
+
+.arcanists-book__leaf--right {
+  border-radius: 0 7px 7px 0;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 30px, rgba(84, 60, 36, 0.019) 31px 32px),
+    radial-gradient(ellipse at 45% 8%, rgba(255, 251, 231, 0.5), transparent 70%), #e3d4b6;
+  box-shadow:
+    inset 17px 0 26px rgba(63, 43, 25, 0.16),
+    inset -7px 0 10px rgba(255, 253, 238, 0.25);
+}
+
+.arcanists-book__kicker,
+.arcanists-book__search-label,
+.arcanists-book__index-heading,
+.arcanists-book__record-label {
+  color: #8d7046;
+  font:
+    700 10px/1.4 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.16em;
+}
+
+.arcanists-book__heading {
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(114, 87, 54, 0.38);
+}
+
+.arcanists-book__heading h1 {
+  margin: 10px 0 7px;
+  color: #3e3225;
+  font:
+    400 clamp(29px, 3vw, 43px)/1.05 Georgia,
+    'Times New Roman',
+    serif;
+  letter-spacing: -0.025em;
+}
+
+.arcanists-book__heading p {
+  margin: 0;
+  color: #756450;
+  font:
+    italic 14px/1.4 Georgia,
+    'Times New Roman',
+    serif;
+}
+
+.arcanists-book__search-label {
+  display: block;
+  margin-top: 22px;
+  margin-bottom: 8px;
+}
+
+.arcanists-book__search {
+  display: block;
+  width: 100%;
+  min-height: 41px;
+  padding: 9px 12px;
+  border: 1px solid rgba(125, 96, 59, 0.35);
+  border-radius: 3px;
+  background: rgba(255, 251, 233, 0.53);
+  color: #3c3126;
+  font:
+    13px 'Segoe UI',
+    sans-serif;
+  outline-offset: 2px;
+}
+
+.arcanists-book__search::placeholder {
+  color: #897965;
+}
+
+.arcanists-book__search:focus {
+  outline: 2px solid #ac8957;
+  border-color: #ac8957;
+}
+
+.arcanists-book__index-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 19px 0 7px;
+  border-bottom: 1px solid rgba(114, 87, 54, 0.17);
+  padding-bottom: 7px;
+}
+
+.arcanists-book__index {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.arcanists-book__index li {
+  min-width: 0;
+}
+
+.arcanists-book__entry {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 14px;
+  min-height: 58px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(109, 83, 50, 0.14);
+  background: transparent;
+  color: #403424;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.arcanists-book__entry:hover,
+.arcanists-book__entry.is-selected,
+.arcanists-book__entry:focus-visible {
+  background: rgba(136, 107, 65, 0.1);
+  border-color: rgba(136, 107, 65, 0.27);
+}
+
+.arcanists-book__entry:focus-visible {
+  outline: 2px solid #95764a;
+}
+
+.arcanists-book__entry-number {
+  min-width: 27px;
+  color: #a1875d;
+  font:
+    italic 21px Georgia,
+    serif;
+}
+
+.arcanists-book__entry-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.arcanists-book__entry-info strong {
+  overflow: hidden;
+  color: #3f3224;
+  font:
+    600 16px/1.25 Georgia,
+    serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arcanists-book__entry-info small {
+  color: #806e57;
+  font:
+    11px/1.4 'Segoe UI',
+    sans-serif;
+}
+
+.arcanists-book__entry-arrow {
+  color: #92764d;
+  font-size: 17px;
+}
+
+.arcanists-book__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(114, 87, 54, 0.27);
+  color: #816b4b;
+  font:
+    12px 'Segoe UI',
+    sans-serif;
+}
+
+.arcanists-book__pagination button {
+  border: 0;
+  padding: 6px 0;
+  background: transparent;
+  color: #795c37;
+  font:
+    600 12px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+}
+
+.arcanists-book__pagination button:hover:not(:disabled) {
+  color: #3a2919;
+  text-decoration: underline;
+}
+
+.arcanists-book__pagination button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.arcanists-book__page-number {
+  display: block;
+  margin-top: 11px;
+  text-align: center;
+  color: #9a8362;
+  font:
+    italic 12px Georgia,
+    serif;
+}
+
+.arcanists-book__right-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 11px;
+  border-bottom: 1px solid rgba(114, 87, 54, 0.38);
+}
+
+.arcanists-book__seal {
+  color: rgba(147, 112, 65, 0.75);
+  font:
+    30px/1 Georgia,
+    serif;
+}
+
+.arcanists-book__profile {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15px;
+  text-align: center;
+  animation: arcanists-profile-reveal 260ms ease-out both;
+}
+
+.arcanists-book__portrait {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: min(100%, 210px);
+  height: 180px;
+  overflow: hidden;
+  border: 5px solid #d3bb8b;
+  outline: 1px solid #9e8458;
+  background: radial-gradient(ellipse at 50% 80%, #818b77, #394c47 76%);
+  box-shadow: 0 7px 17px rgba(58, 36, 21, 0.23);
+}
+
+.arcanists-book__portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.arcanists-book__monogram {
+  margin: auto;
+  color: #e4d6b4;
+  font:
+    400 55px Georgia,
+    serif;
+  letter-spacing: 0.04em;
+}
+
+.arcanists-book__record-label {
+  margin-top: 18px;
+  font-size: 9px;
+}
+
+.arcanists-book__profile h2 {
+  margin: 5px 0 13px;
+  color: #423225;
+  font:
+    400 clamp(24px, 2.6vw, 35px)/1.05 Georgia,
+    serif;
+}
+
+.arcanists-book__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(117, 88, 51, 0.32);
+  border-bottom: 1px solid rgba(117, 88, 51, 0.32);
+}
+
+.arcanists-book__facts div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arcanists-book__facts span {
+  color: #8c704b;
+  font:
+    700 9px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.13em;
+}
+
+.arcanists-book__facts strong {
+  color: #4b3928;
+  font:
+    600 13px 'Segoe UI',
+    sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.arcanists-book__roles {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.arcanists-book__roles span {
+  padding: 4px 9px;
+  border: 1px solid rgba(124, 91, 50, 0.38);
+  border-radius: 2px;
+  color: #775638;
+  font:
+    11px 'Segoe UI',
+    sans-serif;
+}
+
+.arcanists-book__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.arcanists-book__actions button,
+.arcanists-book__blank-page button {
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid rgba(114, 87, 54, 0.35);
+  border-radius: 3px;
+  background: rgba(255, 248, 222, 0.3);
+  color: #5b4129;
+  font:
+    600 12px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+}
+
+.arcanists-book__actions button:hover:not(:disabled),
+.arcanists-book__blank-page button:hover:not(:disabled) {
+  background: rgba(125, 91, 54, 0.17);
+}
+
+.arcanists-book__actions .arcanists-book__read {
+  border-color: #6a4b2d;
+  background: #62452f;
+  color: #fff2d6;
+}
+
+.arcanists-book__actions .arcanists-book__read:hover {
+  background: #7b5738;
+}
+
+.arcanists-book__actions .arcanists-book__delete {
+  color: #9b4739;
+}
+
+.arcanists-book__actions button:disabled,
+.arcanists-book__blank-page button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.arcanists-book__blank-page,
+.arcanists-book__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 8px;
+  text-align: center;
+  color: #806a4c;
+}
+
+.arcanists-book__blank-page > span,
+.arcanists-book__empty > span {
+  font:
+    48px Georgia,
+    serif;
+  color: #ac9067;
+}
+
+.arcanists-book__blank-page h2,
+.arcanists-book__empty strong {
+  margin: 0;
+  color: #5b4430;
+  font:
+    400 26px Georgia,
+    serif;
+}
+
+.arcanists-book__blank-page p,
+.arcanists-book__empty p {
+  margin: 0 0 12px;
+  font:
+    italic 13px Georgia,
+    serif;
+}
+
+.arcanists-book__footnote {
+  justify-content: center;
+  margin-top: 19px;
+  font-size: 9px;
+}
+
+@keyframes arcanists-book-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes arcanists-profile-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 960px) {
+  .arcanists-book {
+    padding: 75px 18px 30px;
+  }
+
+  .arcanists-book__toolbar {
+    padding-right: 0;
+  }
+
+  .arcanists-book__spread {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .arcanists-book__spread::after {
+    display: none;
+  }
+
+  .arcanists-book__leaf {
+    min-height: 480px;
+    padding: 25px;
+  }
+
+  .arcanists-book__leaf--left {
+    border-bottom: 12px solid #b8a37f;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .arcanists-book__leaf--right {
+    border-radius: 0 0 4px 4px;
+  }
+}
+
+@media (max-width: 560px) {
+  .arcanists-book__toolbar {
+    flex-wrap: wrap;
+    font-size: 9px;
+  }
+
+  .arcanists-book__leaf {
+    padding: 22px 19px;
+  }
+
+  .arcanists-book__heading h1 {
+    font-size: 30px;
+  }
+
+  .arcanists-book__entry {
+    gap: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcanists-book__spread,
+  .arcanists-book__profile {
+    animation: none;
+  }
+
+  .arcanists-book button {
+    transition: none;
+  }
+}
+
+.arcanists-book {
+  padding: 28px 38px;
+}
+
+.arcanists-book__spread {
+  height: min(800px, calc(100dvh - 56px));
+  min-height: 610px;
+}
+
+.arcanists-book__leaf {
+  min-height: 0;
+}
+
+.arcanists-book__heading-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+.arcanists-book__register {
+  min-height: 34px;
+  border: 1px solid #694b2e;
+  border-radius: 3px;
+  padding: 8px 12px;
+  background: #63472f;
+  color: #fff0d3;
+  font:
+    700 11px/1.3 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.arcanists-book__register:hover:not(:disabled) {
+  background: #79583b;
+}
+
+.arcanists-book__register:focus-visible {
+  outline: 2px solid #95764a;
+  outline-offset: 2px;
+}
+
+.arcanists-book__register:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.arcanists-book__index {
+  flex: 1;
+  min-height: 0;
+  padding-right: 7px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #ac926c transparent;
+}
+
+@media (max-width: 960px) {
+  .arcanists-book {
+    padding: 22px 18px;
+  }
+
+  .arcanists-book__spread {
+    height: auto;
+  }
+
+  .arcanists-book__index {
+    flex: 0 1 auto;
+    max-height: 360px;
+  }
+}

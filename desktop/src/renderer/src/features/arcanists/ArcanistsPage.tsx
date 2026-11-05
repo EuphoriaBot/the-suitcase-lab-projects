@@ -4,7 +4,7 @@ import { getDashboardData } from '../dashboard/dashboardData'
 import { saveArcanist, deleteArcanist, type ArcanistPayload } from './arcanistStorage'
 import { matchesArcanistSearch } from './arcanistSearch'
 
-import ArcanistCard from './ArcanistCard'
+import ArcanistsBookList from './ArcanistsBookList'
 import ArcanistDetail from './ArcanistDetail'
 import ArcanistForm from './ArcanistForm'
 import DeleteArcanistDialog from './DeleteArcanistDialog'
@@ -196,54 +196,17 @@ function ArcanistsPage({ onRefresh }: ArcanistsPageProps): JSX.Element {
     )
   } else {
     content = (
-      <div className="arcanists-page">
-        <div className="page-header">
-          <div>
-            <div className="page-eyebrow">ARCANIST ARCHIVE</div>
-
-            <p className="page-description">Browse and manage your Reverse: 1999 Arcanist notes.</p>
-          </div>
-
-          <button type="button" className="primary-button" disabled={busy} onClick={openCreate}>
-            + Add Arcanist
-          </button>
-        </div>
-
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search Arcanists..."
-            aria-label="Search Arcanists"
-            value={searchQuery}
-            onChange={(event): void => setSearchQuery(event.target.value)}
-          />
-        </div>
-
-        {filteredArcanists.length === 0 ? (
-          <div className="empty-state">
-            <h2>No Arcanists Found</h2>
-
-            <p>
-              {keyword
-                ? 'There are no Arcanists matching your search.'
-                : 'No Arcanists have been recorded yet.'}
-            </p>
-          </div>
-        ) : (
-          <div className="arcanist-grid">
-            {filteredArcanists.map((arcanist) => (
-              <ArcanistCard
-                key={arcanist.id}
-                arcanist={arcanist}
-                onOpen={openDetail}
-                onEdit={openEdit}
-                onDelete={requestDelete}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      <ArcanistsBookList
+        arcanists={filteredArcanists}
+        totalCount={arcanists.length}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onOpen={openDetail}
+        onCreate={openCreate}
+        onEdit={openEdit}
+        onDelete={requestDelete}
+        busy={busy}
+      />
     )
   }
 
