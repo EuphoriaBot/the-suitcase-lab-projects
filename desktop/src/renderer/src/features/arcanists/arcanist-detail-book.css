@@ -1,0 +1,459 @@
+.arcanists-dossier {
+  overflow: hidden;
+  padding: 24px 34px;
+}
+
+.arcanists-dossier .arcanists-book__desk {
+  width: min(1480px, 100%);
+}
+
+.arcanists-dossier .arcanists-book__spread {
+  height: min(810px, calc(100dvh - 48px));
+  min-height: 610px;
+}
+
+.arcanists-dossier .arcanists-book__leaf {
+  min-height: 0;
+  padding: 30px clamp(24px, 3vw, 45px) 19px;
+}
+
+.arcanists-dossier__leaf {
+  isolation: isolate;
+}
+
+.arcanists-dossier__topline,
+.arcanists-dossier__record-heading,
+.arcanists-dossier__metadata,
+.arcanists-dossier__right-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.arcanists-dossier__topline {
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgb(103 79 49 / 24%);
+}
+
+.arcanists-dossier__back {
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: #775938;
+  font:
+    700 12px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+}
+
+.arcanists-dossier__back:hover,
+.arcanists-dossier__back:focus-visible {
+  color: #35291d;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.arcanists-dossier__seal {
+  color: #a68b60;
+  font:
+    30px Georgia,
+    serif;
+}
+
+.arcanists-dossier__identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  padding-top: 17px;
+  text-align: center;
+}
+
+.arcanists-dossier__portrait-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(300px, 79%);
+  height: clamp(160px, 29vh, 274px);
+  margin: 16px 0 14px;
+  padding: 7px;
+  border: 1px solid #a58b61;
+  background: #c9b58e;
+  box-shadow:
+    0 5px 12px rgb(66 45 26 / 16%),
+    0 0 0 4px rgb(145 116 70 / 10%);
+}
+
+.arcanists-dossier__portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 35%, #718079, #36453f 85%);
+}
+
+.arcanists-dossier__portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.arcanists-dossier__monogram {
+  color: #e8debf;
+  font:
+    64px Georgia,
+    serif;
+}
+
+.arcanists-dossier__record-number {
+  color: #806a4e;
+  font:
+    700 10px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.13em;
+}
+
+.arcanists-dossier__identity h1 {
+  max-width: 100%;
+  margin: 9px 0 15px;
+  color: #3b2f22;
+  font:
+    400 clamp(30px, 3.25vw, 46px)/1.08 Georgia,
+    'Times New Roman',
+    serif;
+  overflow-wrap: anywhere;
+}
+
+.arcanists-dossier__metadata {
+  justify-content: center;
+  width: 100%;
+  padding: 13px 0;
+  border-top: 1px solid rgb(112 86 52 / 25%);
+  border-bottom: 1px solid rgb(112 86 52 / 25%);
+}
+
+.arcanists-dossier__metadata > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.arcanists-dossier__metadata > div + div {
+  border-left: 1px solid rgb(112 86 52 / 22%);
+}
+
+.arcanists-dossier__metadata span {
+  color: #8e734c;
+  font:
+    700 10px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.11em;
+}
+
+.arcanists-dossier__metadata strong {
+  color: #4b3827;
+  font:
+    600 15px Georgia,
+    serif;
+  overflow-wrap: anywhere;
+}
+
+.arcanists-dossier__roles,
+.arcanists-dossier__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+}
+
+.arcanists-dossier__roles {
+  padding-top: 15px;
+}
+
+.arcanists-dossier__roles span,
+.arcanists-dossier__tags span {
+  padding: 5px 9px;
+  border: 1px solid rgb(131 99 57 / 30%);
+  background: rgb(232 218 186 / 55%);
+  color: #735b3b;
+  font:
+    600 11px 'Segoe UI',
+    sans-serif;
+}
+
+.arcanists-dossier__left-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+  padding-top: 12px;
+}
+
+.arcanists-dossier__edit {
+  padding: 10px 17px;
+  border: 1px solid #5c4630;
+  border-radius: 3px;
+  background: #624a33;
+  color: #f7ebd5;
+  font:
+    700 12px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.arcanists-dossier__edit:hover {
+  background: #785a3c;
+}
+
+.arcanists-dossier__research-header {
+  flex-shrink: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgb(103 79 49 / 24%);
+}
+
+.arcanists-dossier__research-header h2 {
+  margin: 8px 0 5px;
+  color: #433424;
+  font:
+    400 clamp(25px, 2.6vw, 36px) Georgia,
+    serif;
+}
+
+.arcanists-dossier__research-header p {
+  margin: 0;
+  color: #82705a;
+  font:
+    italic 12px Georgia,
+    serif;
+}
+
+.arcanists-dossier__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex-shrink: 0;
+  gap: 7px;
+  padding: 15px 0;
+}
+
+.arcanists-dossier__tabs button {
+  min-width: 0;
+  padding: 8px 5px;
+  border: 1px solid rgb(120 91 55 / 26%);
+  border-radius: 2px;
+  background: rgb(255 250 232 / 30%);
+  color: #765d41;
+  font:
+    700 10px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.arcanists-dossier__tabs button:hover,
+.arcanists-dossier__tabs button.is-active {
+  background: #765a3a;
+  color: #fff1d8;
+}
+
+.arcanists-dossier__scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 5px 13px 20px 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b59b72 transparent;
+  outline-offset: -2px;
+}
+
+.arcanists-dossier__scroll:focus-visible {
+  outline: 2px solid #9a7a4f;
+}
+
+.arcanists-dossier__chapter {
+  margin-bottom: 26px;
+  padding-top: 7px;
+}
+
+.arcanists-dossier__chapter + .arcanists-dossier__chapter {
+  padding-top: 19px;
+  border-top: 1px solid rgb(107 79 46 / 20%);
+}
+
+.arcanists-dossier__chapter h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 13px;
+  color: #4c3826;
+  font:
+    400 22px Georgia,
+    serif;
+}
+
+.arcanists-dossier__chapter h3 span {
+  color: #a48b66;
+  font:
+    italic 14px Georgia,
+    serif;
+}
+
+.arcanists-dossier__records {
+  display: grid;
+  gap: 10px;
+}
+
+.arcanists-dossier__record {
+  padding: 13px 15px;
+  border: 1px solid rgb(117 85 49 / 23%);
+  background: rgb(255 250 231 / 27%);
+}
+
+.arcanists-dossier__record h4 {
+  margin: 0;
+  color: #493626;
+  font:
+    600 16px Georgia,
+    serif;
+}
+
+.arcanists-dossier__record-heading {
+  align-items: baseline;
+}
+
+.arcanists-dossier__record-heading > span {
+  flex-shrink: 0;
+  color: #866d49;
+  font:
+    700 10px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.07em;
+}
+
+.arcanists-dossier__text {
+  margin: 0;
+  color: #594b39;
+  font:
+    13px/1.7 Georgia,
+    serif;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.arcanists-dossier__record .arcanists-dossier__text {
+  margin-top: 9px;
+}
+
+.arcanists-dossier__empty {
+  margin: 0;
+  color: #8c7659;
+  font:
+    italic 13px Georgia,
+    serif;
+}
+
+.arcanists-dossier__chapter .arcanists-dossier__tags {
+  justify-content: flex-start;
+  margin-top: 12px;
+}
+
+.arcanists-dossier__right-footer {
+  flex-shrink: 0;
+  padding-top: 12px;
+  border-top: 1px solid rgb(103 79 49 / 17%);
+}
+
+.arcanists-dossier__right-footer > span:first-child {
+  color: #927d5e;
+  font:
+    700 9px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.11em;
+}
+
+.arcanists-dossier .arcanists-book__page-number {
+  position: static;
+  margin-top: 0;
+  text-align: center;
+}
+
+.arcanists-dossier__turn-sheet {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, #ded0b2, #f2e5cc 57%, #c6b492);
+  transform-origin: right center;
+  animation: arcanists-dossier-turn 610ms ease-in-out forwards;
+}
+
+@keyframes arcanists-dossier-turn {
+  0% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  80% {
+    opacity: 0.62;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}
+
+@media (max-width: 960px) {
+  .arcanists-dossier {
+    padding: 22px 15px;
+    overflow: auto;
+  }
+
+  .arcanists-dossier .arcanists-book__spread {
+    height: auto;
+    min-height: 0;
+  }
+
+  .arcanists-dossier .arcanists-book__leaf {
+    min-height: 0;
+    padding: 24px;
+  }
+
+  .arcanists-dossier__scroll {
+    flex: none;
+    height: min(510px, 65dvh);
+  }
+
+  .arcanists-dossier__portrait-frame {
+    height: 220px;
+  }
+
+  .arcanists-dossier__identity {
+    flex: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .arcanists-dossier__tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .arcanists-dossier__metadata strong {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcanists-dossier__turn-sheet {
+    display: none;
+  }
+}

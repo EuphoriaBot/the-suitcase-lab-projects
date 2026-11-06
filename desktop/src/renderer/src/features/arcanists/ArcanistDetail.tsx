@@ -1,8 +1,8 @@
-import { useEffect, useState, type JSX, type ReactNode } from 'react'
-
+import { useRef, useState, type JSX } from 'react'
 import type { DashboardArcanist, DashboardStatusEffect } from '../dashboard/dashboardData'
-
 import { getImageUrl, getInitials } from './arcanistImage'
+import './arcanists-book.css'
+import './arcanist-detail-book.css'
 
 interface ArcanistDetailProps {
   arcanist: DashboardArcanist
@@ -33,314 +33,263 @@ function toText(value: unknown): string {
 }
 
 function DetailText({ value }: { value: unknown }): JSX.Element {
+  return <p className="arcanists-dossier__text">{toText(value) || 'No information available.'}</p>
+}
+
+function DossierPortrait({ arcanist }: { arcanist: DashboardArcanist }): JSX.Element {
+  const [imageError, setImageError] = useState(false)
+  const imageUrl = getImageUrl(arcanist.image)
+
   return (
-    <p className="detail-text" style={{ whiteSpace: 'pre-line' }}>
-      {toText(value) || 'No information available.'}
-    </p>
+    <div className="arcanists-dossier__portrait">
+      {imageUrl && !imageError ? (
+        <img src={imageUrl} alt={arcanist.name} onError={(): void => setImageError(true)} />
+      ) : (
+        <span className="arcanists-dossier__monogram">{getInitials(arcanist.name)}</span>
+      )}
+    </div>
   )
 }
 
-interface DetailSectionProps {
-  id: SectionId
-  title: string
-  description: string
-  children: ReactNode
-}
-
-function DetailSection({ id, title, description, children }: DetailSectionProps): JSX.Element {
-  return (
-    <section className="detail-section" id={id}>
-      <div className="detail-section-heading">
-        <div>
-          <h2>{title}</h2>
-          <p>{description}</p>
-        </div>
-      </div>
-
-      {children}
-    </section>
-  )
-}
-
-function ArcanistDetail({
+export default function ArcanistDetail({
   arcanist,
   statusEffects,
   onBack,
   onEdit
 }: ArcanistDetailProps): JSX.Element {
+  const scrollRef = useRef<HTMLDivElement>(null)
   const [activeSection, setActiveSection] = useState<SectionId>('skills-section')
-
-  const [imageError, setImageError] = useState(false)
-
-  const imageUrl = getImageUrl(arcanist.image)
-
   const skills = Array.isArray(arcanist.skills) ? arcanist.skills.filter(isRecord) : []
-
   const portray = Array.isArray(arcanist.portray) ? arcanist.portray.filter(isRecord) : []
-
   const relatedStatusEffects = statusEffects.filter((effect) =>
     arcanist.relatedStatusEffects?.includes(effect.id)
   )
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries): void => {
-        entries.forEach((entry): void => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id as SectionId)
-          }
-        })
-      },
-      {
-        threshold: 0.25,
-        rootMargin: '-120px 0px -55% 0px'
-      }
-    )
-
-    sections.forEach(({ id }): void => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    })
-
-    return (): void => observer.disconnect()
-  }, [])
-
   function scrollToSection(id: SectionId): void {
-    setActiveSection(id)
+    const container = scrollRef.current
+    const target = container?.querySelector<HTMLElement>(`#${id}`)
+    if (!container || !target) return
 
-    document.getElementById(id)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
+    const top =
+      container.scrollTop +
+      target.getBoundingClientRect().top -
+      container.getBoundingClientRect().top -
+      8
+
+    setActiveSection(id)
+    container.scrollTo({
+      top,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
     })
   }
 
+  function updateActiveSection(): void {
+    const container = scrollRef.current
+    if (!container) return
+
+    const topEdge = container.getBoundingClientRect().top + 48
+    let current: SectionId = 'skills-section'
+
+    for (const section of sections) {
+      const element = container.querySelector<HTMLElement>(`#${section.id}`)
+      if (element && element.getBoundingClientRect().top <= topEdge) current = section.id
+    }
+
+    setActiveSection(current)
+  }
+
   return (
-    <div className="detail-page">
-      {/* BACK BUTTON */}
-      <div className="detail-topbar">
-        <button type="button" className="secondary-button back-arcanist-button" onClick={onBack}>
-          ← Back to Arcanists
-        </button>
-      </div>
-
-      {/* CHARACTER HERO */}
-      <div className="detail-hero">
-        <div className="detail-hero-image">
-          {imageUrl && !imageError ? (
-            <img
-              src={imageUrl}
-              alt={arcanist.name}
-              className="detail-character-image"
-              onError={(): void => setImageError(true)}
-            />
-          ) : (
-            <div className="detail-character-placeholder">
-              <span>{getInitials(arcanist.name)}</span>
-            </div>
-          )}
-        </div>
-
-        <div className="detail-hero-content">
-          <div className="detail-eyebrow">ARCANIST</div>
-
-          <h1>{arcanist.name}</h1>
-
-          <div className="detail-meta-row">
-            <span className="detail-meta-badge">{arcanist.afflatus || 'Unknown Afflatus'}</span>
-
-            <span className="detail-meta-badge">{arcanist.damageType || 'Unknown Damage'}</span>
-          </div>
-
-          <div className="detail-tags detail-hero-tags">
-            {arcanist.roles?.length ? (
-              arcanist.roles.map((role, index) => (
-                <span className="tag" key={`${role}-${index}`}>
-                  {role}
-                </span>
-              ))
-            ) : (
-              <p className="detail-empty">No roles.</p>
-            )}
-          </div>
-
-          <div className="detail-hero-actions">
-            <button type="button" className="secondary-button" onClick={onEdit}>
-              Edit Arcanist
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* SECTION NAVIGATION */}
-      <nav className="detail-section-nav" aria-label="Arcanist sections">
-        {sections.map(({ id, label }) => (
-          <button
-            key={id}
-            type="button"
-            className={`detail-section-nav-item ${activeSection === id ? 'active' : ''}`}
-            onClick={(): void => scrollToSection(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-
-      {/* SKILLS */}
-      <DetailSection
-        id="skills-section"
-        title="Skills"
-        description="Skills and abilities of this Arcanist."
-      >
-        {skills.length === 0 ? (
-          <div className="detail-empty-block">
-            <p className="detail-empty">No skills available.</p>
-          </div>
-        ) : (
-          <div className="detail-repeatable-list skill-list">
-            {skills.map((skill, index) => (
-              <article className="detail-repeatable-item skill-detail-card" key={index}>
-                <div className="skill-detail-header">
-                  <div className="detail-item-title">
-                    <span className="detail-item-number">{index + 1}</span>
-
-                    <div className="skill-detail-heading">
-                      <h3>{toText(skill.name) || 'Unnamed Skill'}</h3>
-                    </div>
-                  </div>
-
-                  {toText(skill.type) && (
-                    <span className="skill-type-badge">{toText(skill.type)}</span>
-                  )}
-                </div>
-
-                <div className="skill-detail-description">
-                  <DetailText value={skill.description} />
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </DetailSection>
-
-      {/* MECHANICS */}
-      <DetailSection
-        id="mechanics-section"
-        title="Mechanics"
-        description="Important mechanics and behavior."
-      >
-        <div className="detail-note">
-          <DetailText value={arcanist.mechanics} />
-        </div>
-      </DetailSection>
-
-      {/* RELATED STATUS EFFECTS */}
-      <DetailSection
-        id="status-effects-section"
-        title="Related Status Effects"
-        description="Status effects associated with this Arcanist."
-      >
-        {relatedStatusEffects.length === 0 ? (
-          <div className="detail-empty-block">
-            <p className="detail-empty">No related Status Effects.</p>
-          </div>
-        ) : (
-          <div className="related-status-effect-grid">
-            {relatedStatusEffects.map((effect) => (
-              <article className="related-status-effect-card" key={effect.id}>
-                <div className="related-status-effect-content">
-                  <div className="related-status-effect-header">
-                    <h3>{effect.name}</h3>
-                  </div>
-
-                  {effect.description && (
-                    <p className="related-status-effect-description">{effect.description}</p>
-                  )}
-
-                  {effect.tags && effect.tags.length > 0 && (
-                    <div className="related-status-effect-tags">
-                      {effect.tags.slice(0, 3).map((tag, index) => (
-                        <span className="tag" key={`${tag}-${index}`}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </DetailSection>
-
-      {/* PORTRAY */}
-      <DetailSection
-        id="portray-section"
-        title="Portray"
-        description="Portray effects and upgrades."
-      >
-        {portray.length === 0 ? (
-          <div className="detail-empty-block">
-            <p className="detail-empty">No Portray information available.</p>
-          </div>
-        ) : (
-          <div className="detail-repeatable-list portray-list">
-            {portray.map((item, index) => {
-              const level = toText(item.level) || '?'
-
-              return (
-                <article className="detail-repeatable-item portray-detail-card" key={index}>
-                  <div className="portray-detail-header">
-                    <div className="portray-detail-title">
-                      <span className="portray-level">P{level}</span>
-
-                      <div>
-                        <h3>Portray {level}</h3>
-                        <p>Upgrade effect</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="portray-detail-description">
-                    <DetailText value={item.description} />
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        )}
-      </DetailSection>
-
-      {/* TAGS */}
-      <DetailSection
-        id="tags-section"
-        title="Tags"
-        description="Useful keywords for this Arcanist."
-      >
-        <div className="detail-tags">
-          {arcanist.tags?.length ? (
-            arcanist.tags.map((tag, index) => (
-              <span className="tag" key={`${tag}-${index}`}>
-                {tag}
+    <section
+      className="arcanists-book arcanists-dossier"
+      aria-label={`Dossier of ${arcanist.name}`}
+    >
+      <div className="arcanists-book__desk">
+        <div className="arcanists-book__spread arcanists-dossier__spread">
+          <div className="arcanists-book__leaf arcanists-book__leaf--left arcanists-dossier__leaf">
+            <div className="arcanists-dossier__topline">
+              <button type="button" className="arcanists-dossier__back" onClick={onBack}>
+                ← Arcanist Index
+              </button>
+              <span className="arcanists-dossier__seal" aria-hidden="true">
+                ✧
               </span>
-            ))
-          ) : (
-            <p className="detail-empty">No tags.</p>
-          )}
-        </div>
-      </DetailSection>
+            </div>
 
-      {/* NOTES */}
-      <DetailSection
-        id="notes-section"
-        title="Notes"
-        description="Personal notes and additional information."
-      >
-        <div className="detail-note">
-          <DetailText value={arcanist.notes} />
+            <div className="arcanists-dossier__identity">
+              <span className="arcanists-book__kicker">VOL. I · PERSONNEL DOSSIER</span>
+              <div className="arcanists-dossier__portrait-frame">
+                <DossierPortrait key={arcanist.id} arcanist={arcanist} />
+              </div>
+              <span className="arcanists-dossier__record-number">
+                ARCHIVE RECORD / {arcanist.id.slice(0, 8).toUpperCase()}
+              </span>
+              <h1>{arcanist.name}</h1>
+
+              <div className="arcanists-dossier__metadata">
+                <div>
+                  <span>AFFLATUS</span>
+                  <strong>{arcanist.afflatus || 'Unknown'}</strong>
+                </div>
+                <div>
+                  <span>DAMAGE TYPE</span>
+                  <strong>{arcanist.damageType || 'Unknown'}</strong>
+                </div>
+              </div>
+
+              <div className="arcanists-dossier__roles">
+                {arcanist.roles?.length ? (
+                  arcanist.roles.map((role, index) => <span key={`${role}-${index}`}>{role}</span>)
+                ) : (
+                  <span>Unclassified Role</span>
+                )}
+              </div>
+            </div>
+
+            <div className="arcanists-dossier__left-footer">
+              <button type="button" className="arcanists-dossier__edit" onClick={onEdit}>
+                Edit Dossier ↗
+              </button>
+              <span className="arcanists-book__page-number">— 3 —</span>
+            </div>
+          </div>
+
+          <div className="arcanists-book__leaf arcanists-book__leaf--right arcanists-dossier__leaf arcanists-dossier__leaf--research">
+            <span className="arcanists-dossier__turn-sheet" aria-hidden="true" />
+
+            <div className="arcanists-dossier__research-header">
+              <span className="arcanists-book__kicker">FIELD NOTES · OBSERVATION RECORD</span>
+              <h2>Research &amp; Records</h2>
+              <p>Select a chapter, or scroll through the notes below.</p>
+            </div>
+
+            <nav className="arcanists-dossier__tabs" aria-label="Dossier chapters">
+              {sections.map(({ id, label }) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={activeSection === id ? 'is-active' : ''}
+                  onClick={(): void => scrollToSection(id)}
+                >
+                  {label}
+                </button>
+              ))}
+            </nav>
+
+            <div
+              className="arcanists-dossier__scroll"
+              ref={scrollRef}
+              onScroll={updateActiveSection}
+              tabIndex={0}
+              role="region"
+              aria-label="Scrollable Arcanist research notes"
+            >
+              <section className="arcanists-dossier__chapter" id="skills-section">
+                <h3>
+                  <span>01</span> Skills
+                </h3>
+                {skills.length ? (
+                  <div className="arcanists-dossier__records">
+                    {skills.map((skill, index) => (
+                      <article className="arcanists-dossier__record" key={index}>
+                        <div className="arcanists-dossier__record-heading">
+                          <h4>{toText(skill.name) || 'Unnamed Skill'}</h4>
+                          {toText(skill.type) && <span>{toText(skill.type)}</span>}
+                        </div>
+                        <DetailText value={skill.description} />
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="arcanists-dossier__empty">No skills available.</p>
+                )}
+              </section>
+
+              <section className="arcanists-dossier__chapter" id="mechanics-section">
+                <h3>
+                  <span>02</span> Mechanics
+                </h3>
+                <DetailText value={arcanist.mechanics} />
+              </section>
+
+              <section className="arcanists-dossier__chapter" id="status-effects-section">
+                <h3>
+                  <span>03</span> Related Status Effects
+                </h3>
+                {relatedStatusEffects.length ? (
+                  <div className="arcanists-dossier__records">
+                    {relatedStatusEffects.map((effect) => (
+                      <article className="arcanists-dossier__record" key={effect.id}>
+                        <h4>{effect.name}</h4>
+                        {effect.description && <DetailText value={effect.description} />}
+                        {effect.tags?.length ? (
+                          <div className="arcanists-dossier__tags">
+                            {effect.tags.slice(0, 3).map((tag, index) => (
+                              <span key={`${tag}-${index}`}>{tag}</span>
+                            ))}
+                          </div>
+                        ) : null}
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="arcanists-dossier__empty">No related Status Effects.</p>
+                )}
+              </section>
+
+              <section className="arcanists-dossier__chapter" id="portray-section">
+                <h3>
+                  <span>04</span> Portray
+                </h3>
+                {portray.length ? (
+                  <div className="arcanists-dossier__records">
+                    {portray.map((item, index) => {
+                      const level = toText(item.level) || String(index + 1)
+                      return (
+                        <article className="arcanists-dossier__record" key={index}>
+                          <div className="arcanists-dossier__record-heading">
+                            <h4>Portray {level}</h4>
+                            <span>P{level}</span>
+                          </div>
+                          <DetailText value={item.description} />
+                        </article>
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <p className="arcanists-dossier__empty">No Portray information available.</p>
+                )}
+              </section>
+
+              <section className="arcanists-dossier__chapter" id="tags-section">
+                <h3>
+                  <span>05</span> Tags
+                </h3>
+                {arcanist.tags?.length ? (
+                  <div className="arcanists-dossier__tags">
+                    {arcanist.tags.map((tag, index) => (
+                      <span key={`${tag}-${index}`}>{tag}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="arcanists-dossier__empty">No tags.</p>
+                )}
+              </section>
+
+              <section className="arcanists-dossier__chapter" id="notes-section">
+                <h3>
+                  <span>06</span> Notes
+                </h3>
+                <DetailText value={arcanist.notes} />
+              </section>
+            </div>
+
+            <div className="arcanists-dossier__right-footer">
+              <span>PRIVATE COLLECTION · THE SUITCASE LAB</span>
+              <span className="arcanists-book__page-number">— 4 —</span>
+            </div>
+          </div>
         </div>
-      </DetailSection>
-    </div>
+      </div>
+    </section>
   )
 }
-
-export default ArcanistDetail
