@@ -7,8 +7,7 @@ import {
   type StatusEffectPayload
 } from './statusEffectStorage'
 import { matchesStatusEffectSearch } from './statusEffectSearch'
-
-import StatusEffectCard from './StatusEffectCard'
+import StatusEffectsBookList from './StatusEffectsBookList'
 import StatusEffectDetail from './StatusEffectDetail'
 import StatusEffectForm from './StatusEffectForm'
 import DeleteStatusEffectDialog from './DeleteStatusEffectDialog'
@@ -28,7 +27,6 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
   const [formError, setFormError] = useState('')
   const [notice, setNotice] = useState('')
   const [busy, setBusy] = useState(false)
-
   const { arcanists, statusEffects } = getDashboardData()
 
   const keyword = searchQuery.trim()
@@ -38,14 +36,12 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
     : statusEffects
 
   const selectedStatusEffect = statusEffects.find((item) => item.id === selectedStatusEffectId)
-
   const statusEffectToDelete = statusEffects.find((item) => item.id === deleteTargetId)
 
   useEffect(() => {
     if (!notice) {
       return
     }
-
     const timeoutId = window.setTimeout((): void => {
       setNotice('')
     }, 3000)
@@ -73,6 +69,12 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
     }
   }
 
+  function openEditFromBook(id: string): void {
+    setFormError('')
+    setSelectedStatusEffectId(id)
+    setMode('edit')
+  }
+
   function backToList(): void {
     setMode('list')
   }
@@ -97,7 +99,6 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
     }
 
     const wasEditing = mode === 'edit'
-
     if (wasEditing && !selectedStatusEffect) {
       setFormError('Status Effect could not be found.')
       return
@@ -112,7 +113,6 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
 
         setSelectedStatusEffectId(savedId)
         setMode('detail')
-
         setNotice(
           wasEditing ? 'Status Effect updated successfully.' : 'Status Effect added successfully.'
         )
@@ -158,7 +158,6 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
         setDeleteTargetId(null)
         setSelectedStatusEffectId(null)
         setMode('list')
-
         setNotice('Status Effect deleted successfully.')
       })
       .catch((error: unknown): void => {
@@ -179,7 +178,6 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
             {formError}
           </p>
         )}
-
         <fieldset
           disabled={busy}
           style={{ border: 0, padding: 0, margin: 0, width: '100%', minWidth: 0 }}
@@ -204,54 +202,18 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
     )
   } else {
     content = (
-      <div className="status-effects-page">
-        <div className="page-header">
-          <div>
-            <div className="page-eyebrow">STATUS EFFECT ARCHIVE</div>
-
-            <p className="page-description">Record and review your Reverse: 1999 Status Effects.</p>
-          </div>
-
-          <button type="button" className="primary-button" disabled={busy} onClick={openCreate}>
-            + Add Status Effect
-          </button>
-        </div>
-
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search by name, effect, tag..."
-            aria-label="Search Status Effects"
-            value={searchQuery}
-            onChange={(event): void => setSearchQuery(event.target.value)}
-          />
-        </div>
-
-        <div className="status-effect-list">
-          {filteredStatusEffects.length === 0 ? (
-            <div className="empty-state">
-              <h2>No Status Effects Found</h2>
-
-              <p>
-                {keyword
-                  ? 'There are no Status Effects matching your search.'
-                  : 'No Status Effects have been recorded yet.'}
-              </p>
-            </div>
-          ) : (
-            filteredStatusEffects.map((statusEffect) => (
-              <StatusEffectCard
-                key={statusEffect.id}
-                statusEffect={statusEffect}
-                arcanists={arcanists}
-                onOpen={openDetail}
-                onDelete={requestDelete}
-              />
-            ))
-          )}
-        </div>
-      </div>
+      <StatusEffectsBookList
+        statusEffects={filteredStatusEffects}
+        arcanists={arcanists}
+        totalCount={statusEffects.length}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onOpen={openDetail}
+        onCreate={openCreate}
+        onEdit={openEditFromBook}
+        onDelete={requestDelete}
+        busy={busy}
+      />
     )
   }
 
@@ -267,7 +229,6 @@ function StatusEffectsPage({ onRefresh }: StatusEffectsPageProps): JSX.Element {
           onConfirm={confirmDelete}
         />
       )}
-
       {notice && (
         <div className="toast toast-success show" role="status" aria-live="polite">
           <span className="toast-icon" aria-hidden="true">
