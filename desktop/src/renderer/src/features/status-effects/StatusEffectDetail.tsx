@@ -1,8 +1,7 @@
-import type { JSX, ReactNode } from 'react'
-
+import { useRef, useState, type JSX } from 'react'
 import type { DashboardArcanist, DashboardStatusEffect } from '../dashboard/dashboardData'
-
-import '../../styles/css/status-effect-detail-polish.css'
+import './status-effects-book.css'
+import './status-effect-detail-book.css'
 
 interface StatusEffectDetailProps {
   statusEffect: DashboardStatusEffect
@@ -11,34 +10,16 @@ interface StatusEffectDetailProps {
   onEdit: () => void
 }
 
-interface ArchiveSectionProps {
-  number: string
-  title: string
-  description: string
-  children: ReactNode
-}
+const chapters = [
+  { id: 'effect-description', label: 'Description' },
+  { id: 'effect-behavior', label: 'Effect' },
+  { id: 'effect-notes', label: 'Notes' },
+  { id: 'effect-arcanists', label: 'Arcanists' },
+  { id: 'effect-tags', label: 'Tags' },
+  { id: 'effect-mechanics', label: 'Mechanics' }
+] as const
 
-function ArchiveSection({
-  number,
-  title,
-  description,
-  children
-}: ArchiveSectionProps): JSX.Element {
-  return (
-    <section className="archive-detail-section">
-      <div className="archive-detail-section-heading">
-        <span className="archive-detail-section-number">{number}</span>
-
-        <div>
-          <h2>{title}</h2>
-          <p>{description}</p>
-        </div>
-      </div>
-
-      <div className="archive-detail-section-body">{children}</div>
-    </section>
-  )
-}
+type ChapterId = (typeof chapters)[number]['id']
 
 function DetailText({
   value,
@@ -47,237 +28,249 @@ function DetailText({
   value?: string
   fallback?: string
 }): JSX.Element {
-  if (!value?.trim()) {
-    return <p className="archive-detail-empty">{fallback}</p>
-  }
-
-  return <p className="archive-detail-text">{value}</p>
+  return <p className="status-effect-dossier__text">{value?.trim() || fallback}</p>
 }
 
-function StatusEffectDetail({
+export default function StatusEffectDetail({
   statusEffect,
   arcanists,
   onBack,
   onEdit
 }: StatusEffectDetailProps): JSX.Element {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [activeChapter, setActiveChapter] = useState<ChapterId>('effect-description')
+
   const directRelations = Array.isArray(statusEffect.relatedArcanists)
     ? statusEffect.relatedArcanists
     : []
-
   const relatedArcanists = arcanists.filter(
     (arcanist) =>
       directRelations.includes(arcanist.id) ||
       arcanist.relatedStatusEffects?.includes(statusEffect.id)
   )
-
   const tags = Array.isArray(statusEffect.tags) ? statusEffect.tags : []
-
   const relatedMechanics = Array.isArray(statusEffect.relatedMechanics)
     ? statusEffect.relatedMechanics
     : []
 
-  const category = statusEffect.category?.trim() || 'Status Effect'
+  function scrollToChapter(id: ChapterId): void {
+    const container = scrollRef.current
+    const target = container?.querySelector<HTMLElement>(`#${id}`)
+    if (!container || !target) return
+
+    const offset =
+      container.scrollTop +
+      target.getBoundingClientRect().top -
+      container.getBoundingClientRect().top -
+      8
+
+    setActiveChapter(id)
+    container.scrollTo({
+      top: offset,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+    })
+  }
+
+  function updateActiveChapter(): void {
+    const container = scrollRef.current
+    if (!container) return
+
+    const topEdge = container.getBoundingClientRect().top + 48
+    let current: ChapterId = 'effect-description'
+
+    for (const chapter of chapters) {
+      const element = container.querySelector<HTMLElement>(`#${chapter.id}`)
+      if (element && element.getBoundingClientRect().top <= topEdge) {
+        current = chapter.id
+      }
+    }
+
+    setActiveChapter(current)
+  }
 
   return (
-    <div className="detail-page archive-status-detail">
-      <div className="archive-detail-toolbar">
-        <button type="button" className="archive-detail-back" onClick={onBack}>
-          <svg
-            width="17"
-            height="17"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M19 12H5M11 18l-6-6 6-6" />
-          </svg>
-          Back to Status Effects
-        </button>
-
-        <span className="archive-detail-breadcrumb">ARCHIVE / STATUS EFFECT</span>
-      </div>
-
-      <section className="archive-detail-hero">
-        <div className="archive-detail-hero-main">
-          <div className="archive-detail-emblem" aria-hidden="true">
-            <svg
-              viewBox="0 0 64 64"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M32 5 53 32 32 59 11 32 32 5Z" />
-              <path d="M32 15 45 32 32 49 19 32 32 15Z" />
-              <path d="M32 22v20M22 32h20" />
-              <circle cx="32" cy="32" r="5" />
-            </svg>
-          </div>
-
-          <div className="archive-detail-hero-copy">
-            <span className="archive-detail-eyebrow">{category}</span>
-
-            <h1>{statusEffect.name}</h1>
-
-            <p>
-              Status Effect Record
-              <span aria-hidden="true"> · </span>
-              Reverse: 1999 Knowledge Archive
-            </p>
-          </div>
-
-          <button type="button" className="archive-detail-edit" onClick={onEdit}>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M12 20h9" />
-              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L9 17l-4 1 1-4Z" />
-            </svg>
-            Edit Status Effect
-          </button>
-        </div>
-
-        <div className="archive-detail-hero-metrics">
-          <div className="archive-detail-hero-metric">
-            <span>Duration</span>
-
-            <strong>{statusEffect.duration?.trim() || 'Not specified'}</strong>
-          </div>
-
-          <div className="archive-detail-hero-metric">
-            <span>Stacking</span>
-
-            <strong className={statusEffect.stackable ? 'archive-detail-metric-active' : undefined}>
-              {statusEffect.stackable ? 'Stackable' : 'Not Stackable'}
-            </strong>
-          </div>
-
-          <div className="archive-detail-hero-metric">
-            <span>Linked Arcanists</span>
-
-            <strong>
-              {relatedArcanists.length} {relatedArcanists.length === 1 ? 'Arcanist' : 'Arcanists'}
-            </strong>
-          </div>
-        </div>
-      </section>
-
-      <div className="archive-detail-grid">
-        <div className="archive-detail-primary">
-          <ArchiveSection
-            number="01"
-            title="Description"
-            description="General information about this status effect."
-          >
-            <DetailText value={statusEffect.description} />
-          </ArchiveSection>
-
-          <ArchiveSection
-            number="02"
-            title="Effect"
-            description="Gameplay behavior and mechanical effects."
-          >
-            <DetailText value={statusEffect.effect} />
-          </ArchiveSection>
-
-          <ArchiveSection
-            number="03"
-            title="Personal Notes"
-            description="Additional observations and personal references."
-          >
-            <DetailText value={statusEffect.notes} fallback="No personal notes have been added." />
-          </ArchiveSection>
-        </div>
-
-        <aside className="archive-detail-secondary">
-          <section className="archive-detail-side-panel">
-            <div className="archive-detail-side-heading">
-              <div>
-                <span className="archive-detail-side-eyebrow">CONNECTIONS</span>
-
-                <h2>Related Arcanists</h2>
-              </div>
-
-              <span className="archive-detail-count">{relatedArcanists.length}</span>
+    <section
+      className="status-effects-book status-effect-dossier"
+      aria-label={`Status Effect record: ${statusEffect.name}`}
+    >
+      <div className="status-effects-book__desk">
+        <div className="status-effects-book__spread status-effect-dossier__spread">
+          <div className="status-effects-book__leaf status-effects-book__leaf--left status-effect-dossier__leaf">
+            <div className="status-effect-dossier__topline">
+              <button type="button" className="status-effect-dossier__back" onClick={onBack}>
+                ← Status Effects Index
+              </button>
+              <span className="status-effect-dossier__seal" aria-hidden="true">
+                ✧
+              </span>
             </div>
 
-            {relatedArcanists.length === 0 ? (
-              <p className="archive-detail-empty">No related Arcanists.</p>
-            ) : (
-              <ul className="archive-detail-relations">
-                {relatedArcanists.map((arcanist) => (
-                  <li key={arcanist.id} className="archive-detail-relation">
-                    <span className="archive-detail-relation-symbol" aria-hidden="true">
-                      ✦
-                    </span>
+            <div className="status-effect-dossier__identity">
+              <span className="status-effects-book__kicker">VOL. II · OBSERVATION DOSSIER</span>
 
-                    <span className="archive-detail-relation-name">{arcanist.name}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-
-          <section className="archive-detail-side-panel">
-            <div className="archive-detail-side-heading">
-              <div>
-                <span className="archive-detail-side-eyebrow">CLASSIFICATION</span>
-
-                <h2>Tags</h2>
-              </div>
-
-              <span className="archive-detail-count">{tags.length}</span>
-            </div>
-
-            {tags.length === 0 ? (
-              <p className="archive-detail-empty">No tags available.</p>
-            ) : (
-              <div className="archive-detail-tag-list">
-                {tags.map((tag, index) => (
-                  <span key={`${tag}-${index}`} className="archive-detail-tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-          </section>
-
-          {relatedMechanics.length > 0 && (
-            <section className="archive-detail-side-panel">
-              <div className="archive-detail-side-heading">
-                <div>
-                  <span className="archive-detail-side-eyebrow">MECHANICS</span>
-
-                  <h2>Related Mechanics</h2>
+              <div className="status-effect-dossier__emblem" aria-hidden="true">
+                <div className="status-effect-dossier__emblem-inner">
+                  <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.4">
+                    <path d="M50 6 83 50 50 94 17 50 50 6Z" />
+                    <path d="M50 19 72 50 50 81 28 50 50 19Z" />
+                    <path d="M50 27v46M27 50h46" />
+                    <circle cx="50" cy="50" r="9" />
+                    <circle cx="50" cy="50" r="3" fill="currentColor" stroke="none" />
+                  </svg>
                 </div>
               </div>
 
-              <div className="archive-detail-tag-list">
-                {relatedMechanics.map((mechanic, index) => (
-                  <span key={`${mechanic}-${index}`} className="archive-detail-tag">
-                    {mechanic}
-                  </span>
-                ))}
+              <span className="status-effect-dossier__record-number">
+                RESEARCH RECORD / {statusEffect.id.slice(0, 8).toUpperCase()}
+              </span>
+              <h1>{statusEffect.name}</h1>
+              <span className="status-effect-dossier__category">
+                {statusEffect.category?.trim() || 'Unclassified Effect'}
+              </span>
+
+              <div className="status-effect-dossier__metadata">
+                <div>
+                  <span>DURATION</span>
+                  <strong>{statusEffect.duration?.trim() || 'Not specified'}</strong>
+                </div>
+                <div>
+                  <span>STACKING</span>
+                  <strong>{statusEffect.stackable ? 'Stackable' : 'Not Stackable'}</strong>
+                </div>
+                <div>
+                  <span>RELATED ARCANISTS</span>
+                  <strong>{relatedArcanists.length}</strong>
+                </div>
               </div>
-            </section>
-          )}
-        </aside>
+
+              <p className="status-effect-dossier__motto">Every phenomenon deserves a record.</p>
+            </div>
+
+            <div className="status-effect-dossier__left-footer">
+              <button type="button" className="status-effect-dossier__edit" onClick={onEdit}>
+                Edit Record ↗
+              </button>
+              <span className="status-effects-book__page-number">— 3 —</span>
+            </div>
+          </div>
+
+          <div className="status-effects-book__leaf status-effects-book__leaf--right status-effect-dossier__leaf status-effect-dossier__leaf--research">
+            <span className="status-effect-dossier__turn-sheet" aria-hidden="true" />
+
+            <div className="status-effect-dossier__research-header">
+              <span className="status-effects-book__kicker">
+                RESEARCH JOURNAL · FIELD OBSERVATIONS
+              </span>
+              <h2>Research &amp; Records</h2>
+              <p>Choose a chapter or scroll through the observations.</p>
+            </div>
+
+            <nav className="status-effect-dossier__tabs" aria-label="Status Effect chapters">
+              {chapters.map(({ id, label }) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={activeChapter === id ? 'is-active' : ''}
+                  onClick={(): void => scrollToChapter(id)}
+                >
+                  {label}
+                </button>
+              ))}
+            </nav>
+
+            <div
+              className="status-effect-dossier__scroll"
+              ref={scrollRef}
+              onScroll={updateActiveChapter}
+              tabIndex={0}
+              role="region"
+              aria-label="Scrollable Status Effect research notes"
+            >
+              <section className="status-effect-dossier__chapter" id="effect-description">
+                <h3>
+                  <span>01</span> Description
+                </h3>
+                <DetailText value={statusEffect.description} />
+              </section>
+
+              <section className="status-effect-dossier__chapter" id="effect-behavior">
+                <h3>
+                  <span>02</span> Effect
+                </h3>
+                <DetailText value={statusEffect.effect} />
+              </section>
+
+              <section className="status-effect-dossier__chapter" id="effect-notes">
+                <h3>
+                  <span>03</span> Personal Notes
+                </h3>
+                <DetailText
+                  value={statusEffect.notes}
+                  fallback="No personal notes have been added."
+                />
+              </section>
+
+              <section className="status-effect-dossier__chapter" id="effect-arcanists">
+                <h3>
+                  <span>04</span> Related Arcanists
+                </h3>
+                {relatedArcanists.length ? (
+                  <div className="status-effect-dossier__records">
+                    {relatedArcanists.map((arcanist) => (
+                      <div className="status-effect-dossier__record" key={arcanist.id}>
+                        <span className="status-effect-dossier__record-symbol" aria-hidden="true">
+                          ✦
+                        </span>
+                        <div>
+                          <strong>{arcanist.name}</strong>
+                          <small>{arcanist.afflatus || 'Unknown Afflatus'}</small>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="status-effect-dossier__empty">No related Arcanists.</p>
+                )}
+              </section>
+
+              <section className="status-effect-dossier__chapter" id="effect-tags">
+                <h3>
+                  <span>05</span> Tags
+                </h3>
+                {tags.length ? (
+                  <div className="status-effect-dossier__tags">
+                    {tags.map((tag, index) => (
+                      <span key={`${tag}-${index}`}>{tag}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="status-effect-dossier__empty">No tags available.</p>
+                )}
+              </section>
+
+              <section className="status-effect-dossier__chapter" id="effect-mechanics">
+                <h3>
+                  <span>06</span> Related Mechanics
+                </h3>
+                {relatedMechanics.length ? (
+                  <div className="status-effect-dossier__tags">
+                    {relatedMechanics.map((mechanic, index) => (
+                      <span key={`${mechanic}-${index}`}>{mechanic}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="status-effect-dossier__empty">No related mechanics.</p>
+                )}
+              </section>
+            </div>
+
+            <div className="status-effect-dossier__right-footer">
+              <span>RESEARCH CODEX · PRIVATE ARCHIVE</span>
+              <span className="status-effects-book__page-number">— 4 —</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
-
-export default StatusEffectDetail

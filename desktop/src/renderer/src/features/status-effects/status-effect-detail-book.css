@@ -1,0 +1,480 @@
+.status-effect-dossier {
+  overflow: hidden;
+  padding: 24px 34px;
+}
+
+.status-effect-dossier .status-effects-book__desk {
+  width: min(1480px, 100%);
+}
+
+.status-effect-dossier .status-effects-book__spread {
+  height: min(810px, calc(100dvh - 48px));
+  min-height: 610px;
+}
+
+.status-effect-dossier .status-effects-book__leaf {
+  min-height: 0;
+  padding: 30px clamp(24px, 3vw, 45px) 19px;
+}
+
+.status-effect-dossier__leaf {
+  isolation: isolate;
+}
+
+.status-effect-dossier__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-shrink: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgb(103 79 49 / 24%);
+}
+
+.status-effect-dossier__back {
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: #775938;
+  font:
+    700 12px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+}
+
+.status-effect-dossier__back:hover,
+.status-effect-dossier__back:focus-visible {
+  color: #35291d;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.status-effect-dossier__seal {
+  color: #a68b60;
+  font:
+    30px Georgia,
+    serif;
+}
+
+.status-effect-dossier__identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  padding: 17px 8px 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b49a73 transparent;
+  text-align: center;
+}
+
+.status-effect-dossier__emblem {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: clamp(148px, 20vh, 205px);
+  height: clamp(148px, 20vh, 205px);
+  margin: 21px auto 18px;
+  border: 1px solid #a58b61;
+  background:
+    radial-gradient(circle at 50% 50%, rgb(240 229 202 / 76%), rgb(186 169 134 / 26%) 70%), #dfcfad;
+  box-shadow:
+    0 0 0 5px rgb(145 116 70 / 11%),
+    inset 0 0 0 9px rgb(255 250 228 / 25%);
+}
+
+.status-effect-dossier__emblem-inner {
+  display: grid;
+  place-items: center;
+  width: 83%;
+  height: 83%;
+  border: 1px solid rgb(125 95 57 / 50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #e7dcc2, #c0ad85);
+}
+
+.status-effect-dossier__emblem svg {
+  width: 72%;
+  height: 72%;
+  color: #775b3c;
+  filter: drop-shadow(0 2px 1px rgb(255 250 229 / 35%));
+}
+
+.status-effect-dossier__record-number {
+  color: #806a4e;
+  font:
+    700 10px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.13em;
+}
+
+.status-effect-dossier__identity h1 {
+  max-width: 100%;
+  margin: 9px 0 10px;
+  color: #3b2f22;
+  font:
+    400 clamp(30px, 3.2vw, 46px)/1.08 Georgia,
+    'Times New Roman',
+    serif;
+  overflow-wrap: anywhere;
+}
+
+.status-effect-dossier__category {
+  padding: 6px 13px;
+  border: 1px solid rgb(131 99 57 / 36%);
+  background: rgb(232 218 186 / 45%);
+  color: #755737;
+  font:
+    700 11px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.status-effect-dossier__metadata {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  gap: 0;
+  margin-top: 18px;
+  padding: 16px 0;
+  border-top: 1px solid rgb(112 86 52 / 25%);
+  border-bottom: 1px solid rgb(112 86 52 / 25%);
+}
+
+.status-effect-dossier__metadata > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 0 8px;
+}
+
+.status-effect-dossier__metadata > div + div {
+  border-left: 1px solid rgb(112 86 52 / 22%);
+}
+
+.status-effect-dossier__metadata span {
+  color: #8e734c;
+  font:
+    700 9px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.09em;
+}
+
+.status-effect-dossier__metadata strong {
+  color: #4b3827;
+  font:
+    600 13px/1.35 Georgia,
+    serif;
+  overflow-wrap: anywhere;
+}
+
+.status-effect-dossier__motto {
+  margin: 16px 0 0;
+  color: #876f53;
+  font:
+    italic 13px/1.5 Georgia,
+    serif;
+}
+
+.status-effect-dossier__left-footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 12px;
+}
+
+.status-effect-dossier__edit {
+  padding: 10px 17px;
+  border: 1px solid #5c4630;
+  border-radius: 3px;
+  background: #624a33;
+  color: #f7ebd5;
+  font:
+    700 12px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.status-effect-dossier__edit:hover {
+  background: #785a3c;
+}
+
+.status-effect-dossier__research-header {
+  flex-shrink: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgb(103 79 49 / 24%);
+}
+
+.status-effect-dossier__research-header h2 {
+  margin: 8px 0 5px;
+  color: #433424;
+  font:
+    400 clamp(25px, 2.6vw, 36px) Georgia,
+    serif;
+}
+
+.status-effect-dossier__research-header p {
+  margin: 0;
+  color: #82705a;
+  font:
+    italic 12px Georgia,
+    serif;
+}
+
+.status-effect-dossier__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex-shrink: 0;
+  gap: 7px;
+  padding: 15px 0;
+}
+
+.status-effect-dossier__tabs button {
+  min-width: 0;
+  padding: 8px 5px;
+  border: 1px solid rgb(120 91 55 / 26%);
+  border-radius: 2px;
+  background: rgb(255 250 232 / 30%);
+  color: #765d41;
+  font:
+    700 10px 'Segoe UI',
+    sans-serif;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.status-effect-dossier__tabs button:hover,
+.status-effect-dossier__tabs button.is-active {
+  background: #765a3a;
+  color: #fff1d8;
+}
+
+.status-effect-dossier__tabs button:focus-visible,
+.status-effect-dossier__edit:focus-visible {
+  outline: 2px solid #9a7a4f;
+  outline-offset: 3px;
+}
+
+.status-effect-dossier__scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 5px 13px 20px 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b59b72 transparent;
+  outline-offset: -2px;
+}
+
+.status-effect-dossier__scroll:focus-visible {
+  outline: 2px solid #9a7a4f;
+}
+
+.status-effect-dossier__chapter {
+  margin-bottom: 26px;
+  padding-top: 7px;
+}
+
+.status-effect-dossier__chapter + .status-effect-dossier__chapter {
+  padding-top: 19px;
+  border-top: 1px solid rgb(107 79 46 / 20%);
+}
+
+.status-effect-dossier__chapter h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 13px;
+  color: #4c3826;
+  font:
+    400 22px Georgia,
+    serif;
+}
+
+.status-effect-dossier__chapter h3 span {
+  color: #a48b66;
+  font:
+    italic 14px Georgia,
+    serif;
+}
+
+.status-effect-dossier__text {
+  margin: 0;
+  color: #594b39;
+  font:
+    13px/1.75 Georgia,
+    serif;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.status-effect-dossier__empty {
+  margin: 0;
+  color: #8c7659;
+  font:
+    italic 13px Georgia,
+    serif;
+}
+
+.status-effect-dossier__records {
+  display: grid;
+  gap: 9px;
+}
+
+.status-effect-dossier__record {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid rgb(117 85 49 / 23%);
+  background: rgb(255 250 231 / 27%);
+}
+
+.status-effect-dossier__record-symbol {
+  color: #a1875d;
+  font:
+    24px Georgia,
+    serif;
+}
+
+.status-effect-dossier__record > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.status-effect-dossier__record strong {
+  color: #493626;
+  font:
+    600 15px Georgia,
+    serif;
+  overflow-wrap: anywhere;
+}
+
+.status-effect-dossier__record small {
+  color: #876d4a;
+  font:
+    11px 'Segoe UI',
+    sans-serif;
+}
+
+.status-effect-dossier__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.status-effect-dossier__tags span {
+  padding: 6px 10px;
+  border: 1px solid rgb(131 99 57 / 30%);
+  background: rgb(232 218 186 / 55%);
+  color: #735b3b;
+  font:
+    600 11px 'Segoe UI',
+    sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.status-effect-dossier__right-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgb(103 79 49 / 17%);
+}
+
+.status-effect-dossier__right-footer > span:first-child {
+  color: #927d5e;
+  font:
+    700 9px 'Segoe UI',
+    sans-serif;
+  letter-spacing: 0.11em;
+}
+
+.status-effect-dossier .status-effects-book__page-number {
+  margin-top: 0;
+  text-align: center;
+}
+
+.status-effect-dossier__turn-sheet {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, #ded0b2, #f2e5cc 57%, #c6b492);
+  transform-origin: right center;
+  animation: status-effect-dossier-turn 610ms ease-in-out forwards;
+}
+
+@keyframes status-effect-dossier-turn {
+  0% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  80% {
+    opacity: 0.62;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}
+
+@media (max-width: 960px) {
+  .status-effect-dossier {
+    padding: 22px 15px;
+    overflow: auto;
+  }
+
+  .status-effect-dossier .status-effects-book__spread {
+    height: auto;
+    min-height: 0;
+  }
+
+  .status-effect-dossier .status-effects-book__leaf {
+    padding: 24px;
+  }
+
+  .status-effect-dossier__identity {
+    flex: none;
+  }
+
+  .status-effect-dossier__scroll {
+    flex: none;
+    height: min(510px, 65dvh);
+  }
+}
+
+@media (max-width: 560px) {
+  .status-effect-dossier__tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .status-effect-dossier__metadata {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .status-effect-dossier__metadata > div + div {
+    border-left: 0;
+    border-top: 1px solid rgb(112 86 52 / 22%);
+    padding-top: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-effect-dossier__turn-sheet {
+    display: none;
+  }
+}

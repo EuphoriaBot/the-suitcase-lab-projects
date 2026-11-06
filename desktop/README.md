@@ -1,35 +1,26 @@
-# The Suitcase Lab — Status Effects Book List (Stage 10.7)
+# The Suitcase Lab — Status Effect Detail Book (Tahap 10.8)
 
-Mengubah **hanya halaman daftar Status Effects** menjadi buku terbuka, konsisten dengan Arcanists Book.
-
-## File
-
-- `src/renderer/src/features/status-effects/StatusEffectsBookList.tsx` — komponen baru.
-- `src/renderer/src/features/status-effects/status-effects-book.css` — CSS baru (tidak mengubah CSS Arcanists).
-- `src/renderer/src/features/status-effects/StatusEffectsPage.tsx` — mengganti cabang list lama, mempertahankan detail/form/database dan callback aslinya.
+Perubahan **hanya untuk tampilan Detail Status Effect**. Tidak mengubah penyimpanan SQLite, routing, form, atau daftar Status Effects.
 
 ## Pemasangan
 
-1. Pastikan perubahan lokal sudah tersimpan. Sebaiknya jalankan `git status` dari folder repo utama dan buat commit/back-up bila perlu.
-2. Ekstrak isi ZIP ini ke `D:\The Suitcase Lab\desktop`. Pilih replace hanya untuk `StatusEffectsPage.tsx`; dua file lainnya baru.
-3. Jalankan perintah berikut di folder `desktop`:
+Ekstrak seluruh isi ZIP ke `D:\The Suitcase Lab\desktop`.
+
+- Ganti `src/renderer/src/features/status-effects/StatusEffectDetail.tsx` dengan file dari paket.
+- Tambahkan `src/renderer/src/features/status-effects/status-effect-detail-book.css`.
+- Jangan ganti `StatusEffectsPage.tsx`, `StatusEffectsBookList.tsx`, atau `status-effects-book.css` yang sudah berfungsi.
+
+## Pengujian
+
+Jalankan di folder `desktop`:
 
 ```powershell
-npx prettier --write src/renderer/src/features/status-effects/StatusEffectsBookList.tsx src/renderer/src/features/status-effects/status-effects-book.css src/renderer/src/features/status-effects/StatusEffectsPage.tsx
+npx prettier --write src/renderer/src/features/status-effects/StatusEffectDetail.tsx src/renderer/src/features/status-effects/status-effect-detail-book.css
 npm run typecheck
 npm run lint
 npm run dev
 ```
 
-## Pengujian
+Buka Status Effects > pilih sebuah efek. Halaman kiri menampilkan identitas dan tombol Edit. Halaman kanan memuat Description, Effect, Notes, Related Arcanists, Tags, dan Related Mechanics yang dapat di-scroll menggunakan mouse. Klik tab untuk pindah ke bagian terkait. Tombol Back harus kembali ke indeks. Tombol Edit harus membuka form lama dan Save/Cancel tetap berfungsi.
 
-- Dari Timekeeper Room, pilih Status Effects.
-- Buku terbuka; sidebar/topbar tersembunyi hanya di daftar.
-- Search memfilter isi; scroll kiri tetap di dalam halaman buku; tidak ada pagination list.
-- Hover/fokus pada nama mengganti preview kanan; klik nama atau Open Entry membuka detail lama.
-- Register Effect membuka form lama.
-- Edit membuka form dengan record yang dipilih.
-- Delete memunculkan dialog konfirmasi lama dan refresh data setelah disimpan.
-- Tombol The Room tetap berfungsi; nomor halaman 1 dan 2 tampil.
-
-Kode TSX sudah dicek parser/transpiler TypeScript; tidak ada akses ke lingkungan Electron lokal untuk menjalankan lint/typecheck proyek penuh.
+Catatan: Seluruh data ditampilkan dari props yang sudah digunakan oleh `StatusEffectDetail` sebelumnya. Tidak ada aksi hapus pada detail karena detail lama juga tidak menyediakan tombol hapus.
