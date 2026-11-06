@@ -1,21 +1,14 @@
-THE SUITCASE LAB — ARCANIST DETAIL BOOK (STAGE 10.5)
+FIX TAHAP 10.6
 
-Copy the src folder to:
-D:\The Suitcase Lab\desktop\
+Masalah: script lama mengharapkan comment SKILLS tepat setelah penutup section, padahal kode asli memiliki satu baris kosong.
 
-This package replaces:
-- src/renderer/src/features/arcanists/ArcanistDetail.tsx
+Cara pasang: ekstrak isi ZIP ke D:\The Suitcase Lab\desktop, overwrite scripts/apply-arcanist-form-book.mjs.
 
-It adds:
-- src/renderer/src/features/arcanists/arcanist-detail-book.css
-
-It does not modify ArcanistsPage.tsx, ArcanistsBookList.tsx, timekeeper files, or SQLite operations.
-
-Commands:
-npx prettier --write src/renderer/src/features/arcanists/ArcanistDetail.tsx src/renderer/src/features/arcanists/arcanist-detail-book.css
+Lalu jalankan:
+node scripts/apply-arcanist-form-book.mjs
+npx prettier --write src/renderer/src/features/arcanists/ArcanistForm.tsx src/renderer/src/features/arcanists/arcanist-form-book.css
 npm run typecheck
 npm run lint
 npm run dev
 
-Check the character portrait, details, Edit Dossier, Back to Arcanist Index,
-all six tabs, and independent scrolling in the right page.
+Skrip membuat backup dan mengubah hanya ArcanistForm.tsx setelah semua pola cocok.
