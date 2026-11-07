@@ -1,0 +1,255 @@
+.timekeeper-room .timekeeper-room__canvas {
+  background-image: url('../../assets/timekeeper/room-scene-clean.webp');
+}
+
+.timekeeper-room .timekeeper-room__objects {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+.timekeeper-room .timekeeper-room__object {
+  position: absolute;
+  display: block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #f2e8d6;
+  text-align: left;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.timekeeper-room .timekeeper-room__object::before {
+  content: none;
+}
+
+.timekeeper-room .timekeeper-room__object::after {
+  content: '';
+  position: absolute;
+  left: var(--glow-x, 50%);
+  top: var(--glow-y, 50%);
+  width: 92px;
+  height: 92px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 226, 164, 0.22) 0%,
+    rgba(255, 226, 164, 0.14) 35%,
+    rgba(255, 226, 164, 0.08) 52%,
+    rgba(255, 226, 164, 0) 74%
+  );
+  filter: blur(14px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.92);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+  z-index: 0;
+}
+
+.timekeeper-room .timekeeper-room__object:hover::after,
+.timekeeper-room .timekeeper-room__object:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.timekeeper-room .timekeeper-room__object:focus-visible {
+  outline: none;
+}
+
+.timekeeper-room .timekeeper-room__object-meta {
+  display: none;
+}
+
+.timekeeper-room .timekeeper-room__object-arrow {
+  display: none !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.timekeeper-room .timekeeper-room__object-copy {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 260px;
+  pointer-events: none;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.95),
+    0 0 18px rgba(0, 0, 0, 0.72);
+}
+
+.timekeeper-room .timekeeper-room__object-title {
+  display: block;
+  color: #f6ead2;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(26px, 2.2vw, 36px);
+  font-weight: 400;
+  line-height: 1.12;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease;
+}
+
+.timekeeper-room .timekeeper-room__object-description {
+  display: block;
+  max-width: 250px;
+  color: #e3d7c1;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(15px, 1.18vw, 19px);
+  line-height: 1.32;
+  transition: color 180ms ease;
+}
+
+.timekeeper-room .timekeeper-room__object:hover .timekeeper-room__object-title,
+.timekeeper-room .timekeeper-room__object:focus-visible .timekeeper-room__object-title {
+  color: #ffe4a8;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.95),
+    0 0 18px rgba(223, 182, 96, 0.28);
+}
+
+.timekeeper-room .timekeeper-room__object:hover .timekeeper-room__object-description,
+.timekeeper-room .timekeeper-room__object:focus-visible .timekeeper-room__object-description {
+  color: #f6ead4;
+}
+
+.timekeeper-room .timekeeper-room__object--arcanists {
+  top: 71.2%;
+  left: 23.8%;
+  width: 35.5%;
+  height: 19%;
+  --glow-x: 49%;
+  --glow-y: 60%;
+}
+
+.timekeeper-room .timekeeper-room__object--arcanists .timekeeper-room__object-copy {
+  top: 62%;
+  left: 43%;
+  width: 260px;
+  transform: translateX(-50%);
+  align-items: center;
+  text-align: center;
+}
+
+.timekeeper-room .timekeeper-room__object--effects {
+  top: 20.8%;
+  left: 28.2%;
+  width: 27%;
+  height: 20%;
+  --glow-x: 30%;
+  --glow-y: 42%;
+}
+
+.timekeeper-room .timekeeper-room__object--effects .timekeeper-room__object-copy {
+  top: 8%;
+  left: 31%;
+  width: 270px;
+  transform: translateX(-50%);
+  align-items: center;
+  text-align: center;
+}
+
+.timekeeper-room .timekeeper-room__object--database {
+  top: 60.4%;
+  left: 18.1%;
+  width: 24%;
+  height: 18%;
+  --glow-x: 11%;
+  --glow-y: 42%;
+}
+
+.timekeeper-room .timekeeper-room__object--database .timekeeper-room__object-copy {
+  top: 3%;
+  left: 2%;
+  width: 260px;
+}
+
+.timekeeper-room .timekeeper-room__object--chronicle {
+  top: 60.4%;
+  left: 66.3%;
+  width: 25%;
+  height: 18%;
+  --glow-x: 11%;
+  --glow-y: 42%;
+}
+
+.timekeeper-room .timekeeper-room__object--chronicle .timekeeper-room__object-copy {
+  top: 3%;
+  left: 5%;
+  width: 270px;
+}
+
+@media (max-width: 1280px) {
+  .timekeeper-room .timekeeper-room__object-copy {
+    width: 230px;
+  }
+
+  .timekeeper-room .timekeeper-room__object-title {
+    font-size: clamp(23px, 2vw, 30px);
+  }
+
+  .timekeeper-room .timekeeper-room__object-description {
+    max-width: 220px;
+    font-size: clamp(14px, 1.08vw, 17px);
+  }
+
+  .timekeeper-room .timekeeper-room__object--effects .timekeeper-room__object-copy {
+    left: 29%;
+  }
+
+  .timekeeper-room .timekeeper-room__object--database .timekeeper-room__object-copy {
+    left: 1%;
+  }
+
+  .timekeeper-room .timekeeper-room__object--chronicle .timekeeper-room__object-copy {
+    left: 4%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .timekeeper-room .timekeeper-room__object-title {
+    font-size: clamp(20px, 1.85vw, 26px);
+  }
+
+  .timekeeper-room .timekeeper-room__object-description {
+    font-size: clamp(13px, 1vw, 16px);
+  }
+
+  .timekeeper-room .timekeeper-room__object-copy {
+    width: 210px;
+  }
+}
+
+@media (max-width: 900px) {
+  .timekeeper-room .timekeeper-room__object-title {
+    font-size: 18px;
+  }
+
+  .timekeeper-room .timekeeper-room__object-description {
+    font-size: 12px;
+    max-width: 180px;
+  }
+
+  .timekeeper-room .timekeeper-room__object-copy {
+    width: 180px;
+    gap: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timekeeper-room .timekeeper-room__object::after,
+  .timekeeper-room .timekeeper-room__object-title,
+  .timekeeper-room .timekeeper-room__object-description {
+    transition: none;
+  }
+}

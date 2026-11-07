@@ -1,4 +1,5 @@
 import type { JSX } from 'react'
+import './timekeeper-room-navigation.css'
 
 export type RoomDestination = 'arcanists' | 'status-effects' | 'database' | 'dashboard'
 
@@ -8,30 +9,35 @@ interface TimekeeperRoomProps {
 
 interface RoomObject {
   id: RoomDestination
-  label: string
   position: string
+  title: string
+  description: string
 }
 
 const roomObjects: RoomObject[] = [
   {
     id: 'arcanists',
-    label: 'Open Arcanists',
-    position: 'arcanists'
+    position: 'arcanists',
+    title: 'Arcanists',
+    description: 'View and manage Arcanist dossiers.'
   },
   {
     id: 'status-effects',
-    label: 'Open Status Effects',
-    position: 'effects'
+    position: 'effects',
+    title: 'Status Effects',
+    description: 'Research and record effects observed in battle.'
   },
   {
     id: 'database',
-    label: 'Open Database',
-    position: 'database'
+    position: 'database',
+    title: 'Database',
+    description: 'Manage data, backup, and restore your archive.'
   },
   {
     id: 'dashboard',
-    label: 'Open The Chronicle',
-    position: 'chronicle'
+    position: 'chronicle',
+    title: 'The Chronicle',
+    description: 'Review recent records and personal notes.'
   }
 ]
 
@@ -46,9 +52,17 @@ export default function TimekeeperRoom({ onNavigate }: TimekeeperRoomProps): JSX
               type="button"
               className={`timekeeper-room__object timekeeper-room__object--${object.position}`}
               onClick={(): void => onNavigate(object.id)}
-              aria-label={object.label}
-              title={object.label}
-            />
+              aria-label={`Open ${object.title}`}
+              title={`Open ${object.title}`}
+            >
+              <span className="timekeeper-room__object-copy">
+                <span className="timekeeper-room__object-title">{object.title}</span>
+                <span className="timekeeper-room__object-description">{object.description}</span>
+              </span>
+              <span className="timekeeper-room__object-arrow" aria-hidden="true">
+                →
+              </span>
+            </button>
           ))}
         </nav>
       </div>
