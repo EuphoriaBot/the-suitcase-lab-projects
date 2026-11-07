@@ -5,21 +5,14 @@ interface TimekeeperIntroProps {
   onComplete: () => void
 }
 
-const INTRO_DURATION = 6400
+const INTRO_DURATION = 6000
 
 export default function TimekeeperIntro({ onComplete }: TimekeeperIntroProps): JSX.Element {
   useEffect(() => {
     const timer = window.setTimeout(onComplete, INTRO_DURATION)
 
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape') onComplete()
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-
     return (): void => {
       window.clearTimeout(timer)
-      window.removeEventListener('keydown', handleKeyDown)
     }
   }, [onComplete])
 
@@ -33,12 +26,7 @@ export default function TimekeeperIntro({ onComplete }: TimekeeperIntroProps): J
         </div>
       </div>
 
-      <div className="timekeeper-intro__rain" aria-hidden="true" />
       <div className="timekeeper-intro__curtain" aria-hidden="true" />
-
-      <button className="timekeeper-intro__skip" type="button" onClick={onComplete}>
-        Skip intro <span aria-hidden="true">→</span>
-      </button>
     </section>
   )
 }
