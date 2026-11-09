@@ -1,34 +1,39 @@
-# The Suitcase Lab — Polished Book Opening V4
+# The Suitcase Lab — Arcanists Reference-Matched Registry V13
 
-Memperbaiki animasi pembukaan buku Arcanists/Status Effects yang terlihat kaku dan bertabrakan. Fokus perubahan: komposisi sampul dan halaman pada engsel yang sama, penambahan frame lebih halus, serta transisi akhir yang tidak menumpuk dengan halaman aplikasi.
+## Tujuan
+
+Mendekatkan tampilan daftar Arcanists ke mockup ornate archive yang dipilih. Versi sebelumnya memakai ilustrasi SVG sederhana dan kertas terlalu putih. Versi ini memakai latar **buku perkamen hasil pengolahan gambar referensi** yang telah dibersihkan dari semua teks/portrait/tombol statis, sedangkan UI sesungguhnya tetap diberikan oleh `ArcanistsBookList.tsx`.
+
+## Isi paket
+
+```
+src/renderer/src/features/arcanists/arcanists-book.css
+src/renderer/src/assets/arcanists/ornate-book-shell.webp
+src/renderer/src/assets/arcanists/compass-rose.svg
+src/renderer/src/assets/arcanists/archive-divider.svg
+```
 
 ## Pemasangan
 
-Ekstrak isi ZIP ke `D:\The Suitcase Lab\desktop` dan pilih replace untuk file yang sudah ada.
+1. Backup `src/renderer/src/features/arcanists/arcanists-book.css` lama (atau gunakan Git untuk mengembalikan).
+2. Ekstrak ZIP ke `D:\The Suitcase Lab\desktop` dengan struktur direktori dipertahankan, dan timpa CSS.
+3. Verifikasi aset `src/renderer/src/assets/arcanists/ornate-book-shell.webp` ada.
+4. **Jangan** timpa `ArcanistsBookList.tsx`, `ArcanistsPage.tsx`, form, detail, Timekeeper Room, atau kode SQLite.
 
-File yang diganti:
-
-- `src/renderer/src/assets/timekeeper/book-opening-animated.webp`
-- `src/renderer/src/assets/timekeeper/book-open-fallback.png`
-- `src/renderer/src/features/timekeeper/book-opening-transition.css`
-
-Jangan ubah `TimekeeperEntry.tsx`, `BookOpeningTransition.tsx`, `TimekeeperRoom.tsx`, atau file database.
-
-## Teknis
-
-- Animasi WebP transparan, 960x540, durasi 2800 ms, tidak berulang.
-- Sampul kulit ornamen emas membalik pada satu engsel; halaman kanan dan kiri hanya terlihat saat semestinya.
-- Foto ruangan tetap menjadi latar zoom.
-- Saat layar arsip mulai dimuat, gambar buku langsung disembunyikan di balik lapisan warna perkamen; lapisan perkamen kemudian memudar. Tidak ada dua buku yang tampil bersamaan.
-- Zoom tetap 1700 ms, seal 240 ms, opening 2800 ms, arrival 380 ms.
-
-## Uji
+## Pengujian
 
 ```powershell
-npx prettier --write src/renderer/src/features/timekeeper/book-opening-transition.css
+npx prettier --write src/renderer/src/features/arcanists/arcanists-book.css
 npm run typecheck
 npm run lint
 npm run dev
 ```
 
-Cek animasi Arcanists dan Status Effects, lalu kembali ke Room dan uji membuka kembali. Jangan commit sebelum mengecek alur pada Electron lokal.
+Periksa tampilan daftar pada layar Electron, lalu uji Register, Search, klik karakter, Edit, Delete, preview foto, dan jumlah karakter banyak (scroll khusus indeks).
+
+## Catatan
+
+- Latar diperoleh dari ilustrasi referensi yang sudah dibuat di percakapan ini; teks dan objek UI yang permanen dibersihkan. Nama, foto, jumlah, dan tombol berasal dari React dan SQLite.
+- Menyesuaikan gambar referensi sedekat mungkin, tetapi tidak piksel-identik pada setiap ukuran layar atau konten; tujuan utamanya visual yang konsisten **dan tetap interaktif**.
+- Ada media query untuk jendela sempit yang mengubah dua halaman menjadi satu kolom agar aplikasi tetap dapat digunakan.
+- Sintaks CSS dan aset terverifikasi secara statis. Pengujian integrasi aplikasi Electron tetap harus dilakukan secara lokal.

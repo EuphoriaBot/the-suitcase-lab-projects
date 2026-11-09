@@ -62,12 +62,7 @@ export default function BookOpeningTransition({
       {showBook && (
         <div className="book-opening-video__footage" aria-hidden="true">
           {animationFailed ? (
-            <img
-              className="book-opening-video__book"
-              src={bookFallback}
-              alt=""
-              draggable={false}
-            />
+            <img className="book-opening-video__book" src={bookFallback} alt="" draggable={false} />
           ) : (
             <img
               className="book-opening-video__book"

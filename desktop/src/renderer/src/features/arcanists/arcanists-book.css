@@ -3,219 +3,262 @@
   display: none;
 }
 
+.app:has(.arcanists-book),
+.app:has(.arcanists-book) .page-content {
+  background: #171714;
+}
+
 .app:has(.arcanists-book) .page-content {
   padding: 0;
+  overflow: visible;
 }
 
 .arcanists-book {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
-  padding: 30px 38px 35px;
-  background:
-    radial-gradient(ellipse at 50% 5%, rgba(164, 124, 76, 0.17), transparent 52%),
-    radial-gradient(ellipse at 50% 110%, rgba(12, 9, 7, 0.85), transparent 58%),
-    repeating-linear-gradient(94deg, rgba(225, 191, 137, 0.015) 0 1px, transparent 1px 8px), #1a1b18;
-  color: #403426;
+  padding: 0;
+  overflow: hidden;
+  color: #3e2819;
+  background: radial-gradient(ellipse at 50% 15%, #303027, #121311 68%);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.arcanists-book *,
+.arcanists-book *::before,
+.arcanists-book *::after {
+  box-sizing: border-box;
 }
 
 .arcanists-book__desk {
-  width: min(1240px, 100%);
-  min-width: 0;
-}
-
-.arcanists-book__toolbar,
-.arcanists-book__footnote {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  color: #c0aa83;
-  font:
-    600 10px/1.5 'Segoe UI',
-    sans-serif;
-  letter-spacing: 0.15em;
-}
-
-.arcanists-book__toolbar {
-  min-height: 52px;
-  justify-content: space-between;
-  padding-right: 150px;
-}
-
-.arcanists-book__toolbar button {
-  border: 1px solid rgba(205, 177, 123, 0.68);
-  border-radius: 3px;
-  background: #c8ac78;
-  color: #261e17;
-  padding: 10px 15px;
-  font:
-    700 11px/1.3 'Segoe UI',
-    sans-serif;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition:
-    background-color 160ms ease,
-    transform 160ms ease;
-}
-
-.arcanists-book__toolbar button:hover:not(:disabled) {
-  background: #eed4a1;
-  transform: translateY(-1px);
-}
-
-.arcanists-book__toolbar button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+  position: relative;
+  flex: none;
+  width: min(100vw, 177.68dvh, 1672px);
+  aspect-ratio: 1672 / 941;
+  background: url('../../assets/arcanists/ornate-book-shell.webp') center / 100% 100% no-repeat;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.35));
 }
 
 .arcanists-book__spread {
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  min-height: 610px;
-  border: 8px solid #4a3525;
-  border-radius: 12px 16px 16px 12px;
-  background: #d7c6a4;
-  box-shadow:
-    0 0 0 2px #91724e,
-    0 0 0 6px rgba(21, 15, 11, 0.5),
-    0 27px 48px rgba(0, 0, 0, 0.55),
-    0 48px 85px rgba(0, 0, 0, 0.25);
-  animation: arcanists-book-reveal 550ms ease-out both;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 5.9% 6.85% 7.5%;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  animation: arcanists-book-reveal 500ms ease-out both;
 }
 
-.arcanists-book__spread::after {
-  content: '';
-  position: absolute;
-  z-index: 3;
-  top: 0;
-  bottom: 0;
-  left: calc(50% - 20px);
-  width: 40px;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(74, 51, 28, 0.12) 24%,
-    rgba(49, 35, 24, 0.31) 49%,
-    rgba(72, 51, 29, 0.19) 55%,
-    transparent 100%
-  );
+.arcanists-book__spread::before,
+.arcanists-book__spread::after,
+.arcanists-book__desk::before {
+  display: none;
+  content: none;
 }
 
-.arcanists-book__leaf {
+.arcanists-book__leaf,
+.arcanists-book__leaf--left,
+.arcanists-book__leaf--right {
   position: relative;
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 610px;
-  padding: 33px clamp(25px, 3.3vw, 49px) 27px;
-  overflow: hidden;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 30px, rgba(84, 60, 36, 0.019) 31px 32px),
-    radial-gradient(ellipse at 50% 10%, rgba(255, 251, 231, 0.58), transparent 70%), #e8dcc2;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  isolation: isolate;
+}
+
+.arcanists-book__leaf::before,
+.arcanists-book__leaf::after {
+  content: none;
+  display: none;
 }
 
 .arcanists-book__leaf--left {
-  border-radius: 5px 0 0 5px;
-  box-shadow:
-    inset -16px 0 24px rgba(70, 46, 24, 0.12),
-    inset 9px 0 8px rgba(255, 255, 247, 0.22);
+  padding-left: 3.9%;
+  padding-right: 4.8%;
 }
 
 .arcanists-book__leaf--right {
-  border-radius: 0 7px 7px 0;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 30px, rgba(84, 60, 36, 0.019) 31px 32px),
-    radial-gradient(ellipse at 45% 8%, rgba(255, 251, 231, 0.5), transparent 70%), #e3d4b6;
-  box-shadow:
-    inset 17px 0 26px rgba(63, 43, 25, 0.16),
-    inset -7px 0 10px rgba(255, 253, 238, 0.25);
+  padding-left: 5.25%;
+  padding-right: 3.8%;
 }
 
 .arcanists-book__kicker,
 .arcanists-book__search-label,
 .arcanists-book__index-heading,
 .arcanists-book__record-label {
-  color: #8d7046;
+  color: #553820;
   font:
-    700 10px/1.4 'Segoe UI',
-    sans-serif;
-  letter-spacing: 0.16em;
+    700 clamp(10px, 0.82vw, 14px)/1.3 Georgia,
+    'Times New Roman',
+    serif;
+  letter-spacing: 0.14em;
 }
 
 .arcanists-book__heading {
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(114, 87, 54, 0.38);
+  flex-shrink: 0;
+  padding: 0 0 16px;
+  border-bottom: 0;
+  background: none;
+}
+
+.arcanists-book__heading-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid rgba(136, 91, 46, 0.5);
+}
+
+.arcanists-book__register {
+  flex: 0 0 auto;
+  min-height: 43px;
+  padding: 8px 17px;
+  border: 3px double #d4a75a;
+  border-radius: 7px;
+  background: linear-gradient(145deg, #30423a 0%, #182720 76%);
+  box-shadow:
+    0 0 0 2px #523821,
+    inset 0 0 0 1px #765d30,
+    0 4px 6px #62402166;
+  color: #f4d993;
+  font:
+    700 clamp(11px, 0.95vw, 15px) Georgia,
+    serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    filter 160ms,
+    transform 160ms;
+}
+
+.arcanists-book__register:hover:not(:disabled) {
+  filter: brightness(1.14);
+  transform: translateY(-1px);
 }
 
 .arcanists-book__heading h1 {
-  margin: 10px 0 7px;
-  color: #3e3225;
+  position: relative;
+  margin: 17px 0 8px;
+  padding-left: clamp(51px, 4.4vw, 72px);
+  color: #3e2617;
   font:
-    400 clamp(29px, 3vw, 43px)/1.05 Georgia,
-    'Times New Roman',
+    400 clamp(34px, 3.3vw, 57px)/1.06 Georgia,
     serif;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.028em;
+  text-shadow: 0 1px #fff2d0;
+}
+
+.arcanists-book__heading h1::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: clamp(44px, 4vw, 66px);
+  height: clamp(44px, 4vw, 66px);
+  transform: translateY(-50%);
+  background: url('../../assets/arcanists/compass-rose.svg') center / contain no-repeat;
+  filter: sepia(0.24) saturate(1.65) contrast(1.13);
 }
 
 .arcanists-book__heading p {
-  margin: 0;
-  color: #756450;
+  margin: 0 0 0 clamp(51px, 4.4vw, 72px);
+  color: #593a25;
   font:
-    italic 14px/1.4 Georgia,
-    'Times New Roman',
+    italic clamp(13px, 1.21vw, 19px)/1.33 Georgia,
     serif;
+  white-space: normal;
 }
 
 .arcanists-book__search-label {
+  flex-shrink: 0;
   display: block;
-  margin-top: 22px;
-  margin-bottom: 8px;
+  margin: 14px 0 9px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(143, 98, 46, 0.55);
 }
 
 .arcanists-book__search {
+  flex-shrink: 0;
   display: block;
   width: 100%;
-  min-height: 41px;
-  padding: 9px 12px;
-  border: 1px solid rgba(125, 96, 59, 0.35);
-  border-radius: 3px;
-  background: rgba(255, 251, 233, 0.53);
-  color: #3c3126;
+  min-height: clamp(39px, 3.4vw, 53px);
+  padding: 9px 18px 9px 56px;
+  border: 3px double #a4783f;
+  border-radius: 7px;
+  background:
+    url('../../assets/arcanists/compass-rose.svg') no-repeat 15px center / 28px,
+    linear-gradient(110deg, rgba(255, 241, 208, 0.68), rgba(254, 235, 194, 0.45));
+  box-shadow:
+    inset 0 0 0 2px rgba(254, 241, 206, 0.83),
+    0 3px 6px #6c49283b;
+  color: #392818;
   font:
-    13px 'Segoe UI',
-    sans-serif;
-  outline-offset: 2px;
+    italic clamp(12px, 1.05vw, 17px) Georgia,
+    serif;
+  outline-offset: 4px;
 }
 
 .arcanists-book__search::placeholder {
-  color: #897965;
+  color: #735039;
 }
-
 .arcanists-book__search:focus {
-  outline: 2px solid #ac8957;
-  border-color: #ac8957;
+  outline: 2px solid #927044;
 }
 
 .arcanists-book__index-heading {
+  position: relative;
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  margin: 19px 0 7px;
-  border-bottom: 1px solid rgba(114, 87, 54, 0.17);
-  padding-bottom: 7px;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 11px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(122, 76, 30, 0.46);
+}
+
+.arcanists-book__index-heading::after {
+  position: absolute;
+  left: 46%;
+  bottom: -9px;
+  content: '✧';
+  padding: 0 7px;
+  color: #a17538;
+  font:
+    20px Georgia,
+    serif;
 }
 
 .arcanists-book__index {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 4px;
-  list-style: none;
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
   margin: 0;
-  padding: 0;
+  padding: 3px 6px 4px 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #9e7541 transparent;
 }
 
 .arcanists-book__index li {
@@ -223,153 +266,193 @@
 }
 
 .arcanists-book__entry {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 14px;
-  min-height: 58px;
-  padding: 7px 9px;
-  border: 1px solid transparent;
-  border-bottom-color: rgba(109, 83, 50, 0.14);
-  background: transparent;
-  color: #403424;
+  min-height: clamp(61px, 5vw, 80px);
+  gap: 15px;
+  padding: 0 17px 0 0;
+  border: 3px double #ad8148;
+  border-radius: 6px;
+  background: linear-gradient(112deg, rgba(249, 226, 184, 0.8), rgba(244, 213, 169, 0.46));
+  box-shadow:
+    inset 0 0 0 2px #fae1b4,
+    0 3px 8px #62412145;
+  color: #3d2b1c;
   text-align: left;
   cursor: pointer;
   transition:
-    background-color 180ms ease,
-    border-color 180ms ease;
+    border-color 150ms,
+    background-color 150ms;
+}
+
+.arcanists-book__entry::after {
+  content: '✦';
+  position: absolute;
+  right: 23%;
+  top: 15%;
+  color: #b18442;
+  font-size: 20px;
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .arcanists-book__entry:hover,
 .arcanists-book__entry.is-selected,
 .arcanists-book__entry:focus-visible {
-  background: rgba(136, 107, 65, 0.1);
-  border-color: rgba(136, 107, 65, 0.27);
+  border-color: #715022;
+  background: linear-gradient(110deg, #fbe5bd, #e9be7d9c);
+  box-shadow:
+    inset 0 0 0 2px #ffe4af,
+    0 3px 12px #65452c50;
 }
 
 .arcanists-book__entry:focus-visible {
-  outline: 2px solid #95764a;
+  outline: 2px solid #77582d;
+  outline-offset: 3px;
 }
 
 .arcanists-book__entry-number {
-  min-width: 27px;
-  color: #a1875d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  min-width: clamp(52px, 4.7vw, 80px);
+  background: linear-gradient(145deg, #304739, #152821);
+  border-right: 3px double #c69b50;
+  color: #e9c36f;
   font:
-    italic 21px Georgia,
+    italic clamp(20px, 1.8vw, 29px) Georgia,
     serif;
+  text-shadow: 0 1px 2px #000;
 }
 
 .arcanists-book__entry-info {
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-width: 0;
   gap: 2px;
+  min-width: 0;
 }
 
 .arcanists-book__entry-info strong {
   overflow: hidden;
-  color: #3f3224;
+  color: #3e2918;
   font:
-    600 16px/1.25 Georgia,
+    700 clamp(14px, 1.35vw, 22px)/1.25 Georgia,
     serif;
-  text-overflow: ellipsis;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .arcanists-book__entry-info small {
-  color: #806e57;
+  color: #735334;
   font:
-    11px/1.4 'Segoe UI',
-    sans-serif;
+    italic clamp(12px, 0.96vw, 15px) Georgia,
+    serif;
 }
 
 .arcanists-book__entry-arrow {
-  color: #92764d;
-  font-size: 17px;
-}
-
-.arcanists-book__pagination {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(114, 87, 54, 0.27);
-  color: #816b4b;
+  position: relative;
+  z-index: 1;
+  color: #725028;
   font:
-    12px 'Segoe UI',
-    sans-serif;
-}
-
-.arcanists-book__pagination button {
-  border: 0;
-  padding: 6px 0;
-  background: transparent;
-  color: #795c37;
-  font:
-    600 12px 'Segoe UI',
-    sans-serif;
-  cursor: pointer;
-}
-
-.arcanists-book__pagination button:hover:not(:disabled) {
-  color: #3a2919;
-  text-decoration: underline;
-}
-
-.arcanists-book__pagination button:disabled {
-  opacity: 0.35;
-  cursor: default;
+    24px Georgia,
+    serif;
 }
 
 .arcanists-book__page-number {
   display: block;
-  margin-top: 11px;
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 12px;
+  color: #724d2c;
   text-align: center;
-  color: #9a8362;
   font:
-    italic 12px Georgia,
+    italic clamp(11px, 1vw, 15px) Georgia,
     serif;
 }
 
+.arcanists-book__page-number::before,
+.arcanists-book__page-number::after {
+  content: '✧';
+  margin: 0 15px;
+  color: #a5783c;
+}
+
 .arcanists-book__right-header {
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 11px;
-  border-bottom: 1px solid rgba(114, 87, 54, 0.38);
+  min-height: 47px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(121, 77, 35, 0.5);
 }
 
 .arcanists-book__seal {
-  color: rgba(147, 112, 65, 0.75);
+  color: #a2743b;
   font:
-    30px/1 Georgia,
+    24px Georgia,
     serif;
 }
 
 .arcanists-book__profile {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding-top: 15px;
+  min-height: 0;
+  padding-top: clamp(10px, 0.75vw, 16px);
   text-align: center;
-  animation: arcanists-profile-reveal 260ms ease-out both;
+  animation: arcanists-profile-reveal 250ms ease-out both;
 }
 
 .arcanists-book__portrait {
+  position: relative;
+  z-index: 1;
   display: flex;
-  justify-content: center;
+  flex: 0 0 auto;
   align-items: flex-end;
-  width: min(100%, 210px);
-  height: 180px;
-  overflow: hidden;
-  border: 5px solid #d3bb8b;
-  outline: 1px solid #9e8458;
-  background: radial-gradient(ellipse at 50% 80%, #818b77, #394c47 76%);
-  box-shadow: 0 7px 17px rgba(58, 36, 21, 0.23);
+  justify-content: center;
+  width: clamp(175px, 16vw, 264px);
+  height: clamp(173px, 15.3vw, 257px);
+  border: 8px ridge #b98d44;
+  outline: 2px solid #57351d;
+  background: radial-gradient(ellipse at 50% 75%, #6b7363, #293f39 75%);
+  box-shadow:
+    0 0 0 3px #e9bd6f,
+    0 0 0 5px #604123,
+    0 12px 19px #52352070;
+}
+
+.arcanists-book__portrait::before {
+  content: '❧';
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: #b9893d;
+  font:
+    35px Georgia,
+    serif;
+  text-shadow:
+    0 1px #fff3c6,
+    1px 2px #573b18;
+  pointer-events: none;
+}
+
+.arcanists-book__portrait::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 2px rgba(238, 197, 114, 0.72),
+    inset 0 0 26px #1e241f61;
 }
 
 .arcanists-book__portrait img {
@@ -382,184 +465,205 @@
 
 .arcanists-book__monogram {
   margin: auto;
-  color: #e4d6b4;
+  color: #e6d4b3;
   font:
-    400 55px Georgia,
+    400 58px Georgia,
     serif;
-  letter-spacing: 0.04em;
 }
 
 .arcanists-book__record-label {
-  margin-top: 18px;
-  font-size: 9px;
+  flex-shrink: 0;
+  margin-top: clamp(13px, 1.75vw, 27px);
+  font-size: clamp(9px, 0.75vw, 12px);
+  color: #604025;
 }
 
 .arcanists-book__profile h2 {
-  margin: 5px 0 13px;
-  color: #423225;
+  flex-shrink: 0;
+  max-width: 96%;
+  margin: 7px 0 7px;
+  color: #3d2819;
   font:
-    400 clamp(24px, 2.6vw, 35px)/1.05 Georgia,
+    400 clamp(25px, 2.95vw, 49px)/1.08 Georgia,
     serif;
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px #ffefd2;
+}
+
+.arcanists-book__profile h2::after {
+  content: '';
+  display: block;
+  width: min(86%, 500px);
+  height: 20px;
+  margin: 3px auto 0;
+  background: url('../../assets/arcanists/archive-divider.svg') center / contain no-repeat;
 }
 
 .arcanists-book__facts {
+  flex-shrink: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   width: 100%;
   gap: 16px;
-  padding: 12px 0;
-  border-top: 1px solid rgba(117, 88, 51, 0.32);
-  border-bottom: 1px solid rgba(117, 88, 51, 0.32);
+  padding: 8px 0 9px;
+  border: none;
+  border-bottom: 1px solid #a876386e;
 }
 
-.arcanists-book__facts div {
+.arcanists-book__facts > div {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  min-width: 0;
+  gap: 6px;
 }
 
 .arcanists-book__facts span {
-  color: #8c704b;
+  min-width: min(100%, 145px);
+  padding: 5px 12px;
+  border: 2px double #c49b58;
+  border-radius: 5px;
+  background: linear-gradient(#2f4236, #182b22);
+  box-shadow: 0 2px 4px #593b1e47;
+  color: #e9c379;
   font:
-    700 9px 'Segoe UI',
-    sans-serif;
-  letter-spacing: 0.13em;
+    700 clamp(9px, 0.74vw, 12px) Georgia,
+    serif;
+  letter-spacing: 0.14em;
 }
 
 .arcanists-book__facts strong {
-  color: #4b3928;
+  color: #4e301d;
   font:
-    600 13px 'Segoe UI',
-    sans-serif;
+    italic clamp(14px, 1.2vw, 20px) Georgia,
+    serif;
   overflow-wrap: anywhere;
 }
 
 .arcanists-book__roles {
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
+  gap: 9px;
+  margin-top: 13px;
 }
 
 .arcanists-book__roles span {
-  padding: 4px 9px;
-  border: 1px solid rgba(124, 91, 50, 0.38);
-  border-radius: 2px;
-  color: #775638;
+  padding: 5px 12px;
+  border: 2px double #af7f43;
+  border-radius: 4px;
+  background: #f4ddbd99;
+  color: #67452d;
   font:
-    11px 'Segoe UI',
-    sans-serif;
+    clamp(11px, 0.94vw, 15px) Georgia,
+    serif;
 }
 
 .arcanists-book__actions {
   display: flex;
-  justify-content: center;
+  flex-shrink: 0;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 13px;
   width: 100%;
   margin-top: auto;
-  padding-top: 16px;
+  padding: 13px 0 6px;
 }
 
 .arcanists-book__actions button,
 .arcanists-book__blank-page button {
-  min-height: 36px;
-  padding: 8px 13px;
-  border: 1px solid rgba(114, 87, 54, 0.35);
-  border-radius: 3px;
-  background: rgba(255, 248, 222, 0.3);
-  color: #5b4129;
+  min-height: clamp(39px, 3.1vw, 49px);
+  padding: 9px 17px;
+  border: 3px double #b58b52;
+  border-radius: 5px;
+  background: linear-gradient(#fff0cf, #e8c69b);
+  box-shadow:
+    inset 0 0 0 1px #fff7de,
+    0 3px 4px #51371f59;
+  color: #5d3b27;
   font:
-    600 12px 'Segoe UI',
-    sans-serif;
+    700 clamp(12px, 1vw, 16px) Georgia,
+    serif;
+  white-space: nowrap;
   cursor: pointer;
+  transition:
+    transform 150ms,
+    filter 150ms;
 }
 
 .arcanists-book__actions button:hover:not(:disabled),
 .arcanists-book__blank-page button:hover:not(:disabled) {
-  background: rgba(125, 91, 54, 0.17);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .arcanists-book__actions .arcanists-book__read {
-  border-color: #6a4b2d;
-  background: #62452f;
-  color: #fff2d6;
-}
-
-.arcanists-book__actions .arcanists-book__read:hover {
-  background: #7b5738;
+  border-color: #c8a35d;
+  background: linear-gradient(140deg, #30463b, #172a20);
+  box-shadow:
+    0 0 0 2px #6b502b,
+    inset 0 0 0 1px #997c49,
+    0 4px 6px #3525146d;
+  color: #f2d28b;
 }
 
 .arcanists-book__actions .arcanists-book__delete {
-  color: #9b4739;
-}
-
-.arcanists-book__actions button:disabled,
-.arcanists-book__blank-page button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+  color: #813e31;
 }
 
 .arcanists-book__blank-page,
 .arcanists-book__empty {
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  gap: 8px;
+  gap: 10px;
+  min-height: 0;
+  color: #6a482e;
   text-align: center;
-  color: #806a4c;
 }
 
 .arcanists-book__blank-page > span,
 .arcanists-book__empty > span {
+  color: #a77b3b;
   font:
-    48px Georgia,
+    46px Georgia,
     serif;
-  color: #ac9067;
 }
-
 .arcanists-book__blank-page h2,
 .arcanists-book__empty strong {
-  margin: 0;
-  color: #5b4430;
+  color: #4e3424;
   font:
     400 26px Georgia,
     serif;
 }
-
 .arcanists-book__blank-page p,
 .arcanists-book__empty p {
-  margin: 0 0 12px;
+  color: #6a4b34;
   font:
-    italic 13px Georgia,
+    italic 14px Georgia,
     serif;
-}
-
-.arcanists-book__footnote {
-  justify-content: center;
-  margin-top: 19px;
-  font-size: 9px;
 }
 
 @keyframes arcanists-book-reveal {
   from {
     opacity: 0;
-    transform: translateY(15px) scale(0.98);
+    transform: scale(0.988) translateY(7px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
 @keyframes arcanists-profile-reveal {
   from {
-    opacity: 0;
-    transform: translateY(6px);
+    opacity: 0.6;
+    transform: translateY(7px);
   }
   to {
     opacity: 1;
@@ -567,54 +671,128 @@
   }
 }
 
+@media (max-height: 820px) and (min-width: 961px) {
+  .arcanists-book__spread {
+    padding-top: 5.8%;
+    padding-bottom: 7.2%;
+  }
+  .arcanists-book__heading-top {
+    min-height: 38px;
+  }
+  .arcanists-book__heading h1 {
+    margin-top: 11px;
+    font-size: clamp(31px, 3.1vw, 46px);
+  }
+  .arcanists-book__heading {
+    padding-bottom: 8px;
+  }
+  .arcanists-book__search-label {
+    margin-top: 7px;
+    margin-bottom: 5px;
+  }
+  .arcanists-book__search {
+    min-height: 38px;
+  }
+  .arcanists-book__index-heading {
+    margin-top: 9px;
+    margin-bottom: 5px;
+  }
+  .arcanists-book__portrait {
+    width: 175px;
+    height: 164px;
+  }
+  .arcanists-book__profile {
+    padding-top: 11px;
+  }
+  .arcanists-book__record-label {
+    margin-top: 11px;
+  }
+  .arcanists-book__profile h2 {
+    font-size: clamp(24px, 2.65vw, 38px);
+    margin-top: 5px;
+  }
+  .arcanists-book__roles {
+    margin-top: 6px;
+  }
+  .arcanists-book__actions {
+    gap: 8px;
+    padding-top: 7px;
+  }
+}
+
 @media (max-width: 960px) {
   .arcanists-book {
-    padding: 75px 18px 30px;
+    overflow-y: auto;
+    padding: 18px 12px;
+    align-items: flex-start;
   }
-
-  .arcanists-book__toolbar {
-    padding-right: 0;
+  .arcanists-book__desk {
+    width: 100%;
+    aspect-ratio: auto;
+    background: none;
+    filter: none;
   }
-
   .arcanists-book__spread {
+    position: relative;
+    inset: auto;
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
+    padding: 0;
+    height: auto;
+    min-height: 0;
+    border: 7px solid #52351c;
+    border-radius: 14px;
+    background: #e9cba4;
+    box-shadow: 0 10px 30px #0007;
   }
-
-  .arcanists-book__spread::after {
-    display: none;
-  }
-
-  .arcanists-book__leaf {
-    min-height: 480px;
-    padding: 25px;
-  }
-
-  .arcanists-book__leaf--left {
-    border-bottom: 12px solid #b8a37f;
-    border-radius: 4px 4px 0 0;
-  }
-
+  .arcanists-book__leaf--left,
   .arcanists-book__leaf--right {
-    border-radius: 0 0 4px 4px;
+    padding: 26px 26px 19px;
+    min-height: 520px;
+    background: linear-gradient(155deg, #f4dcb9, #e7c69c);
+  }
+  .arcanists-book__leaf--left {
+    border-bottom: 10px solid #8a6239;
+  }
+  .arcanists-book__index {
+    flex: 0 1 auto;
+    max-height: 340px;
+  }
+  .arcanists-book__right-header {
+    margin-bottom: 4px;
+  }
+  .arcanists-book__profile {
+    min-height: 480px;
+  }
+  .arcanists-book__portrait {
+    width: 210px;
+    height: 190px;
   }
 }
 
 @media (max-width: 560px) {
-  .arcanists-book__toolbar {
+  .arcanists-book__leaf--left,
+  .arcanists-book__leaf--right {
+    padding: 22px 17px;
+  }
+  .arcanists-book__heading-top {
     flex-wrap: wrap;
-    font-size: 9px;
   }
-
-  .arcanists-book__leaf {
-    padding: 22px 19px;
-  }
-
   .arcanists-book__heading h1 {
-    font-size: 30px;
+    padding-left: 47px;
   }
-
+  .arcanists-book__heading h1::before {
+    width: 40px;
+    height: 40px;
+  }
+  .arcanists-book__heading p {
+    margin-left: 47px;
+  }
   .arcanists-book__entry {
     gap: 9px;
+  }
+  .arcanists-book__actions {
+    gap: 7px;
   }
 }
 
@@ -623,82 +801,7 @@
   .arcanists-book__profile {
     animation: none;
   }
-
   .arcanists-book button {
     transition: none;
-  }
-}
-
-.arcanists-book {
-  padding: 28px 38px;
-}
-
-.arcanists-book__spread {
-  height: min(800px, calc(100dvh - 56px));
-  min-height: 610px;
-}
-
-.arcanists-book__leaf {
-  min-height: 0;
-}
-
-.arcanists-book__heading-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-}
-
-.arcanists-book__register {
-  min-height: 34px;
-  border: 1px solid #694b2e;
-  border-radius: 3px;
-  padding: 8px 12px;
-  background: #63472f;
-  color: #fff0d3;
-  font:
-    700 11px/1.3 'Segoe UI',
-    sans-serif;
-  cursor: pointer;
-  transition: background-color 160ms ease;
-}
-
-.arcanists-book__register:hover:not(:disabled) {
-  background: #79583b;
-}
-
-.arcanists-book__register:focus-visible {
-  outline: 2px solid #95764a;
-  outline-offset: 2px;
-}
-
-.arcanists-book__register:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.arcanists-book__index {
-  flex: 1;
-  min-height: 0;
-  padding-right: 7px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: #ac926c transparent;
-}
-
-@media (max-width: 960px) {
-  .arcanists-book {
-    padding: 22px 18px;
-  }
-
-  .arcanists-book__spread {
-    height: auto;
-  }
-
-  .arcanists-book__index {
-    flex: 0 1 auto;
-    max-height: 360px;
   }
 }
