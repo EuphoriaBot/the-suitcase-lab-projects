@@ -1,39 +1,36 @@
-# The Suitcase Lab — Arcanists Reference-Matched Registry V13
+# The Suitcase Lab — Status Effects Ornate Research Codex
 
-## Tujuan
-
-Mendekatkan tampilan daftar Arcanists ke mockup ornate archive yang dipilih. Versi sebelumnya memakai ilustrasi SVG sederhana dan kertas terlalu putih. Versi ini memakai latar **buku perkamen hasil pengolahan gambar referensi** yang telah dibersihkan dari semua teks/portrait/tombol statis, sedangkan UI sesungguhnya tetap diberikan oleh `ArcanistsBookList.tsx`.
+Paket desain buku Status Effects berdasarkan referensi visual bergaya arsip alkimia/vintage yang sudah disetujui. Isi halaman tetap dibuat oleh React; file gambar hanya menjadi latar dekoratif tanpa nama Status Effect, data, tombol, atau input statis.
 
 ## Isi paket
 
-```
-src/renderer/src/features/arcanists/arcanists-book.css
-src/renderer/src/assets/arcanists/ornate-book-shell.webp
-src/renderer/src/assets/arcanists/compass-rose.svg
-src/renderer/src/assets/arcanists/archive-divider.svg
-```
+- `src/renderer/src/features/status-effects/status-effects-book.css` — CSS pengganti untuk halaman **daftar** Status Effects.
+- `src/renderer/src/assets/status-effects/ornate-codex-shell.webp` — ilustrasi latar buku: perkamen, bingkai, bunga, simbol, buku dan botol alkimia, surat bersigil, serta reruntuhan.
+- `src/renderer/src/assets/status-effects/codex-compass.svg` — ikon dekorasi pencarian.
+- `src/renderer/src/assets/status-effects/codex-divider.svg` — ornamen garis pemisah.
+- `preview.png` — tangkapan layar pengujian visual dengan data contoh **bukan** latar halaman yang dipasang ke aplikasi.
 
-## Pemasangan
+## Instalasi
 
-1. Backup `src/renderer/src/features/arcanists/arcanists-book.css` lama (atau gunakan Git untuk mengembalikan).
-2. Ekstrak ZIP ke `D:\The Suitcase Lab\desktop` dengan struktur direktori dipertahankan, dan timpa CSS.
-3. Verifikasi aset `src/renderer/src/assets/arcanists/ornate-book-shell.webp` ada.
-4. **Jangan** timpa `ArcanistsBookList.tsx`, `ArcanistsPage.tsx`, form, detail, Timekeeper Room, atau kode SQLite.
-
-## Pengujian
+1. Simpan perubahan yang sedang dikerjakan dan buat cadangan `status-effects-book.css` jika ingin mudah mengembalikan desain lama.
+2. Ekstrak ZIP ke `D:\The Suitcase Lab\desktop`, lalu izinkan mengganti `status-effects-book.css`.
+3. **Jangan** mengganti `StatusEffectsBookList.tsx`, `StatusEffectsPage.tsx`, form, detail, Timekeeper's Room, atau SQLite.
+4. Jalankan dari direktori `desktop`:
 
 ```powershell
-npx prettier --write src/renderer/src/features/arcanists/arcanists-book.css
+npx prettier --write src/renderer/src/features/status-effects/status-effects-book.css
 npm run typecheck
 npm run lint
 npm run dev
 ```
 
-Periksa tampilan daftar pada layar Electron, lalu uji Register, Search, klik karakter, Edit, Delete, preview foto, dan jumlah karakter banyak (scroll khusus indeks).
+5. Uji Register, pencarian, hover item, buka detail, Edit, Delete dan scroll daftar/deskripsi.
 
 ## Catatan
 
-- Latar diperoleh dari ilustrasi referensi yang sudah dibuat di percakapan ini; teks dan objek UI yang permanen dibersihkan. Nama, foto, jumlah, dan tombol berasal dari React dan SQLite.
-- Menyesuaikan gambar referensi sedekat mungkin, tetapi tidak piksel-identik pada setiap ukuran layar atau konten; tujuan utamanya visual yang konsisten **dan tetap interaktif**.
-- Ada media query untuk jendela sempit yang mengubah dua halaman menjadi satu kolom agar aplikasi tetap dapat digunakan.
-- Sintaks CSS dan aset terverifikasi secara statis. Pengujian integrasi aplikasi Electron tetap harus dilakukan secara lokal.
+- Styling khusus **Status Effects List**. Halaman Detail dan Register/Edit sengaja tidak disentuh.
+- Jika ada beberapa status effect, daftar tetap dapat di-scroll di dalam halaman kiri.
+- Deskripsi dan efek yang panjang tetap dapat di-scroll di halaman kanan.
+- Latar dipakai sebagai dekorasi saja, tidak memasukkan screenshot sebagai UI statis.
+- Layout desktop didesain untuk layar 16:9; pada layar sempit CSS menggunakan susunan responsif satu kolom.
+- Paket diperiksa melalui renderer Chromium mandiri, tetapi belum diuji terhadap seluruh aplikasi Electron pengguna.
